@@ -1319,7 +1319,6 @@ static void CG_DrawCrosshair( vec3_t worldPoint )
 {
 	float		w, h;
 	qhandle_t	hShader;
-	qboolean	corona = qfalse;
 	vec4_t		ecolor;
 	float		f;
 	float		x, y;
@@ -1345,8 +1344,6 @@ static void CG_DrawCrosshair( vec3_t worldPoint )
 		ecolor[0] = 0.2f;
 		ecolor[1] = 0.5f;
 		ecolor[2] = 1.0f;
-
-		corona = qtrue;
 	}
 	else if ( cg_crosshairIdentifyTarget.integer )
 	{
@@ -1454,36 +1451,6 @@ static void CG_DrawCrosshair( vec3_t worldPoint )
 		{
 			// but for the other direction, we'll need to reverse it
 			ecolor[3] = 1.0f - ecolor[3];
-		}
-	}
-
-	if ( corona ) // we are pointing at a crosshair item
-	{
-		if ( !cg.forceCrosshairStartTime )
-		{
-			// must have just happened because we are not fading in yet...start it now
-			cg.forceCrosshairStartTime = cg.time;
-			cg.forceCrosshairEndTime = 0;
-		}
-		if ( cg.forceCrosshairEndTime )
-		{
-			// must have just gone over a force thing again...and we were in the process of fading out.  Set fade in level to the level where the fade left off
-			cg.forceCrosshairStartTime = cg.time - ( 1.0f - ecolor[3] ) * 300.0f;
-			cg.forceCrosshairEndTime = 0;
-		}
-	}
-	else // not pointing at a crosshair item
-	{
-		if ( cg.forceCrosshairStartTime && !cg.forceCrosshairEndTime ) // were currently fading in
-		{
-			// must fade back out, but we will have to set the fadeout time to be equal to the current level of faded-in-edness
-			cg.forceCrosshairEndTime = cg.time - ecolor[3] * 500.0f;
-		}
-		if ( cg.forceCrosshairEndTime && cg.time - cg.forceCrosshairEndTime > 500.0f ) // not pointing at anything and fade out is totally done
-		{
-			// reset everything
-			cg.forceCrosshairStartTime = 0;
-			cg.forceCrosshairEndTime = 0;
 		}
 	}
 
@@ -2312,6 +2279,9 @@ static void CG_Draw2D( void )
 		return;
 	}
 
+	extern void CG_DrawHealthBars( void );
+	CG_DrawHealthBars();
+
 	// don't draw any status if dead
 	if ( cg.snap->ps.stats[STAT_HEALTH] > 0 ) 
 	{
@@ -2509,3 +2479,133 @@ void CG_DrawActive( stereoFrame_t stereoView ) {
 
 }
 
+/*
+================
+CG_DrawSides
+
+Coords are virtual 640x480
+================
+*/
+void CG_DrawSides(float x, float y, float w, float h, float size) {
+	//size *= cgs.screenXScale;
+	cgi_R_DrawStretchPic( x, y, size, h, 0, 0, 0, 0, cgs.media.whiteShader );
+	cgi_R_DrawStretchPic( x + w - size, y, size, h, 0, 0, 0, 0, cgs.media.whiteShader );
+}
+
+void CG_DrawTopBottom(float x, float y, float w, float h, float size) {
+	//size *= cgs.screenYScale;
+	cgi_R_DrawStretchPic( x, y, w, size, 0, 0, 0, 0, cgs.media.whiteShader );
+	cgi_R_DrawStretchPic( x, y + h - size, w, size, 0, 0, 0, 0, cgs.media.whiteShader );
+}
+
+
+/*
+================
+CG_DrawRect
+
+Coordinates are 640*480 virtual values
+=================
+*/
+void CG_DrawRect( float x, float y, float width, float height, float size, const float *color )
+{
+	cgi_R_SetColor( color );
+
+	CG_DrawTopBottom(x, y, width, height, size);
+	CG_DrawSides(x, y, width, height, size);
+
+	cgi_R_SetColor( NULL );
+}
+
+#define MAX_HEALTH_BAR_ENTS 32
+int cg_numHealthBarEnts = 0;
+int cg_healthBarEnts[MAX_HEALTH_BAR_ENTS];
+#define HEALTH_BAR_WIDTH	50
+#define HEALTH_BAR_HEIGHT	5
+
+//draw the health bar based on current "health" and maxhealth
+void CG_DrawHealthBar(centity_t *cent, float chX, float chY, float chW, float chH)
+{
+	vec4_t aColor;
+	vec4_t cColor;
+	float x = chX-(chW/2);
+	float y = chY-chH;
+	float percent = 0.0f;
+
+	if ( !cent || !cent->gent )
+	{
+		return;
+	}
+	percent = ((float)cent->gent->health/(float)cent->gent->max_health);
+	if (percent <= 0)
+	{
+		return;
+	}
+
+	//color of the bar
+	//hostile
+	aColor[0] = 1.0f;
+	aColor[1] = 0.0f;
+	aColor[2] = 0.0f;
+	aColor[3] = 0.4f;
+
+	//color of greyed out "missing health"
+	cColor[0] = 0.5f;
+	cColor[1] = 0.5f;
+	cColor[2] = 0.5f;
+	cColor[3] = 0.4f;
+
+	//draw the background (black)
+	CG_DrawRect(x, y, chW, chH, 1.0f, colorTable[CT_BLACK]);
+
+	//now draw the part to show how much health there is in the color specified
+	CG_FillRect(x+1.0f, y+1.0f, (percent*chW)-1.0f, chH-1.0f, aColor);
+
+	//then draw the other part greyed out
+	CG_FillRect(x+(percent*chW), y+1.0f, chW-(percent*chW)-1.0f, chH-1.0f, cColor);
+}
+
+void CG_DrawHealthBars( void )
+{
+	float chX=0, chY=0;
+	centity_t *cent;
+	vec3_t pos;
+	for ( int i = 0; i < cg_numHealthBarEnts; i++ )
+	{
+		cent = &cg_entities[cg_healthBarEnts[i]];
+		if ( cent && cent->gent )
+		{
+			VectorCopy( cent->lerpOrigin, pos );
+			pos[2] += cent->gent->maxs[2]+HEALTH_BAR_HEIGHT+8;
+			if ( CG_WorldCoordToScreenCoordFloat( pos, &chX, &chY ) )
+			{//on screen
+				CG_DrawHealthBar( cent, chX, chY, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT );
+			}
+		}
+	}
+}
+
+void CG_AddHealthBarEnt( int entNum )
+{
+	if ( cg_numHealthBarEnts >= MAX_HEALTH_BAR_ENTS )
+	{
+		Com_Printf("cannot add; cg_numHealthBarEnts = %u\n", cg_healthBarEnts);
+		return;
+	}
+
+	gentity_t* self = &g_entities[0];
+	if ( entNum == 0 || !G_ClearLOS( self, self->client->renderInfo.eyePoint, &g_entities[entNum] ) )
+	{//can't see him
+		return;
+	}
+
+	cg_healthBarEnts[cg_numHealthBarEnts++] = entNum;
+}
+
+void CG_ClearHealthBarEnts( void )
+{
+	if ( cg_numHealthBarEnts )
+	{
+		cg_numHealthBarEnts = 0;
+		memset( &cg_healthBarEnts, 0, sizeof(cg_healthBarEnts) );
+	}
+}

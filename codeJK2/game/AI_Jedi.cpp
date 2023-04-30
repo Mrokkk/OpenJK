@@ -246,8 +246,8 @@ static void Jedi_Aggression( gentity_t *self, int change )
 		}
 		else
 		{
-			upper_threshold = 10;
-			lower_threshold = 3;
+			upper_threshold = 20;
+			lower_threshold = 5;
 		}
 	}
 
@@ -3515,6 +3515,12 @@ static qboolean Jedi_AttackDecide( int enemy_dist )
 		{
 			chance = NPCInfo->rank;
 		}
+
+		if (!TIMER_Done(NPC, "noRetreat"))
+		{
+			return qfalse;
+		}
+
 		if ( Q_irand( 0, 30 ) < chance )
 		{//based on skill with some randomness
 			NPC->client->ps.saberEventFlags &= ~SEF_LOCK_WON;//clear this now that we are using the opportunity
@@ -3573,10 +3579,9 @@ static qboolean Jedi_AttackDecide( int enemy_dist )
 	//FIXME: an attack debounce timer other than the phaser debounce time?
 	//		or base it on aggression?
 
-	if ( ucmd.buttons&BUTTON_ATTACK )
+	if ( ucmd.buttons & BUTTON_ATTACK )
 	{//attacking
-		/*
-		if ( enemy_dist > 32 && NPCInfo->stats.aggression >= 4 )
+		if ( enemy_dist > 32 )
 		{//move forward if we're too far away and we're chasing him
 			ucmd.forwardmove = 127;
 		}
@@ -3584,7 +3589,7 @@ static qboolean Jedi_AttackDecide( int enemy_dist )
 		{//move back if we're too close
 			ucmd.forwardmove = -127;
 		}
-		*/
+
 		//FIXME: based on the type of parry/attack the enemy is doing and my skill,
 		//		choose an attack that is likely to get around the parry?
 		//		right now that's generic in the saber animation code, auto-picks

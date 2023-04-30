@@ -1066,7 +1066,9 @@ static void CG_Missile( centity_t *cent ) {
 
 		//Don't draw something without a model
 		if ( weapon->alt_missileModel == NULL_HANDLE )
+		{
 			return;
+		}
 	}
 	else
 	{
@@ -1085,7 +1087,9 @@ static void CG_Missile( centity_t *cent ) {
 
 		//Don't draw something without a model
 		if ( weapon->missileModel == NULL_HANDLE )
+		{
 			return;
+		}
 	}
 
 	// create the render entity

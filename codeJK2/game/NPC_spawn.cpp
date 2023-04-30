@@ -1393,7 +1393,6 @@ void NPC_Spawn_Go( gentity_t *ent )
 		//why not remove me...?  Because of all the string pointers?  Just do G_NewStrings?
 		G_FreeEntity( ent );//bye!
 	}
-
 finish:
 	if ( ent->spawnflags & NSF_DROP_TO_FLOOR )
 	{

@@ -297,7 +297,7 @@ static void PM_Friction( void ) {
 						friction *= pm_frictionModifier;
 
 					control = speed < pm_stopspeed ? pm_stopspeed : speed;
-					drop += control*friction*pml.frametime;
+					drop += control * friction * pml.frametime * 2; // higher friction so that character is not sliding
 				}
 			}
 		}
