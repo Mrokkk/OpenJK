@@ -565,7 +565,6 @@ bool Sys_DLLNeedsUnpacking()
 	return false;
 }
 
-
 /*
 =================
 Sys_AnsiColorPrint
@@ -636,3 +635,5 @@ void Sys_AnsiColorPrint( const char *msg )
 		fputs( buffer, stderr );
 	}
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

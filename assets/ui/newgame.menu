@@ -1,0 +1,254 @@
+{
+    menuDef
+    {
+        name                    newgameMenu
+        visible                 0
+        fullScreen              1
+        rect                    0 0 $SCREEN_WIDTH $SCREEN_HEIGHT
+        focusColor              1 1 1 1
+        appearanceIncrement     75
+        descX                   $menu_descx
+        descY                   $menu_descy
+        descScale               .8
+        descColor               .235 .882 .847 1
+        descAlignment           ITEM_ALIGN_CENTER
+
+        onOpen
+        {
+            setcvar             g_spskill 1
+            setcvar             cg_crosshairForceHint 1
+            setcvar             handicap 100
+            hide                diff1_frame
+            show                diff2_frame
+            hide                diff3_frame
+            hide                diff4_frame
+            setfocus            mediumgame_button
+            setactivebutton     topbuttons newgamebutton
+            setactivebutton     diffbuttons mediumgame_button
+        }
+
+        onESC
+        {
+            play                "sound/weapons/saber/saberoff.mp3"
+            close               newgameMenu
+            open                mainMenu
+        }
+
+        include "ui/common/background.inc"
+        include "ui/common/commonitems.inc"
+        include "ui/common/mainmenubuttons.inc"
+
+        itemDef scheme
+        {
+            name                difficulty_button
+            group               diffbuttons
+            type                ITEM_TYPE_BUTTON
+            style               WINDOW_STYLE_EMPTY
+            font                3
+            textscale           1
+            textalign           ITEM_ALIGN_CENTER
+            textstyle           3
+            rect                0 0 150 40
+            textalignx          75
+            textaligny          8
+            visible             1
+        }
+
+        itemDef scheme
+        {
+            name                difficulty_frame
+            group               none
+            style               WINDOW_STYLE_SHADER
+            rect                0 0 150 40
+            background          "gfx/menus/menu_buttonback"
+            forecolor           1 1 1 1
+            visible             0
+            decoration
+        }
+
+        layoutDef
+        {
+            type                    horiz
+            pos                     145 170
+
+            itemDef
+            {
+                name                maplist
+                group               none
+                rect                0 0 285 230
+                type                ITEM_TYPE_LISTBOX
+                style               WINDOW_STYLE_FILLED
+                elementwidth        120
+                elementheight       16
+                font                2
+                textaligny          2
+                textscale           0.7
+                border              1
+                bordersize          1
+                bordercolor         .5 .5 .5 .5
+                forecolor           0.65 0.65 1 1
+                backcolor           0 0 .5 .25
+                outlinecolor        .5 .5 .5 .5
+                elementtype         LISTBOX_TEXT
+                feeder              1
+                notselectable
+                visible             1
+                columns             1   2 35 150
+                mouseEnter
+                {
+                    setitemcolor    maplist bordercolor .265 .824 .886 1
+                }
+                mouseExit
+                {
+                    setitemcolor    maplist bordercolor .5 .5 .5 .5
+                }
+            }
+
+            layoutDef
+            {
+                type                vert
+                pos                 20 30
+
+                itemDef : difficulty_button
+                {
+                    name            easygame_button
+                    text            @MENUS1_APPRENTICE
+                    descText        @MENUS1_EASY_GAME_SETTINGS
+                    action
+                    {
+                        setcvar     g_spskill 0
+                        setcvar     cg_crosshairForceHint 1
+                        setcvar     handicap 100
+                        show        diff1_frame
+                        hide        diff2_frame
+                        hide        diff3_frame
+                        hide        diff4_frame
+                        setactivebutton diffbuttons easygame_button
+                    }
+                }
+
+                itemDef : difficulty_button
+                {
+                    name            mediumgame_button
+                    text            @MENUS1_JEDI
+                    descText        @MENUS1_NORMAL_GAME_SETTINGS
+                    action
+                    {
+                        setcvar     g_spskill 1
+                        setcvar     cg_crosshairForceHint 1
+                        setcvar     handicap 100
+                        hide        diff1_frame
+                        show        diff2_frame
+                        hide        diff3_frame
+                        hide        diff4_frame
+                        setactivebutton diffbuttons mediumgame_button
+                    }
+                }
+
+                itemDef : difficulty_button
+                {
+                    name            hardgame_button
+                    text            @MENUS2_JEDI_KNIGHT
+                    descText        @MENUS1_DIFFICULT_GAME_SETTINGS
+                    action
+                    {
+                        setcvar     g_spskill 2
+                        setcvar     cg_crosshairForceHint 0
+                        setcvar     handicap 100
+                        hide        diff1_frame
+                        hide        diff2_frame
+                        show        diff3_frame
+                        hide        diff4_frame
+                        setactivebutton diffbuttons hardgame_button
+                    }
+                }
+
+                itemDef : difficulty_button
+                {
+                    name            veryhardgame_button
+                    text            @MENUS1_JEDI_MASTER
+                    descText        @MENUS1_EXTREMELY_DIFFICULT_GAME
+                    action
+                    {
+                        setcvar     g_spskill 2
+                        setcvar     cg_crosshairForceHint 0
+                        setcvar     handicap 50
+                        hide        diff1_frame
+                        hide        diff2_frame
+                        hide        diff3_frame
+                        show        diff4_frame
+                        setactivebutton diffbuttons veryhardgame_button
+                    }
+                }
+            }
+        }
+
+        itemDef
+        {
+            name                newgame_title
+            group               none
+            style               WINDOW_STYLE_SHADER
+            background          "gfx/menus/menu_blendbox"
+            text                @MENUS2_NEW_GAME
+            rect                150 145 450 16
+            font                3
+            textscale           0.7
+            textalign           ITEM_ALIGN_CENTER
+            textalignx          225
+            textaligny          -1
+            forecolor           1 1 1 1
+            visible             1
+            decoration
+        }
+
+        layoutDef
+        {
+            type                vert
+            pos                 450 200
+
+            itemDef : difficulty_frame
+            {
+                name            diff1_frame
+            }
+
+            itemDef : difficulty_frame
+            {
+                name            diff2_frame
+            }
+
+            itemDef : difficulty_frame
+            {
+                name            diff3_frame
+            }
+
+            itemDef : difficulty_frame
+            {
+                name            diff4_frame
+            }
+        }
+
+        itemDef
+        {
+            name                newgame_begin
+            group               none
+            text                @MENUS2_BEGIN_GAME
+            descText            @MENUS1_START_JEDI_KNIGHT_II
+            type                ITEM_TYPE_BUTTON
+            style               WINDOW_STYLE_EMPTY
+            rect                435 444 130 24
+            font                3
+            textscale           1
+            textalignx          65
+            textaligny          -1
+            textalign           ITEM_ALIGN_CENTER
+            textstyle           3
+            forecolor           0.65 0.65 1 1
+            visible             1
+            glow                "gfx/menus/menu_buttonback"
+            action
+            {
+                uiScript        startgame
+            }
+        }
+    }
+}

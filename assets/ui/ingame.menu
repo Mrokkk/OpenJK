@@ -1,0 +1,31 @@
+{
+    menuDef
+    {
+        name                    ingameMainMenu
+        fullScreen              1
+        rect                    0 0 $SCREEN_WIDTH $SCREEN_HEIGHT
+        visible                 1
+        focusColor              1 1 1 1
+        appearanceIncrement     100
+        descX                   $menu_descx
+        descY                   $menu_descy
+        descScale               .8
+        descColor               .235 .882 .847 1
+        descAlignment           ITEM_ALIGN_CENTER
+
+        onOpen
+        {
+            setfocus            resume
+            setactivebutton     topbuttons none
+        }
+
+        onESC
+        {
+            uiScript            closeingame
+        }
+
+        include "ui/common/background.inc"
+        include "ui/common/commonitems.inc"
+        include "ui/common/ingamemenubuttons.inc"
+    }
+}

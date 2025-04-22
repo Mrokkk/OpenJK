@@ -251,3 +251,5 @@ extern int registeredFontsCount;
 extern int registeredFonts[MAX_FONTS];
 
 #endif
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

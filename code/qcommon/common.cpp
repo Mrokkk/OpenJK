@@ -62,9 +62,6 @@ cvar_t	*sv_paused;
 cvar_t	*com_skippingcin;
 cvar_t	*com_speedslog;		// 1 = buffer log, 2 = flush after each print
 cvar_t  *com_homepath;
-#ifndef _WIN32
-cvar_t	*com_ansiColor = NULL;
-#endif
 cvar_t	*com_busyWait;
 
 #ifdef G2_PERFORMANCE_ANALYSIS
@@ -165,7 +162,7 @@ void QDECL Com_Printf( const char *fmt, ... ) {
 		if (newLine && com_timestamps && com_timestamps->integer) {
 			time_t t = time( NULL );
 			struct tm *tms = localtime( &t );
-			Com_sprintf(line, sizeof(line), "%04i-%02i-%02i %02i:%02i:%02i ",
+			Com_sprintf(line, sizeof(line), S_COLOR_GREEN "%04i-%02i-%02i %02i:%02i:%02i " S_COLOR_WHITE,
 				1900 + tms->tm_year, 1 + tms->tm_mon, tms->tm_mday, tms->tm_hour, tms->tm_min, tms->tm_sec);
 			lineLen = strlen(line);
 			newLine = qfalse;
@@ -1941,3 +1938,5 @@ uint32_t ConvertUTF8ToUTF32( char *utf8CurrentChar, char **utf8NextChar )
 
 	return utf32;
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

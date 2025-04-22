@@ -1,0 +1,173 @@
+{
+    menuDef
+    {
+        name                    ingamesaveMenu
+        fullScreen              1
+        rect                    0 0 $SCREEN_WIDTH $SCREEN_HEIGHT
+        visible                 1
+        focusColor              1 1 1 1
+        appearanceIncrement     10
+        descX                   $menu_descx
+        descY                   $menu_descy
+        descScale               .8
+        descColor               .235 .882 .847 1
+        descAlignment           ITEM_ALIGN_CENTER
+        disablecolor            .5 .5 .5 1
+
+        onOpen
+        {
+            uiScript            ReadSaveDirectory
+            setactivebutton     topbuttons savegamebutton
+        }
+
+        onESC
+        {
+            uiScript            closeingame
+        }
+
+        include "ui/common/background.inc"
+        include "ui/common/commonitems.inc"
+        include "ui/common/ingamemenubuttons.inc"
+
+        itemDef
+        {
+            name                savegame_title
+            group               none
+            style               WINDOW_STYLE_SHADER
+            background          "gfx/menus/menu_blendbox"
+            text                @MENUS1_SAVE_GAME
+            rect                150 145 450 16
+            font                3
+            textscale           0.7
+            textalign           ITEM_ALIGN_CENTER
+            textalignx          225
+            textaligny          -2
+            forecolor           1 1 1 1
+            visible             1
+            decoration
+        }
+
+        itemDef
+        {
+            name                savegamedesc
+            group               savegame
+            type                ITEM_TYPE_EDITFIELD
+            style               WINDOW_STYLE_EMPTY
+            text                @MENUS1_DESC
+            cvar                ui_gameDesc
+            maxChars            60
+            rect                150 165 450 16
+            textalign           ITEM_ALIGN_LEFT
+            textalignx          0
+            textaligny          -4
+            font                2
+            textscale           .8
+            outlinecolor        1 .5 .5 .5
+            backcolor           0 0 0 0
+            forecolor           0.65 0.65 1 1
+            border              0
+            bordercolor         0 0 0 0
+            visible             1
+        }
+
+        itemDef
+        {
+            name                savegamelist
+            group               loadscreen
+            rect                145 190 285 230
+            type                ITEM_TYPE_LISTBOX
+            style               WINDOW_STYLE_FILLED
+            elementwidth        120
+            elementheight       16
+            font                2
+            textaligny          2
+            textscale           0.7
+            border              1
+            bordersize          1
+            bordercolor         .5 .5 .5 .5
+            forecolor           0.65 0.65 1 1
+            backcolor           0 0 .5 .25
+            outlinecolor        .5 .5 .5 .5
+            elementtype         LISTBOX_TEXT
+            feeder              FEEDER_SAVEGAMES
+            notselectable
+            visible             1
+            columns             2   2 35 150   155 25 100
+            mouseEnter
+            {
+                setitemcolor    savegamelist bordercolor .265 .824 .886 1
+            }
+            mouseExit
+            {
+                setitemcolor    savegamelist bordercolor .5 .5 .5 .5
+            }
+        }
+
+        itemDef
+        {
+            name                savegamepic
+            group               loadscreen
+            style               WINDOW_STYLE_EMPTY
+            ownerdraw           236 // UI_ALLMAPS_SELECTION
+            font                2
+            textscale           .8
+            forecolor           1 1 1 1
+            rect                435 190 180 135
+            border              1
+            bordercolor         .265 .824 .886 .25
+            visible             1
+            decoration
+        }
+
+        itemDef
+        {
+            name                savegamebutton
+            group               toprow
+            text                @MENUS1_SAVE_GAME
+            descText            @MENUS1_SAVE_GAME
+            type                ITEM_TYPE_BUTTON
+            style               WINDOW_STYLE_EMPTY
+            rect                440 350 175 25
+            font                3
+            textscale           0.8
+            textalignx          175
+            textaligny          1
+            textalign           ITEM_ALIGN_RIGHT
+            textstyle           3
+            forecolor           0.65 0.65 1 1
+            visible             1
+            glow                "gfx/menus/menu_blendbox2"
+            action
+            {
+                uiScript        savegame
+            }
+        }
+
+        itemDef
+        {
+            name                deletegamebutton
+            group               toprow
+            text                @MENUS1_DELETE_GAME
+            descText            @MENUS1_DELETE_CHOSEN_GAME
+            type                ITEM_TYPE_BUTTON
+            style               WINDOW_STYLE_EMPTY
+            rect                440 375 175 25
+            font                3
+            textscale           0.8
+            textalignx          175
+            textaligny          1
+            textalign           ITEM_ALIGN_RIGHT
+            textstyle           3
+            forecolor           0.65 0.65 1 1
+            visible             1
+            cvarTest            "ui_SelectionOK"
+            enableCvar          { "1" }
+            glow                "gfx/menus/menu_blendbox2"
+            action
+            {
+                hide            glow
+                uiScript        deletegame
+            }
+        }
+    }
+}

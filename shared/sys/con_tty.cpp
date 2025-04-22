@@ -502,27 +502,36 @@ CON_Print
 void CON_Print( const char *msg )
 {
 	if (!msg[0])
+	{
 		return;
+	}
 
-	CON_Hide( );
+	CON_Hide();
 
-	if( com_ansiColor && com_ansiColor->integer )
+	if (stdinIsATTY)
+	{
 		Sys_AnsiColorPrint( msg );
+	}
 	else
-		fputs( msg, stderr );
+	{
+		fputs(msg, stderr);
+	}
 
-	if (!ttycon_on) {
+	if (!ttycon_on)
+	{
 		// CON_Hide didn't do anything.
 		return;
 	}
 
 	// Only print prompt when msg ends with a newline, otherwise the console
 	//   might get garbled when output does not fit on one line.
-	if (msg[strlen(msg) - 1] == '\n') {
+	if (msg[strlen(msg) - 1] == '\n')
+	{
 		CON_Show();
 
 		// Run CON_Show the number of times it was deferred.
-		while (ttycon_show_overdue > 0) {
+		while (ttycon_show_overdue > 0)
+		{
 			CON_Show();
 			ttycon_show_overdue--;
 		}
@@ -533,3 +542,5 @@ void CON_Print( const char *msg )
 		ttycon_show_overdue++;
 	}
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

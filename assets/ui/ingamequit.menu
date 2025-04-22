@@ -1,0 +1,248 @@
+{
+    menuDef
+    {
+        name                    ingamequitMenu
+        visible                 0
+        fullScreen              1
+        rect                    0 0 $SCREEN_WIDTH $SCREEN_HEIGHT
+        focusColor              1 1 1 1
+        appearanceIncrement     10
+        descX                   $menu_descx
+        descY                   $menu_descy
+        descScale               .8
+        descColor               .235 .882 .847 1
+        descAlignment           ITEM_ALIGN_CENTER
+        appearanceIncrement     100
+
+        onOpen
+        {
+            hide                abandongamegroup
+            hide                quitprogramgroup
+            show                quitchoicegroup
+            setactivebutton     topbuttons none
+        }
+
+        onESC
+        {
+            play                "sound/interface/button1.wav"
+            hide                abandongamegroup
+            hide                quitprogramgroup
+            show                quitchoicegroup
+            close               all
+            open                ingameMainMenu
+        }
+
+        include "ui/common/background.inc"
+        include "ui/common/commonitems.inc"
+        include "ui/common/ingamemenubuttons.inc"
+
+        itemDef
+        {
+            name                quit_title
+            group               none
+            text                @MENUS2_LEAVING_JEDI_KNIGHT_2
+            style               WINDOW_STYLE_SHADER
+            background          "gfx/menus/menu_blendbox"
+            rect                150 145 450 16
+            font                3
+            textscale           0.7
+            textalign           ITEM_ALIGN_CENTER
+            textalignx          225
+            textaligny          -1
+            forecolor           1 1 1 1
+            visible             1
+            decoration
+        }
+
+        itemDef
+        {
+            name                quitgame_current
+            group               quitchoicegroup
+            text                @MENUS3_ABANDON_GAME
+            type                ITEM_TYPE_BUTTON
+            style               WINDOW_STYLE_EMPTY
+            rect                275 210 200 30
+            font                3
+            textscale           1
+            textalign           ITEM_ALIGN_CENTER
+            textstyle           3
+            textalignx          100
+            textaligny          1
+            descText            @MENUS3_QUIT_CURRENT_GAME_AND
+            forecolor           0.65 0.65 1 1
+            visible             1
+            glow                "gfx/menus/menu_buttonback"
+            action
+            {
+                show            abandongamegroup
+                hide            quitchoicegroup
+                hide            quitprogramgroup
+            }
+        }
+
+        itemDef
+        {
+            name                quitgame_program
+            group               quitchoicegroup
+            text                @MENUS2_QUIT_PROGRAM
+            type                ITEM_TYPE_BUTTON
+            style               WINDOW_STYLE_EMPTY
+            rect                275 280 200 30
+            font                3
+            textscale           1
+            textalign           ITEM_ALIGN_CENTER
+            textstyle           3
+            textalignx          100
+            textaligny          1
+            descText            @MENUS3_LEAVE_THE_PROGRAM_ENTIRELY
+            forecolor           0.65 0.65 1 1
+            visible             1
+            glow                "gfx/menus/menu_buttonback"
+            action
+            {
+                show            quitprogramgroup
+                hide            abandongamegroup
+                hide            quitchoicegroup
+            }
+        }
+
+        itemDef
+        {
+            name                fakequitgame_current
+            group               abandongamegroup
+            text                @MENUS3_ABANDON_GAME
+            type                ITEM_TYPE_BUTTON
+            style               WINDOW_STYLE_EMPTY
+            rect                275 210 200 30
+            font                3
+            textscale           1
+            textalign           ITEM_ALIGN_CENTER
+            textalignx          100
+            textaligny          1
+            forecolor           1 1 1 1
+            visible             0
+            decoration
+        }
+
+        itemDef
+        {
+            name                abandongame_cancel
+            group               abandongamegroup
+            text                @MENUS0_NO
+            type                ITEM_TYPE_BUTTON
+            style               WINDOW_STYLE_EMPTY
+            rect                245 380 130 24
+            font                3
+            textscale           1
+            textalignx          65
+            textaligny          -1
+            textalign           ITEM_ALIGN_CENTER
+            textstyle           3
+            descText            @MENUS3_DO_NOT_ABANDON
+            forecolor           0.65 0.65 1 1
+            visible             1
+            glow                "gfx/menus/menu_buttonback"
+            action
+            {
+                hide            abandongamegroup
+                hide            quitprogramgroup
+                show            quitchoicegroup
+            }
+        }
+
+        itemDef
+        {
+            name                abandongame_yes
+            group               abandongamegroup
+            text                @MENUS0_YES
+            type                ITEM_TYPE_BUTTON
+            style               WINDOW_STYLE_EMPTY
+            rect                375 380 130 24
+            font                3
+            textscale           1
+            textalignx          65
+            textaligny          -1
+            textalign           ITEM_ALIGN_CENTER
+            textstyle           3
+            descText            @MENUS3_ABANDON
+            forecolor           0.65 0.65 1 1
+            visible             1
+            glow                "gfx/menus/menu_buttonback"
+            action
+            {
+                hide            abandongamegroup
+                hide            quitprogramgroup
+                show            quitchoicegroup
+                uiScript        Leave
+            }
+        }
+
+        itemDef
+        {
+            name                fakequitgame_program
+            group               quitprogramgroup
+            text                @MENUS2_QUIT_PROGRAM
+            type                ITEM_TYPE_BUTTON
+            style               WINDOW_STYLE_EMPTY
+            rect                275 280 200 30
+            font                3
+            textscale           1
+            textalign           ITEM_ALIGN_CENTER
+            textalignx          100
+            textaligny          1
+            forecolor           1 1 1 1
+            visible             0
+            decoration
+        }
+
+        itemDef
+        {
+            name                quitprogram_cancel
+            group               quitprogramgroup
+            text                @MENUS0_NO
+            type                ITEM_TYPE_BUTTON
+            style               WINDOW_STYLE_EMPTY
+            rect                245 380 130 24
+            font                3
+            textscale           1
+            textalignx          65
+            textaligny          -1
+            textalign           ITEM_ALIGN_CENTER
+            textstyle           3
+            descText            @MENUS3_DO_NOT_LEAVE
+            forecolor           0.65 0.65 1 1
+            visible             1
+            glow                "gfx/menus/menu_buttonback"
+            action
+            {
+                hide            quitprogramgroup
+                hide            abandongamegroup
+                show            quitchoicegroup
+            }
+        }
+
+        itemDef
+        {
+            name                quitprogram_yes
+            group               quitprogramgroup
+            text                @MENUS0_YES
+            type                ITEM_TYPE_BUTTON
+            style               WINDOW_STYLE_EMPTY
+            rect                375 380 130 24
+            font                3
+            textscale           1
+            textalignx          65
+            textaligny          -1
+            textalign           ITEM_ALIGN_CENTER
+            textstyle           3
+            descText            @MENUS3_LEAVE_PROGRAM
+            forecolor           0.65 0.65 1 1
+            visible             1
+            glow                "gfx/menus/menu_buttonback"
+            action
+            {
+                uiScript        Quit
+            }
+        }
+    }
+}

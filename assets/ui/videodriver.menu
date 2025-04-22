@@ -1,0 +1,79 @@
+{
+    menuDef
+    {
+        name                    videodriverMenu
+        visible                 0
+        fullScreen              0
+        rect                    100 80 440 320
+        focusColor              1 1 1 1
+        style                   WINDOW_STYLE_FILLED
+        appearanceIncrement     75
+        descX                   320
+        descY                   450
+        descScale               .8
+        descColor               .96 .933 .40 1
+        descAlignment           ITEM_ALIGN_CENTER
+        appearanceIncrement     100
+        border                  1
+        outOfBoundsClick
+        popup
+
+        onESC
+        {
+            play                "sound/interface/button1.wav"
+            close               all
+            open                setupMenu
+        }
+
+        itemDef
+        {
+            name                driver_background
+            group               none
+            style               WINDOW_STYLE_SHADER
+            rect                0 0 440 320
+            background          "gfx/menus/menu_boxred"
+            forecolor           1 1 1 1
+            visible             1
+            decoration
+        }
+
+        itemDef
+        {
+            name                driver_done
+            group               none
+            text                @MENUS3_DONE_CAPS
+            type                ITEM_TYPE_BUTTON
+            style               WINDOW_STYLE_EMPTY
+            rect                200 293 40 24
+            forecolor           1 1 1 1
+            textalign           ITEM_ALIGN_CENTER
+            textstyle           3
+            textalignx          20
+            textaligny          0
+            font                3
+            textscale           1
+            forecolor           .433 .703 .722 1
+            glow                "gfx/menus/menu_buttonback"
+            visible             1
+            action
+            {
+                close           videodriverMenu
+            }
+        }
+
+        itemDef
+        {
+            name                game_version
+            group               none
+            ownerdraw           249 // UI_GLINFO
+            font                2
+            textscale           .6
+            rect                4 0 432 280
+            forecolor           .433 .703 .722 1
+            style               WINDOW_STYLE_EMPTY
+            textalign           ITEM_ALIGN_LEFT
+            visible             1
+            decoration
+        }
+    }
+}

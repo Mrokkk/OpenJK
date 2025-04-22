@@ -1,0 +1,40 @@
+{
+    menuDef
+    {
+        name                    ingameControlsMenu
+        fullScreen              1
+        rect                    0 0 $SCREEN_WIDTH $SCREEN_HEIGHT
+        visible                 1
+        focusColor              1 1 1 1
+        descX                   $menu_descx
+        descY                   $menu_descy
+        descScale               .8
+        descColor               .235 .882 .847 1
+        descAlignment           ITEM_ALIGN_CENTER
+
+        onOpen
+        {
+            uiScript            loadControls
+            show                setup_background
+            showsubmenu         weaponcontrols
+            setfocus            weaponscontrolbutton
+            setactivebutton     topbuttons controlsbutton
+            setactivebutton     leftbuttons weaponscontrolbutton
+        }
+
+        onClose
+        {
+            uiScript            saveControls
+        }
+
+        onESC
+        {
+            play                sound/interface/button1.wav
+            close               all
+            open                ingameMainMenu
+        }
+
+        include "ui/controls/controls.inc"
+        include "ui/common/ingamemenubuttons.inc"
+    }
+}

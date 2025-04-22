@@ -1,0 +1,37 @@
+{
+    menuDef
+    {
+        name                    setupMenu
+        fullScreen              1
+        rect                    0 0 $SCREEN_WIDTH $SCREEN_HEIGHT
+        visible                 1
+        focusColor              1 1 1 1
+        appearanceIncrement     75
+        descX                   $menu_descx
+        descY                   $menu_descy
+        descScale               .8
+        descColor               .235 .882 .847 1
+        descAlignment           ITEM_ALIGN_CENTER
+
+        onOpen
+        {
+            uiScript            getvideosetup
+            show                setup_background
+            showsubmenu         video
+            setfocus            video1menubutton
+            setactivebutton     topbuttons  setupbutton
+            setactivebutton     leftbuttons video1menubutton
+        }
+
+        onESC
+        {
+            play                "sound/interface/button1.wav"
+            defer               VideoSetup  videowarningMenu
+            close               all
+            open                mainMenu
+        }
+
+        include "ui/setup/setup.inc"
+        include "ui/common/mainmenubuttons.inc"
+    }
+}

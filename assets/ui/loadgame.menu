@@ -1,0 +1,35 @@
+{
+    menuDef
+    {
+        name                    loadgameMenu
+        visible                 0
+        fullScreen              1
+        rect                    0 0 $SCREEN_WIDTH $SCREEN_HEIGHT
+        focusColor              1 1 1 1
+        appearanceIncrement     75
+        descX                   $menu_descx
+        descY                   $menu_descy
+        descScale               .8
+        descColor               .235 .882 .847 1
+        descAlignment           ITEM_ALIGN_CENTER
+        disablecolor            .5 .5 .5 1
+
+        onOpen
+        {
+            uiScript            ReadSaveDirectory
+            setactivebutton     topbuttons loadgamebutton
+        }
+
+        onESC
+        {
+            play                "sound/interface/button1.wav"
+            close               all
+            open                mainMenu
+        }
+
+        include "ui/common/background.inc"
+        include "ui/common/commonitems.inc"
+        include "ui/common/mainmenubuttons.inc"
+        include "ui/load/load.inc"
+    }
+}

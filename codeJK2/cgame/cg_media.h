@@ -24,7 +24,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef __CG_MEDIA_H_
 #define __CG_MEDIA_H_
 
-#define	NUM_CROSSHAIRS		9
+#define	NUM_CROSSHAIRS		10
 
 typedef enum {
 	FOOTSTEP_NORMAL,
@@ -366,3 +366,5 @@ typedef struct {
 extern	cgs_t			cgs;
 
 #endif //__CG_MEDIA_H_
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

@@ -1,0 +1,164 @@
+{
+    menuDef
+    {
+        name                    datapadForcePowersMenu
+        fullScreen              1
+        rect                    0 0 $SCREEN_WIDTH $SCREEN_HEIGHT
+        visible                 1
+        focusColor              1 1 1 1
+        appearanceIncrement     75
+        descX                   320
+        descY                   350
+        descScale               .8
+        descColor               .96 .933 .40 1
+        descAlignment           ITEM_ALIGN_CENTER
+
+        onOpen
+        {
+            setfocus            none
+            uiScript            nextDataPadForcePower
+            show                prev_off
+            show                next_off
+        }
+
+        onESC
+        {
+            uiScript            closedatapad
+        }
+
+        include "ui/datapad/common.inc"
+
+        itemDef
+        {
+            name                forcepowers
+            group               none
+            style               WINDOW_STYLE_EMPTY
+            type                ITEM_TYPE_OWNERDRAW
+            rect                50 40 95 40
+            textscale           .4
+            forecolor           .509 .609 .847 1
+            appearance_slot     0
+            visible             1
+            ownerdraw           206 // UI_DATAPAD_FORCEPOWERS
+        }
+
+        itemDef : datapad_button
+        {
+            name                mission
+            rect                130 382 95 25
+            text                @MENUS1_DP_MISSION
+            descText            @MENUS1_AN_OVERVIEW_OF_MISSION
+            action
+            {
+                close           all
+                open            datapadMissionMenu
+            }
+        }
+
+        itemDef : datapad_button
+        {
+            name                exit
+            rect                417 382 95 25
+            text                @MENUS1_RESUME
+            descText            @MENUS1_RETURN_TO_GAME
+            action
+            {
+                uiScript        closedatapad
+            }
+        }
+
+        itemDef : datapad_button
+        {
+            name                weapons
+            rect                130 420 95 25
+            text                @MENUS0_WEAPONS
+            descText            @MENUS1_VIEW_CURRENTLY_OWNED
+            action
+            {
+                close           all
+                open            datapadWeaponsMenu
+            }
+        }
+
+        itemDef : datapad_button
+        {
+            name                inventory
+            rect                274 420 95 25
+            text                @MENUS1_INVENTORY
+            descText            @MENUS1_VIEW_CURRENT_INVENTORY
+            action
+            {
+                close           all
+                open            datapadInventoryMenu
+            }
+        }
+
+        itemDef : datapad_button_active
+        {
+            name                force
+            rect                417 420 0 0
+            text                @MENUS1_DP_FORCE
+            descText            @MENUS1_VIEW_CURRENT_FORCE_POWERS
+        }
+
+        itemDef
+        {
+            name                prevpower
+            group               none
+            style               WINDOW_STYLE_EMPTY
+            type                ITEM_TYPE_BUTTON
+            rect                265 384 32 26
+            font                2
+            textscale           1
+            textalignx          48
+            textalign           ITEM_ALIGN_CENTER
+            appearance_slot     1
+            visible             1
+            action
+            {
+                uiScript        prevDataPadForcePower
+            }
+            mouseEnter
+            {
+                hide            prev_off
+                show            prev_on
+            }
+            mouseExit
+            {
+                show            prev_off
+                hide            prev_on
+            }
+        }
+
+        itemDef
+        {
+            name                nextpower
+            group               none
+            style               WINDOW_STYLE_EMPTY
+            type                ITEM_TYPE_BUTTON
+            rect                344 384 32 26
+            background          "gfx/menus/dp_arrow_r"
+            font                2
+            textscale           1
+            textalignx          48
+            textalign           ITEM_ALIGN_CENTER
+            forecolor           .509 .609 .847 1
+            appearance_slot     1
+            visible             1
+            action
+            {
+                uiScript        nextDataPadForcePower
+            }
+            mouseEnter
+            {
+                hide            next_off
+                show            next_on
+            }
+            mouseExit
+            {
+                show            next_off
+                hide            next_on
+            }
+        }
+    }
+}

@@ -2252,7 +2252,10 @@ static qboolean CG_RenderingFromMiscCamera()
 CG_Draw2D
 =================
 */
+static void CG_DrawHealthBars( void );
 extern void CG_SaberClashFlare( void );
+extern vmCvar_t	cg_drawHealthBars;
+
 static void CG_Draw2D( void )
 {
 	char	text[1024]={0};
@@ -2312,8 +2315,10 @@ static void CG_Draw2D( void )
 		return;
 	}
 
-	extern void CG_DrawHealthBars( void );
-	CG_DrawHealthBars();
+	if (cg_drawHealthBars.integer)
+	{
+		CG_DrawHealthBars();
+	}
 
 	// don't draw any status if dead
 	if ( cg.snap->ps.stats[STAT_HEALTH] > 0 )
@@ -2597,7 +2602,7 @@ void CG_DrawHealthBar(centity_t *cent, float chX, float chY, float chW, float ch
 	CG_FillRect(x+(percent*chW), y+1.0f, chW-(percent*chW)-1.0f, chH-1.0f, cColor);
 }
 
-void CG_DrawHealthBars( void )
+static void CG_DrawHealthBars( void )
 {
 	float chX=0, chY=0;
 	centity_t *cent;

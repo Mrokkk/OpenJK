@@ -1252,14 +1252,17 @@ void GfxInfo_f( void )
 	int fullscreen = ri.Cvar_VariableIntegerValue("r_fullscreen");
 	int noborder = ri.Cvar_VariableIntegerValue("r_noborder");
 
-	ri.Printf( PRINT_ALL, "\nGL_VENDOR: %s\n", glConfig.vendor_string );
+	ri.Printf( PRINT_ALL, "GL_VENDOR: %s\n", glConfig.vendor_string );
 	ri.Printf( PRINT_ALL, "GL_RENDERER: %s\n", glConfig.renderer_string );
 	ri.Printf( PRINT_ALL, "GL_VERSION: %s\n", glConfig.version_string );
-	R_PrintLongString(glConfig.extensions_string);
-	Com_Printf ("\n");
+	if (0)
+	{
+		R_PrintLongString(glConfig.extensions_string);
+		Com_Printf ("\n");
+	}
 	ri.Printf( PRINT_ALL, "GL_MAX_TEXTURE_SIZE: %d\n", glConfig.maxTextureSize );
 	ri.Printf( PRINT_ALL, "GL_MAX_ACTIVE_TEXTURES_ARB: %d\n", glConfig.maxActiveTextures );
-	ri.Printf( PRINT_ALL, "\nPIXELFORMAT: color(%d-bits) Z(%d-bit) stencil(%d-bits)\n", glConfig.colorBits, glConfig.depthBits, glConfig.stencilBits );
+	ri.Printf( PRINT_ALL, "PIXELFORMAT: color(%d-bits) Z(%d-bit) stencil(%d-bits)\n", glConfig.colorBits, glConfig.depthBits, glConfig.stencilBits );
 	ri.Printf( PRINT_ALL, "MODE: %d, %d x %d %s%s hz:",
 				ri.Cvar_VariableIntegerValue("r_mode"),
 				glConfig.vidWidth, glConfig.vidHeight,
@@ -2180,3 +2183,5 @@ extern "C" Q_EXPORT refexport_t* QDECL GetRefAPI ( int apiVersion, refimport_t *
 
 	return &re;
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

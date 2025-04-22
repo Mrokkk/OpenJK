@@ -39,6 +39,7 @@ USER INTERFACE MAIN
 #include "menudef.h"
 
 #include "ui_shared.h"
+#include "ui_define.h"
 
 #include "../ghoul2/G2.h"
 
@@ -92,12 +93,44 @@ typedef struct
 } savedata_t;
 
 static savedata_t s_savedata[MAX_SAVELOADFILES];
+
+static const char* maps[] = {
+	"kejim_post",
+	"kejim_base",
+	"artus_mine",
+	"artus_detention",
+	"artus_topside",
+	"valley",
+	"yavin_temple",
+	"yavin_trial",
+	"ns_streets",
+	"ns_hideout",
+	"ns_starpad",
+	"bespin_undercity",
+	"bespin_streets",
+	"bespin_platform",
+	"cairn_bay",
+	"cairn_assembly",
+	"cairn_reactor",
+	"cairn_dock1",
+	"doom_comm",
+	"doom_detention",
+	"doom_shields",
+	"yavin_swamp",
+	"yavin_canyon",
+	"yavin_courtyard",
+	"yavin_final",
+};
+
+static int mapIndex;
+
 void UI_SetActiveMenu( const char* menuname,const char *menuID );
 void ReadSaveDirectory (void);
 void Item_RunScript(itemDef_t *item, const char *s);
 qboolean Item_SetFocus(itemDef_t *item, float x, float y);
 
 qboolean		Asset_Parse(char **buffer);
+qboolean		GlobalDefinitions_Parse(char **buffer);
 menuDef_t		*Menus_FindByName(const char *p);
 void			Menus_HideItems(const char *menuName);
 int				Text_Height(const char *text, float scale, int iFontIndex );
@@ -760,6 +793,13 @@ const char *UI_FeederItemText(float feederID, int index, int column, qhandle_t *
 			}
 		}
 	}
+	else if (feederID == FEEDER_MAPS)
+	{
+		if (index >= 0 && index < ARRAY_LEN(maps))
+		{
+			return maps[index];
+		}
+	}
 
 	return "";
 }
@@ -1061,7 +1101,7 @@ static qboolean UI_RunMenuScript ( const char **args )
 		{
 			Menus_CloseAll();
 #ifdef JK2_MODE
-			ui.Cmd_ExecuteText( EXEC_APPEND, "map kejim_post\n" );
+			ui.Cmd_ExecuteText( EXEC_APPEND, va("map %s\n", maps[mapIndex]) );
 #else
 			ui.Cmd_ExecuteText( EXEC_APPEND, "map yavin1\n");
 #endif
@@ -1274,7 +1314,7 @@ static qboolean UI_RunMenuScript ( const char **args )
 			{
 				UI_ResetSaberCvars();
 			}
-    	}
+		}
 #ifndef JK2_MODE
 		else if (Q_stricmp(name, "updatefightingstylechoices") == 0)
 		{
@@ -1868,6 +1908,10 @@ static int UI_FeederCount(float feederID)
 	{
 		return uiInfo.playerSpecies[uiInfo.playerSpeciesIndex].ColorCount;
 	}
+	else if (feederID == FEEDER_MAPS)
+	{
+		return ARRAY_LEN(maps);
+	}
 
 	return 0;
 }
@@ -2033,6 +2077,10 @@ extern void	Item_RunScript(itemDef_t *item, const char *s);		//from ui_shared;
 		{
 			Item_RunScript(item, uiInfo.playerSpecies[uiInfo.playerSpeciesIndex].Color[index].actionText);
 		}
+	}
+	else if (feederID == FEEDER_MAPS)
+	{
+		mapIndex = index;
 	}
 /*	else if (feederID == FEEDER_CINEMATICS)
 	{
@@ -2643,6 +2691,7 @@ void _UI_Init( qboolean inGameLoad )
 		if (!ui.SP_Register(va("menus%d",i), /*SP_REGISTER_REQUIRED|*/SP_REGISTER_MENU))
 			break;
 	}
+	ui.SP_Register("openjo", SP_REGISTER_MENU);
 #endif
 
 	uiInfo.inGameLoad = inGameLoad;
@@ -2813,6 +2862,9 @@ void UI_ParseMenu(const char *menuFile)
 
 	holdBuffer = buffer;
 
+	Constant_Set("SCREEN_WIDTH", va("%u", SCREEN_WIDTH));
+	Constant_Set("SCREEN_HEIGHT", va("%u", SCREEN_HEIGHT));
+
 	if (len<=0)
 	{
 		Com_Printf("UI_ParseMenu: Unable to load menu %s\n", menuFile);
@@ -2846,6 +2898,17 @@ void UI_ParseMenu(const char *menuFile)
 		else if (Q_stricmp(token2, "assetGlobalDef") == 0)
 		{
 			if (Asset_Parse(&holdBuffer))
+			{
+				continue;
+			}
+			else
+			{
+				break;
+			}
+		}
+		else if (Q_stricmp(token2, "globalDefinitions") == 0)
+		{
+			if (GlobalDefinitions_Parse(&holdBuffer))
 			{
 				continue;
 			}
@@ -3205,6 +3268,18 @@ qboolean Asset_Parse(char **buffer)
 			continue;
 		}
 
+		// itemClickSound
+		if (Q_stricmp(token, "itemClickSound") == 0)
+		{
+			if (PC_ParseString(&tempStr))
+			{
+				PC_ParseWarning("Bad 1st parameter for keyword 'itemClickSound'");
+				return qfalse;
+			}
+			uiInfo.uiDC.Assets.itemClickSound = trap_S_RegisterSound( tempStr, qfalse );
+			continue;
+		}
+
 		// menuBuzzSound
 		if (Q_stricmp(token, "menuBuzzSound") == 0)
 		{
@@ -3412,6 +3487,26 @@ qboolean Asset_Parse(char **buffer)
 			continue;
 		}
 
+		if (Q_stricmp(token, "activeButtonColor") == 0)
+		{
+			if (PC_ParseColor(&uiInfo.uiDC.Assets.activeButtonColor))
+			{
+				PC_ParseWarning("Bad 1st parameter for keyword 'activeButtonColor'");
+				return qfalse;
+			}
+			continue;
+		}
+
+		if (Q_stricmp(token, "inactiveButtonColor") == 0)
+		{
+			if (PC_ParseColor(&uiInfo.uiDC.Assets.inactiveButtonColor))
+			{
+				PC_ParseWarning("Bad 1st parameter for keyword 'inactiveButtonColor'");
+				return qfalse;
+			}
+			continue;
+		}
+
 		// precaching various sound files used in the menus
 		if (Q_stricmp(token, "precacheSound") == 0)
 		{
@@ -3442,10 +3537,72 @@ qboolean Asset_Parse(char **buffer)
 UI_Update
 =================
 */
+qboolean GlobalDefinitions_Parse(char **buffer)
+{
+	char		*token;
+	int			pointSize;
+
+	token = PC_ParseExt();
+
+	if (!token)
+	{
+		return qfalse;
+	}
+
+	if (*token != '{')
+	{
+		return qfalse;
+	}
+
+	while ( 1 )
+	{
+		token = PC_ParseExt();
+
+		if (!token)
+		{
+			return qfalse;
+		}
+
+		if (*token == '}')
+		{
+			break;
+		}
+
+		PC_Parse_RewindBack(strlen(token));
+
+		const char *name;
+		const char *value;
+
+		if (!PC_ParseStringMem(&name))
+		{
+			return qfalse;
+		}
+
+		if (!PC_ParseStringMem(&value))
+		{
+			return qfalse;
+		}
+
+		if (*value == '}')
+		{
+			PC_ParseWarning("Unexpected \'}\'");
+			return qfalse;
+		}
+
+		Constant_Set(name, value);
+	}
+
+	return qtrue;
+}
+
+/*
+=================
+UI_Update
+=================
+*/
 static void UI_Update(const char *name)
 {
 	int	val = trap_Cvar_VariableValue(name);
-
 
 	if (Q_stricmp(name, "s_khz") == 0)
 	{
@@ -3456,11 +3613,11 @@ static void UI_Update(const char *name)
 	if (Q_stricmp(name, "ui_SetName") == 0)
 	{
 		Cvar_Set( "name", UI_Cvar_VariableString("ui_Name"));
- 	}
+	}
 	else if (Q_stricmp(name, "ui_GetName") == 0)
 	{
 		Cvar_Set( "ui_Name", UI_Cvar_VariableString("name"));
- 	}
+	}
 	else if (Q_stricmp(name, "ui_r_colorbits") == 0)
 	{
 		switch (val)
@@ -3499,7 +3656,6 @@ static void UI_Update(const char *name)
 		switch (val)
 		{
 			case 0:	// high quality
-
 				Cvar_SetValue( "ui_r_fullScreen", 1 );
 				Cvar_SetValue( "ui_r_subdivisions", 4 );
 				Cvar_SetValue( "ui_r_lodbias", 0 );
@@ -3510,6 +3666,7 @@ static void UI_Update(const char *name)
 				Cvar_SetValue( "ui_r_texturebits", 32 );
 				Cvar_SetValue( "ui_r_fastSky", 0 );
 				Cvar_SetValue( "ui_r_inGameVideo", 1 );
+				Cvar_SetValue( "r_ext_multisample", 8 );
 				//Cvar_SetValue( "ui_cg_shadows", 2 );//stencil
 				Cvar_Set( "ui_r_texturemode", "GL_LINEAR_MIPMAP_LINEAR" );
 				break;
@@ -3525,12 +3682,12 @@ static void UI_Update(const char *name)
 				Cvar_SetValue( "ui_r_texturebits", 0 );
 				Cvar_SetValue( "ui_r_fastSky", 0 );
 				Cvar_SetValue( "ui_r_inGameVideo", 1 );
+				Cvar_SetValue( "r_ext_multisample", 2 );
 				//Cvar_SetValue( "ui_cg_shadows", 2 );
 				Cvar_Set( "ui_r_texturemode", "GL_LINEAR_MIPMAP_LINEAR" );
 				break;
 
 			case 2: // fast
-
 				Cvar_SetValue( "ui_r_fullScreen", 1 );
 				Cvar_SetValue( "ui_r_subdivisions", 12 );
 				Cvar_SetValue( "ui_r_lodbias", 1 );
@@ -3541,12 +3698,12 @@ static void UI_Update(const char *name)
 				Cvar_SetValue( "ui_r_texturebits", 0 );
 				Cvar_SetValue( "ui_r_fastSky", 1 );
 				Cvar_SetValue( "ui_r_inGameVideo", 0 );
+				Cvar_SetValue( "r_ext_multisample", 0 );
 				//Cvar_SetValue( "ui_cg_shadows", 1 );
 				Cvar_Set( "ui_r_texturemode", "GL_LINEAR_MIPMAP_NEAREST" );
 				break;
 
 			case 3: // fastest
-
 				Cvar_SetValue( "ui_r_fullScreen", 1 );
 				Cvar_SetValue( "ui_r_subdivisions", 20 );
 				Cvar_SetValue( "ui_r_lodbias", 2 );
@@ -3557,6 +3714,7 @@ static void UI_Update(const char *name)
 				Cvar_SetValue( "ui_r_texturebits", 16 );
 				Cvar_SetValue( "ui_r_fastSky", 1 );
 				Cvar_SetValue( "ui_r_inGameVideo", 0 );
+				Cvar_SetValue( "r_ext_multisample", 0 );
 				//Cvar_SetValue( "ui_cg_shadows", 0 );
 				Cvar_Set( "ui_r_texturemode", "GL_LINEAR_MIPMAP_NEAREST" );
 			break;
@@ -3579,12 +3737,12 @@ static void UI_Update(const char *name)
 	}
 }
 
-#define ASSET_SCROLLBAR             "gfx/menus/scrollbar.tga"
-#define ASSET_SCROLLBAR_ARROWDOWN   "gfx/menus/scrollbar_arrow_dwn_a.tga"
-#define ASSET_SCROLLBAR_ARROWUP     "gfx/menus/scrollbar_arrow_up_a.tga"
-#define ASSET_SCROLLBAR_ARROWLEFT   "gfx/menus/scrollbar_arrow_left.tga"
-#define ASSET_SCROLLBAR_ARROWRIGHT  "gfx/menus/scrollbar_arrow_right.tga"
-#define ASSET_SCROLL_THUMB          "gfx/menus/scrollbar_thumb.tga"
+#define ASSET_SCROLLBAR				"gfx/menus/scrollbar.tga"
+#define ASSET_SCROLLBAR_ARROWDOWN	"gfx/menus/scrollbar_arrow_dwn_a.tga"
+#define ASSET_SCROLLBAR_ARROWUP		"gfx/menus/scrollbar_arrow_up_a.tga"
+#define ASSET_SCROLLBAR_ARROWLEFT	"gfx/menus/scrollbar_arrow_left.tga"
+#define ASSET_SCROLLBAR_ARROWRIGHT	"gfx/menus/scrollbar_arrow_right.tga"
+#define ASSET_SCROLL_THUMB			"gfx/menus/scrollbar_thumb.tga"
 
 
 /*
@@ -3738,7 +3896,9 @@ static void UI_DrawGLInfo(rectDef_t *rect, float scale, vec4_t color, int textSt
 	y = rect->y;
 	Text_Paint(rect->x, y, scale, color, va("GL_VENDOR: %s",uiInfo.uiDC.glconfig.vendor_string), rect->w, textStyle, iFontIndex);
 	y += 15;
-	Text_Paint(rect->x, y, scale, color, va("GL_VERSION: %s: %s", uiInfo.uiDC.glconfig.version_string,uiInfo.uiDC.glconfig.renderer_string), rect->w, textStyle, iFontIndex);
+	Text_Paint(rect->x, y, scale, color, va("GL_VERSION: %s:", uiInfo.uiDC.glconfig.version_string), rect->w, textStyle, iFontIndex);
+	y += 15;
+	Text_Paint(rect->x, y, scale, color, va("%s", uiInfo.uiDC.glconfig.renderer_string), rect->w, textStyle, iFontIndex);
 	y += 15;
 	Text_Paint(rect->x, y, scale, color, "GL_PIXELFORMAT:", rect->w, textStyle, iFontIndex);
 	y += 15;
@@ -3746,7 +3906,7 @@ static void UI_DrawGLInfo(rectDef_t *rect, float scale, vec4_t color, int textSt
 	y += 15;
 	// build null terminated extension strings
 	Q_strncpyz(buff, uiInfo.uiDC.glconfig.extensions_string, sizeof(buff));
-	int testy=y-16;
+	int testy=y-15;
 	while ( testy <= rect->y + rect->h && *eptr && (numLines < MAX_LINES) )
 	{
 		while ( *eptr && *eptr == ' ' )
@@ -3756,7 +3916,7 @@ static void UI_DrawGLInfo(rectDef_t *rect, float scale, vec4_t color, int textSt
 		if (*eptr && *eptr != ' ')
 		{
 			lines[numLines++] = eptr;
-			testy+=16;
+			testy+=15;
 		}
 
 		while ( *eptr && *eptr != ' ' )
@@ -3767,7 +3927,7 @@ static void UI_DrawGLInfo(rectDef_t *rect, float scale, vec4_t color, int textSt
 	while (i < numLines)
 	{
 		Text_Paint(rect->x, y, scale, color, lines[i++], rect->w, textStyle, iFontIndex);
-		y += 16;
+		y += 15;
 	}
 }
 
@@ -3795,12 +3955,12 @@ static void UI_DataPad_ForcePowers(rectDef_t *rect, float scale, vec4_t color, i
 */
 
 static void UI_DrawCrosshair(rectDef_t *rect, float scale, vec4_t color) {
- 	trap_R_SetColor( color );
+	trap_R_SetColor( color );
 	if (uiInfo.currentCrosshair < 0 || uiInfo.currentCrosshair >= NUM_CROSSHAIRS) {
 		uiInfo.currentCrosshair = 0;
 	}
 	UI_DrawHandlePic( rect->x, rect->y, rect->w, rect->h, uiInfo.uiDC.Assets.crosshairShader[uiInfo.currentCrosshair]);
- 	trap_R_SetColor( NULL );
+	trap_R_SetColor( NULL );
 }
 
 
@@ -3881,8 +4041,24 @@ static void UI_OwnerDraw(float x, float y, float w, float h, float text_x, float
 //			UI_DrawPreviewCinematic(&rect, scale, color);
 			break;
 		case UI_CROSSHAIR:
+		{
+#ifdef JK2_MODE
+			auto flag = (int)DC->getCVarValue("cg_drawCrosshair");
+			if (flag)
+			{
+				auto shader = ui.R_RegisterShaderNoMip( va( "gfx/2d/crosshair%c", 'a' + flag ) );
+				if (shader)
+				{
+					trap_R_SetColor( color );
+					ui.R_DrawStretchPic( x, y, w, h, 0, 0, 1, 1, shader );
+					trap_R_SetColor( NULL );
+				}
+			}
+#else
 			UI_DrawCrosshair(&rect, scale, color);
+#endif
 			break;
+		}
 		case UI_GLINFO:
 			UI_DrawGLInfo(&rect,scale, color, textStyle, iFontIndex);
 			break;
@@ -3890,9 +4066,8 @@ static void UI_OwnerDraw(float x, float y, float w, float h, float text_x, float
 			UI_DrawKeyBindStatus(&rect,scale, color, textStyle, iFontIndex);
 			break;
 		default:
-		  break;
+			break;
 	}
-
 }
 
 /*
@@ -3971,8 +4146,8 @@ int UI_OwnerDrawWidth(int ownerDraw, float scale)
 //	case UI_SERVERREFRESHDATE:
 //		s = UI_Cvar_VariableString(va("ui_lastServerRefresh_%i", ui_netSource.integer));
 //		break;
-    default:
-      break;
+	default:
+		break;
 	}
 
 	if (s)
@@ -4030,8 +4205,8 @@ void _UI_MouseEvent( int dx, int dy )
 
 	if (Menu_Count() > 0)
 	{
-    //menuDef_t *menu = Menu_GetFocused();
-    //Menu_HandleMouseMove(menu, uiInfo.uiDC.cursorx, uiInfo.uiDC.cursory);
+		//menuDef_t *menu = Menu_GetFocused();
+		//Menu_HandleMouseMove(menu, uiInfo.uiDC.cursorx, uiInfo.uiDC.cursory);
 		Display_MouseMove(NULL, uiInfo.uiDC.cursorx, uiInfo.uiDC.cursory);
 	}
 
@@ -4103,10 +4278,6 @@ void UI_DataPadMenu(void)
 	if (newForcePower)
 	{
 		Menus_ActivateByName("datapadForcePowersMenu");
-	}
-	else if (newObjective)
-	{
-		Menus_ActivateByName("datapadMissionMenu");
 	}
 	else
 	{
@@ -4684,7 +4855,7 @@ static void UI_ForcePowerWeaponsButton(qboolean activeFlag)
 
 #ifndef JK2_MODE
 	if (!activeFlag) {
-		// total light and dark powers are at maximum level 3    ( 3 levels * ( 4ls + 4ds ) = 24 )
+		// total light and dark powers are at maximum level 3 ( 3 levels * ( 4ls + 4ds ) = 24 )
 		if ( UI_CountForcePowers() >= 24 )
 			activeFlag = qtrue;
 	}
@@ -6566,3 +6737,5 @@ void ReadSaveDirectory (void)
 	qsort( s_savedata, s_savegame.saveFileCnt, sizeof(savedata_t), UI_SortSaveGames );
 
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

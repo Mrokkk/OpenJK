@@ -1,0 +1,140 @@
+{
+    menuDef
+    {
+        name                    videowarningMenu
+        visible                 0
+        fullScreen              0
+        rect                    100 80 440 320
+        focusColor              1 1 1 1
+        style                   WINDOW_STYLE_FILLED
+        appearanceIncrement     75
+        descX                   320
+        descY                   450
+        descScale               .8
+        descColor               .96 .933 .40 1
+        descAlignment           ITEM_ALIGN_CENTER
+        appearanceIncrement     100
+        border                  1
+        outOfBoundsClick
+        popup
+
+        onESC
+        {
+            play                "sound/interface/button1.wav"
+            close               all
+            open                setupMenu
+        }
+
+        itemDef
+        {
+            name                warn_background
+            group               none
+            style               WINDOW_STYLE_SHADER
+            rect                0 0 440 320
+            background          "gfx/menus/menu_boxred"
+            forecolor           1 1 1 1
+            visible             1
+            decoration
+        }
+
+        itemDef
+        {
+            name                vidwarn_title
+            group               vidwarn
+            style               WINDOW_STYLE_SHADER
+            background          "gfx/menus/menu_blendbox"
+            text                @MENUS2_UNAPPLIED_VIDEO_CHANGES
+            rect                110 40 220 20
+            font                3
+            textscale           1
+            textalign           ITEM_ALIGN_CENTER
+            textalignx          110
+            textaligny          -3
+            forecolor           1 1 1 1
+            visible             1
+            decoration
+        }
+
+        itemDef
+        {
+            name                vidwarn_text1
+            group               vidwarn
+            text                @MENUS2_YOU_HAVE_MADE_CHANGES
+            rect                110 120 220 40
+            textalign           ITEM_ALIGN_CENTER
+            text2aligny         18
+            textalignx          110
+            font                2
+            textscale           1
+            forecolor           1 1 0 1
+            visible             1
+            decoration
+        }
+
+        itemDef
+        {
+            name                vidwarn_text2
+            group               vidwarn
+            text                @MENUS2_APPLY_THESE_CHANGES_OR
+            rect                110 200 220 40
+            textalign           ITEM_ALIGN_CENTER
+            textalignx          110
+            font                2
+            textscale           1
+            forecolor           1 1 0 1
+            visible             1
+            decoration
+        }
+
+        itemDef
+        {
+            name                vidwarn_no
+            group               vidwarn
+            type                ITEM_TYPE_BUTTON
+            style               WINDOW_STYLE_EMPTY
+            rect                50 280 120 32
+            text                @MENUS2_DISCARD
+            descText            @MENUS0_DO_NOT_APPLY_CHANGES
+            font                2
+            textscale           1
+            textalign           ITEM_ALIGN_CENTER
+            textstyle           3
+            textalignx          60
+            textaligny          0
+            forecolor           .96 .933 .40 1
+            visible             1
+            glow                "gfx/menus/menu_buttonback"
+            action
+            {
+                close           "videowarningMenu"
+                setcvar         "ui_r_modified" 0
+                rundeferred
+            }
+        }
+
+        itemDef
+        {
+            name                vidwarn_yes
+            group               vidwarn
+            text                @MENUS2_APPLY
+            type                ITEM_TYPE_BUTTON
+            style               WINDOW_STYLE_EMPTY
+            rect                270 280 120 32
+            font                2
+            textscale           1
+            textalign           ITEM_ALIGN_CENTER
+            textstyle           3
+            textalignx          60
+            textaligny          0
+            descText            @MENUS0_APPLY_CHANGES_AND_THEN
+            forecolor           .96 .933 .40 1
+            visible             1
+            glow                "gfx/menus/menu_buttonback"
+            action
+            {
+                uiScript        updatevideosetup
+                close           all
+            }
+        }
+    }
+}

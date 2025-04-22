@@ -114,7 +114,7 @@ typedef struct multiDef_s {
 
 #define STRING_POOL_SIZE (2*1024*1024)
 
-#define	NUM_CROSSHAIRS			9
+#define	NUM_CROSSHAIRS			10
 
 typedef struct {
 	qhandle_t	qhMediumFont;
@@ -135,6 +135,7 @@ typedef struct {
 	sfxHandle_t menuExitSound;
 	sfxHandle_t menuBuzzSound;
 	sfxHandle_t itemFocusSound;
+	sfxHandle_t itemClickSound;
 	sfxHandle_t forceChosenSound;
 	sfxHandle_t forceUnchosenSound;
 	sfxHandle_t datapadmoveRollSound;
@@ -154,6 +155,8 @@ typedef struct {
 	float		shadowX;
 	float		shadowY;
 	vec4_t		shadowColor;
+	vec4_t		activeButtonColor;
+	vec4_t		inactiveButtonColor;
 	float		shadowFadeClamp;
 	qboolean	fontRegistered;
 
@@ -255,7 +258,8 @@ void UI_InitMemory( void );
 #define MAX_COLOR_RANGES	10
 #define MAX_MENUITEMS		150
 #define MAX_MENUS			64
-
+#define MAX_SUBMENUS		16
+#define MAX_SCHEMES			32
 
 
 #define WINDOW_MOUSEOVER		0x00000001	// mouse is over it, non exclusive
@@ -287,6 +291,7 @@ void UI_InitMemory( void );
 //JLF MPMOVED
 #define WINDOW_INTRANSITIONMODEL	0x04000000	// delayed script waiting to run
 #define WINDOW_IGNORE_ESCAPE	0x08000000	// ignore normal closeall menus escape functionality
+#define WINDOW_SCHEME			0x10000000	// ignore from layout calculation
 
 typedef struct {
 	float		x;							// horiz position
@@ -302,7 +307,7 @@ typedef struct {
 	UIRectangle	rect;						// client coord rectangle
 	UIRectangle	rectClient;					// screen coord rectangle
 	char		*name;						//
-	char		*group;						// if it belongs to a group
+	const char	*group;						// if it belongs to a group
 	const char	*cinematicName;				// cinematic name
 	int			cinematic;					// cinematic handle
 	int			style;                      //
@@ -322,6 +327,7 @@ typedef struct {
 	vec4_t		borderColor;				// border color
 	vec4_t		outlineColor;				// border color
 	qhandle_t	background;					// background asset
+	qhandle_t	glow;
 } windowDef_t;
 
 typedef windowDef_t Window;
@@ -393,6 +399,7 @@ typedef struct itemDef_s {
 	const char	*enableCvar;				// enable, disable, show, or hide based on value, this can contain a list
 	int			cvarFlags;					//	what type of action to take on cvarenables
 	sfxHandle_t focusSound;					//
+	sfxHandle_t clickSound;					//
 	int			numColors;					// number of color ranges
 	colorRangeDef_t colorRanges[MAX_COLOR_RANGES];
 	float		special;					// used for feeder id's etc.. diff per type
@@ -437,8 +444,9 @@ typedef struct {
 	int			descAlignment;				// Description of alignment
 	float		descScale;					// Description scale
 	int			descTextStyle;					// ( optional ) style, normal and shadowed are it for now
-
-
+	const char	*submenus[MAX_SUBMENUS];
+	itemDef_t	*schemes[MAX_SCHEMES];
+	int			schemeCount;
 } menuDef_t;
 
 typedef struct textScrollDef_s
@@ -490,6 +498,7 @@ void		Menu_New(char *buffer);
 void		Menus_OpenByName(const char *p);
 void		Menu_PaintAll(void);
 void		Menu_Reset(void);
+qboolean	MenuParse_continue(menuDef_t *menu);
 void		PC_EndParseSession(char *buffer);
 qboolean	PC_Float_Parse(int handle, float *f);
 qboolean	PC_ParseString(const char **tempStr);
@@ -501,6 +510,7 @@ char		*PC_ParseExt(void);
 qboolean	PC_ParseInt(int *number);
 qboolean	PC_ParseFloat(float *number);
 qboolean	PC_ParseColor(vec4_t *c);
+void		PC_Parse_RewindBack(int len);
 const char	*String_Alloc(const char *p);
 void		String_Init(void);
 qboolean	String_Parse(const char **p, const char **out);
@@ -511,3 +521,5 @@ itemDef_t *Menu_GetMatchingItemByNumber(menuDef_t *menu, int index, const char *
 extern displayContextDef_t *DC;
 
 #endif
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

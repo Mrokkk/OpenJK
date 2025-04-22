@@ -87,6 +87,7 @@ void UI_SetActiveMenu( const char* menuname,const char *menuID )
 
 	if ( Q_stricmp (menuname, "mainMenu") == 0 )
 	{
+		ui.Cvar_Set( "ui_saber_color", "0" );
 		UI_MainMenu();
 		return;
 	}
