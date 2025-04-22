@@ -297,7 +297,21 @@ static void PM_Friction( void ) {
 						friction *= pm_frictionModifier;
 
 					control = speed < pm_stopspeed ? pm_stopspeed : speed;
-					drop += control*friction*pml.frametime;
+
+					if ( player
+						&& player->client
+						&& player->client->ps.viewEntity == pm->gent->s.number )
+					{ // check if it's player and apply more friction to limit the sliding
+						if (!(pm->cmd.buttons & BUTTON_USE))
+						{
+							friction *= 1.7f;
+						}
+						drop += control*friction*pml.frametime;
+					}
+					else
+					{
+						drop += control*friction*pml.frametime;
+					}
 				}
 			}
 		}
@@ -8992,3 +9006,5 @@ void Pmove( pmove_t *pmove )
 		pm->ps->gravity *= 2;
 	}
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

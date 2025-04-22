@@ -1529,7 +1529,7 @@ static qboolean CG_DrawCustomHealthHud( centity_t *cent )
 		color[3] = 0.3f;
 
 		cgi_R_SetColor( color );
-		CG_DrawPic( 14, 480 - 50, 94, 32, cgs.media.whiteShader );
+		CG_DrawPic( 14, SCREEN_HEIGHT - 50, 94, 32, cgs.media.whiteShader );
 
 		// NOTE: this looks ugly
 		if ( cent->gent && cent->gent->owner )
@@ -1550,10 +1550,10 @@ static qboolean CG_DrawCustomHealthHud( centity_t *cent )
 		color[3] = 0.5f;
 
 		cgi_R_SetColor( color );
-		CG_DrawPic( 18, 480 - 41, 87 * health, 19, cgs.media.whiteShader );
+		CG_DrawPic( 18, SCREEN_HEIGHT - 41, 87 * health, 19, cgs.media.whiteShader );
 
 		cgi_R_SetColor( colorTable[CT_WHITE] );
-		CG_DrawPic( 2, 480 - 64, 128, 64, cgs.media.emplacedHealthBarShader);
+		CG_DrawPic( 2, SCREEN_HEIGHT - 64, 128, 64, cgs.media.emplacedHealthBarShader);
 */
 		return qfalse; // drew this hud, so don't draw the player one
 	}
@@ -1567,7 +1567,7 @@ static qboolean CG_DrawCustomHealthHud( centity_t *cent )
 		color[3] = 0.3f;
 
 		cgi_R_SetColor( color );
-		CG_DrawPic( 14, 480 - 50, 94, 32, cgs.media.whiteShader );
+		CG_DrawPic( 14, SCREEN_HEIGHT - 50, 94, 32, cgs.media.whiteShader );
 
 		// we just calc the display value from the sum of health and armor
 		if ( g_entities[cg.snap->ps.viewEntity].activator ) // ensure we can look back to the atst_drivable to get the max health
@@ -1586,10 +1586,10 @@ static qboolean CG_DrawCustomHealthHud( centity_t *cent )
 		color[3] = 0.5f;
 
 		cgi_R_SetColor( color );
-		CG_DrawPic( 18, 480 - 41, 87 * health, 19, cgs.media.whiteShader );
+		CG_DrawPic( 18, SCREEN_HEIGHT - 41, 87 * health, 19, cgs.media.whiteShader );
 
 		cgi_R_SetColor( colorTable[CT_WHITE] );
-		CG_DrawPic( 2, 480 - 64, 128, 64, cgs.media.emplacedHealthBarShader);
+		CG_DrawPic( 2, SCREEN_HEIGHT - 64, 128, 64, cgs.media.emplacedHealthBarShader);
 */
 		CG_DrawATSTHud(cent);
 
@@ -2003,7 +2003,7 @@ void CG_DrawDataPadHUD( centity_t *cent )
 	CG_DrawMessageLit(cent,x,y);
 
 	cgi_R_SetColor( colorTable[CT_WHITE]);
-	CG_DrawPic( 0, 0, 640, 480, cgs.media.dataPadFrame );
+	CG_DrawPic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, cgs.media.dataPadFrame );
 
 }
 
@@ -2126,7 +2126,7 @@ static void CG_DrawZoomMask( void )
 			CG_DrawPic( 82, 94, 16, 16, cgs.media.binocularCircle );
 		}
 
-		CG_DrawPic( 0, 0, 640, 480, cgs.media.binocularMask );
+		CG_DrawPic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, cgs.media.binocularMask );
 
 		if ( power )
 		{
@@ -2197,7 +2197,7 @@ static void CG_DrawZoomMask( void )
 
 		// Draw target mask
 		cgi_R_SetColor( colorTable[CT_WHITE] );
-		CG_DrawPic( 0, 0, 640, 480, cgs.media.disruptorMask );
+		CG_DrawPic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, cgs.media.disruptorMask );
 
 		// apparently 99.0f is the full zoom level
 		if ( level >= 99 )
@@ -2212,7 +2212,7 @@ static void CG_DrawZoomMask( void )
 		}
 
 		// Draw rotating insert
-		CG_DrawRotatePic2( 320, 240, 640, 480, -level, cgs.media.disruptorInsert );
+		CG_DrawRotatePic2( 320, 240, SCREEN_WIDTH, SCREEN_HEIGHT, -level, cgs.media.disruptorInsert );
 
 		float cx, cy;
 		float max;
@@ -2335,7 +2335,7 @@ static void CG_DrawZoomMask( void )
 			CG_DrawPic( 65, 94, 16, 16, cgs.media.binocularCircle );
 		}
 
-		CG_DrawPic( 0, 0, 640, 480, cgs.media.laGogglesMask );
+		CG_DrawPic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, cgs.media.laGogglesMask );
 	}
 }
 
@@ -2767,8 +2767,8 @@ static void CG_DrawCrosshair( vec3_t worldPoint )
 	{
 		hShader = cgs.media.crosshairShader[ cg_drawCrosshair.integer % NUM_CROSSHAIRS ];
 
-		cgi_R_DrawStretchPic( x + cg.refdef.x + 0.5 * (640 - w),
-			y + cg.refdef.y + 0.5 * (480 - h),
+		cgi_R_DrawStretchPic( x + cg.refdef.x + 0.5 * (SCREEN_WIDTH - w),
+			y + cg.refdef.y + 0.5 * (SCREEN_HEIGHT - h),
 			w, h, 0, 0, 1, 1, hShader );
 	}
 
@@ -2782,7 +2782,7 @@ static void CG_DrawCrosshair( vec3_t worldPoint )
 		w *= 2.0f;
 		h *= 2.0f;
 
-		cgi_R_DrawStretchPic( x + cg.refdef.x + 0.5f * ( 640 - w ), y + cg.refdef.y + 0.5f * ( 480 - h ),
+		cgi_R_DrawStretchPic( x + cg.refdef.x + 0.5f * ( SCREEN_WIDTH - w ), y + cg.refdef.y + 0.5f * ( SCREEN_HEIGHT - h ),
 								w, h,
 								0, 0, 1, 1,
 								cgs.media.forceCoronaShader );
@@ -2808,8 +2808,8 @@ qboolean CG_WorldCoordToScreenCoordFloat(vec3_t worldCoord, float *x, float *y)
 
     VectorSubtract(worldCoord, cg.refdef.vieworg, trans);
 
-    xc = 640 / 2.0;
-    yc = 480 / 2.0;
+    xc = SCREEN_WIDTH / 2.0;
+    yc = SCREEN_HEIGHT / 2.0;
 
 	// z = how far is the object in our forward direction
     z = DotProduct(trans, cg.refdef.viewaxis[0]);
@@ -3523,11 +3523,11 @@ static qboolean CG_RenderingFromMiscCamera()
 			// Only doing a misc_camera, so check health.
 			if ( g_entities[cg.snap->ps.viewEntity].health > 0 )
 			{
-				CG_DrawPic( 0, 0, 640, 480, cgi_R_RegisterShader( "gfx/2d/workingCamera" ));
+				CG_DrawPic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, cgi_R_RegisterShader( "gfx/2d/workingCamera" ));
 			}
 			else
 			{
-				CG_DrawPic( 0, 0, 640, 480, cgi_R_RegisterShader( "gfx/2d/brokenCamera" ));
+				CG_DrawPic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, cgi_R_RegisterShader( "gfx/2d/brokenCamera" ));
 			}
 			// don't render other 2d stuff
 			return qtrue;
@@ -3541,7 +3541,7 @@ static qboolean CG_RenderingFromMiscCamera()
 		else
 		{
 			// FIXME: make sure that this assumption is correct...because I'm assuming that I must be a droid.
-			CG_DrawPic( 0, 0, 640, 480, cgi_R_RegisterShader( "gfx/2d/droid_view" ));
+			CG_DrawPic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, cgi_R_RegisterShader( "gfx/2d/droid_view" ));
 		}
 	}
 
@@ -3977,7 +3977,7 @@ static void CG_Draw2D( void )
 	if ( (cg.snap->ps.forcePowersActive&(1<<FP_SEE)) )
 	{//force sight is on
 		//indicate this with sight cone thingy
-		CG_DrawPic( 0, 0, 640, 480, cgi_R_RegisterShader( "gfx/2d/jsense" ));
+		CG_DrawPic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, cgi_R_RegisterShader( "gfx/2d/jsense" ));
 		CG_DrawHealthBars();
 	}
 	else if ( cg_debugHealthBars.integer )

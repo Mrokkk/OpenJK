@@ -356,8 +356,8 @@ static void CG_LoadBar(void)
 	const int numticks = 9, tickwidth = 40, tickheight = 8;
 	const int tickpadx = 20, tickpady = 12;
 	const int capwidth = 8;
-	const int barwidth = numticks*tickwidth+tickpadx*2+capwidth*2, barleft = ((640-barwidth)/2);
-	const int barheight = tickheight + tickpady*2, bartop = 480-barheight;
+	const int barwidth = numticks*tickwidth+tickpadx*2+capwidth*2, barleft = ((SCREEN_WIDTH-barwidth)/2);
+	const int barheight = tickheight + tickpady*2, bartop = SCREEN_HEIGHT-barheight;
 	const int capleft = barleft+tickpadx, tickleft = capleft+capwidth, ticktop = bartop+tickpady;
 
 	cgi_R_SetColor( colorTable[CT_WHITE]);
@@ -407,7 +407,7 @@ void CG_DrawInformation( void ) {
 		// keep whatever's in the screen buffer so far (either the last ingame rendered-image (eg for maptransition)
 		//	or the screenshot built-in to a loaded save game...
 		//
-		cgi_R_DrawScreenShot( 0, 0, 640, 480 );
+		cgi_R_DrawScreenShot( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT );
 	} else
 #endif
 	{
@@ -466,3 +466,4 @@ void CG_DrawInformation( void ) {
 	}
 }
 
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

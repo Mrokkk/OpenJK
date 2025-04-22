@@ -1831,7 +1831,8 @@ void CG_DrawActiveFrame( int serverTime, stereoFrame_t stereoView ) {
 		return;
 	}
 
-
+	extern void CG_ClearHealthBarEnts(void);
+	CG_ClearHealthBarEnts();
 	CG_RunLightStyles();
 
 	// any looped sounds will be respecified as entities
@@ -2035,3 +2036,4 @@ wasForceSpeed=isForceSpeed;
 	*/
 }
 
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

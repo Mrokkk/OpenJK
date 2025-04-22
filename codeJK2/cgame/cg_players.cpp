@@ -5116,6 +5116,14 @@ extern vmCvar_t	cg_thirdPersonAlpha;
 			gi.G2API_SetSurfaceOnOff( &cent->gent->ghoul2[cent->gent->playerModel], "l_arm_cap_torso_off", 0x00000002 );
 		}
 
+		{
+			if ( cent->gent && cent->gent->health > 0 && cent->gent->max_health > 0 )
+			{//draw a health bar over them
+				extern void CG_AddHealthBarEnt( int entNum );
+				CG_AddHealthBarEnt( cent->currentState.clientNum );
+			}
+		}
+
 		// We want to be able to do cool full-body type effects
 		CG_AddRefEntityWithPowerups( &ent, cent->currentState.powerups, cent );
 
@@ -5238,7 +5246,7 @@ extern vmCvar_t	cg_thirdPersonAlpha;
 				}
 				if ( cg.frametime > 0 )
 				{
-					cent->gent->client->ps.saberLength += cent->gent->client->ps.saberLengthMax/10 * cg.frametime/100;//= saberLengthMax;
+					cent->gent->client->ps.saberLength += cent->gent->client->ps.saberLengthMax/10 * cg.frametime/16;// make saber ignate faster
 				}
 				if ( cent->gent->client->ps.saberLength > cent->gent->client->ps.saberLengthMax )
 				{
@@ -5825,11 +5833,7 @@ Ghoul2 Insert End
 							cgi_S_StartSound (NULL, cent->currentState.number, CHAN_AUTO, cgi_S_RegisterSound( "sound/weapons/saber/saberon.wav" ) );
 						}
 					}
-					cent->gent->client->ps.saberLength += cent->gent->client->ps.saberLengthMax/6 * cg.frametime/100;//= saberLengthMax;
-					if ( cent->gent->client->ps.saberLength > cent->gent->client->ps.saberLengthMax )
-					{
-						cent->gent->client->ps.saberLength = cent->gent->client->ps.saberLengthMax;
-					}
+					cent->gent->client->ps.saberLength = cent->gent->client->ps.saberLengthMax;//= saberLengthMax;
 				}
 
 				if ( cent->currentState.saberInFlight )
@@ -6055,3 +6059,4 @@ void CG_ResetPlayerEntity( centity_t *cent ) {
 	}
 }
 
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

@@ -624,7 +624,7 @@ static qboolean CG_DrawCustomHealthHud( centity_t *cent )
 		color[3] = 0.3f;
 
 		cgi_R_SetColor( color );
-		CG_DrawPic( 14, 480 - 50, 94, 32, cgs.media.whiteShader );
+		CG_DrawPic( 14, SCREEN_HEIGHT - 50, 94, 32, cgs.media.whiteShader );
 
 		// NOTE: this looks ugly
 		if ( cent->gent && cent->gent->owner )
@@ -645,10 +645,10 @@ static qboolean CG_DrawCustomHealthHud( centity_t *cent )
 		color[3] = 0.5f;
 
 		cgi_R_SetColor( color );
-		CG_DrawPic( 18, 480 - 41, 87 * health, 19, cgs.media.whiteShader );
+		CG_DrawPic( 18, SCREEN_HEIGHT - 41, 87 * health, 19, cgs.media.whiteShader );
 
 		cgi_R_SetColor( colorTable[CT_WHITE] );
-		CG_DrawPic( 2, 480 - 64, 128, 64, cgs.media.emplacedHealthBarShader);
+		CG_DrawPic( 2, SCREEN_HEIGHT - 64, 128, 64, cgs.media.emplacedHealthBarShader);
 
 		return qfalse; // drew this hud, so don't draw the player one
 	}
@@ -659,7 +659,7 @@ static qboolean CG_DrawCustomHealthHud( centity_t *cent )
 		color[3] = 0.3f;
 
 		cgi_R_SetColor( color );
-		CG_DrawPic( 14, 480 - 50, 94, 32, cgs.media.whiteShader );
+		CG_DrawPic( 14, SCREEN_HEIGHT - 50, 94, 32, cgs.media.whiteShader );
 
 		// we just calc the display value from the sum of health and armor
 		if ( g_entities[cg.snap->ps.viewEntity].activator ) // ensure we can look back to the atst_drivable to get the max health
@@ -678,10 +678,10 @@ static qboolean CG_DrawCustomHealthHud( centity_t *cent )
 		color[3] = 0.5f;
 
 		cgi_R_SetColor( color );
-		CG_DrawPic( 18, 480 - 41, 87 * health, 19, cgs.media.whiteShader );
+		CG_DrawPic( 18, SCREEN_HEIGHT - 41, 87 * health, 19, cgs.media.whiteShader );
 
 		cgi_R_SetColor( colorTable[CT_WHITE] );
-		CG_DrawPic( 2, 480 - 64, 128, 64, cgs.media.emplacedHealthBarShader);
+		CG_DrawPic( 2, SCREEN_HEIGHT - 64, 128, 64, cgs.media.emplacedHealthBarShader);
 
 		return qfalse; // drew this hud, so don't draw the player one
 	}
@@ -692,7 +692,7 @@ static qboolean CG_DrawCustomHealthHud( centity_t *cent )
 		color[3] = 0.3f;
 
 		cgi_R_SetColor( color );
-		CG_DrawPic( 14, 480 - 50, 94, 32, cgs.media.whiteShader );
+		CG_DrawPic( 14, SCREEN_HEIGHT - 50, 94, 32, cgs.media.whiteShader );
 
 		health = g_entities[cg.snap->ps.viewEntity].health / (float)g_entities[cg.snap->ps.viewEntity].max_health;
 
@@ -700,10 +700,10 @@ static qboolean CG_DrawCustomHealthHud( centity_t *cent )
 		color[3] = 0.5f;
 
 		cgi_R_SetColor( color );
-		CG_DrawPic( 18, 480 - 41, 87 * health, 19, cgs.media.whiteShader );
+		CG_DrawPic( 18, SCREEN_HEIGHT - 41, 87 * health, 19, cgs.media.whiteShader );
 
 		cgi_R_SetColor( colorTable[CT_WHITE] );
-		CG_DrawPic( 2, 480 - 64, 128, 64, cgs.media.ladyLuckHealthShader );
+		CG_DrawPic( 2, SCREEN_HEIGHT - 64, 128, 64, cgs.media.ladyLuckHealthShader );
 
 		return qfalse; // drew this hud, so don't draw the player one
 	}
@@ -864,7 +864,7 @@ void CG_DrawDataPadHUD( centity_t *cent )
 	CG_DrawMessageLit(cent,x,y);
 
 	cgi_R_SetColor( colorTable[CT_WHITE]);
-	CG_DrawPic( 0, 0, 640, 480, cgs.media.dataPadFrame );
+	CG_DrawPic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, cgs.media.dataPadFrame );
 
 }
 
@@ -987,7 +987,7 @@ static void CG_DrawZoomMask( void )
 			CG_DrawPic( 82, 94, 16, 16, cgs.media.binocularCircle );
 		}
 
-		CG_DrawPic( 0, 0, 640, 480, cgs.media.binocularMask );
+		CG_DrawPic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, cgs.media.binocularMask );
 
 		if ( power )
 		{
@@ -1058,7 +1058,7 @@ static void CG_DrawZoomMask( void )
 
 		// Draw target mask
 		cgi_R_SetColor( colorTable[CT_WHITE] );
-		CG_DrawPic( 0, 0, 640, 480, cgs.media.disruptorMask );
+		CG_DrawPic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, cgs.media.disruptorMask );
 
 		// apparently 99.0f is the full zoom level
 		if ( level >= 99 )
@@ -1073,7 +1073,7 @@ static void CG_DrawZoomMask( void )
 		}
 
 		// Draw rotating insert
-		CG_DrawRotatePic2( 320, 240, 640, 480, -level, cgs.media.disruptorInsert );
+		CG_DrawRotatePic2( 320, 240, SCREEN_WIDTH, SCREEN_HEIGHT, -level, cgs.media.disruptorInsert );
 
 		float cx, cy;
 		float max;
@@ -1195,8 +1195,8 @@ static void CG_DrawZoomMask( void )
 
 			CG_DrawPic( 65, 94, 16, 16, cgs.media.binocularCircle );
 		}
-
-		CG_DrawPic( 0, 0, 640, 480, cgs.media.laGogglesMask );
+	
+		CG_DrawPic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, cgs.media.laGogglesMask );
 	}
 }
 
@@ -1504,8 +1504,8 @@ static void CG_DrawCrosshair( vec3_t worldPoint )
 			cgi_R_SetColor( NULL );
 			return;
 		}
-		x -= 320;//????
-		y -= 240;//????
+		x -= SCREEN_WIDTH / 2;//????
+		y -= SCREEN_HEIGHT / 2;//????
 	}
 	else
 	{
@@ -1528,9 +1528,9 @@ static void CG_DrawCrosshair( vec3_t worldPoint )
 	{
 		hShader = cgs.media.crosshairShader[ cg_drawCrosshair.integer % NUM_CROSSHAIRS ];
 
-		cgi_R_DrawStretchPic( x + cg.refdef.x + 0.5 * (640 - w),
-			y + cg.refdef.y + 0.5 * (480 - h),
-			w, h, 0, 0, 1, 1, hShader );
+		cgi_R_DrawStretchPic( x + cg.refdef.x + 0.5 * (SCREEN_WIDTH - w), 
+			y + cg.refdef.y + 0.5 * (SCREEN_HEIGHT - h), 
+			w, h, 0, 0, 1, 1, hShader );	
 	}
 
 	if ( cg.forceCrosshairStartTime && cg_crosshairForceHint.integer ) // drawing extra bits
@@ -1543,10 +1543,10 @@ static void CG_DrawCrosshair( vec3_t worldPoint )
 		w *= 2.0f;
 		h *= 2.0f;
 
-		cgi_R_DrawStretchPic( x + cg.refdef.x + 0.5f * ( 640 - w ), y + cg.refdef.y + 0.5f * ( 480 - h ),
-								w, h,
-								0, 0, 1, 1,
-								cgs.media.forceCoronaShader );
+		cgi_R_DrawStretchPic( x + cg.refdef.x + 0.5f * ( SCREEN_WIDTH - w ), y + cg.refdef.y + 0.5f * ( SCREEN_HEIGHT - h ), 
+								w, h, 
+								0, 0, 1, 1, 
+								cgs.media.forceCoronaShader ); 
 	}
 
 	cgi_R_SetColor( NULL );
@@ -1569,8 +1569,8 @@ qboolean CG_WorldCoordToScreenCoordFloat(vec3_t worldCoord, float *x, float *y)
 
     VectorSubtract(worldCoord, cg.refdef.vieworg, trans);
 
-    xc = 640 / 2.0;
-    yc = 480 / 2.0;
+    xc = SCREEN_WIDTH / 2.0;
+    yc = SCREEN_HEIGHT / 2.0;
 
 	// z = how far is the object in our forward direction
     z = DotProduct(trans, cg.refdef.viewaxis[0]);
@@ -2221,11 +2221,11 @@ static qboolean CG_RenderingFromMiscCamera()
 			// Only doing a misc_camera, so check health.
 			if ( g_entities[cg.snap->ps.viewEntity].health > 0 )
 			{
-				CG_DrawPic( 0, 0, 640, 480, cgi_R_RegisterShader( "gfx/2d/workingCamera" ));
+				CG_DrawPic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, cgi_R_RegisterShader( "gfx/2d/workingCamera" ));
 			}
 			else
 			{
-				CG_DrawPic( 0, 0, 640, 480, cgi_R_RegisterShader( "gfx/2d/brokenCamera" ));
+				CG_DrawPic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, cgi_R_RegisterShader( "gfx/2d/brokenCamera" ));
 			}
 			// don't render other 2d stuff
 			return qtrue;
@@ -2239,7 +2239,7 @@ static qboolean CG_RenderingFromMiscCamera()
 		else
 		{
 			// FIXME: make sure that this assumption is correct...because I'm assuming that I must be a droid.
-			CG_DrawPic( 0, 0, 640, 480, cgi_R_RegisterShader( "gfx/2d/droid_view" ));
+			CG_DrawPic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, cgi_R_RegisterShader( "gfx/2d/droid_view" ));
 		}
 	}
 
@@ -2311,6 +2311,9 @@ static void CG_Draw2D( void )
 		CG_DrawCenterString();
 		return;
 	}
+
+	extern void CG_DrawHealthBars( void );
+	CG_DrawHealthBars();
 
 	// don't draw any status if dead
 	if ( cg.snap->ps.stats[STAT_HEALTH] > 0 )
@@ -2509,3 +2512,147 @@ void CG_DrawActive( stereoFrame_t stereoView ) {
 
 }
 
+/*
+================
+CG_DrawSides
+
+Coords are virtual 640x480
+================
+*/
+void CG_DrawSides(float x, float y, float w, float h, float size) {
+	//size *= cgs.screenXScale;
+	cgi_R_DrawStretchPic( x, y, size, h, 0, 0, 0, 0, cgs.media.whiteShader );
+	cgi_R_DrawStretchPic( x + w - size, y, size, h, 0, 0, 0, 0, cgs.media.whiteShader );
+}
+
+void CG_DrawTopBottom(float x, float y, float w, float h, float size) {
+	//size *= cgs.screenYScale;
+	cgi_R_DrawStretchPic( x, y, w, size, 0, 0, 0, 0, cgs.media.whiteShader );
+	cgi_R_DrawStretchPic( x, y + h - size, w, size, 0, 0, 0, 0, cgs.media.whiteShader );
+}
+
+
+/*
+================
+CG_DrawRect
+
+Coordinates are 640*480 virtual values
+=================
+*/
+void CG_DrawRect( float x, float y, float width, float height, float size, const float *color )
+{
+	cgi_R_SetColor( color );
+
+	CG_DrawTopBottom(x, y, width, height, size);
+	CG_DrawSides(x, y, width, height, size);
+
+	cgi_R_SetColor( NULL );
+}
+
+#define MAX_HEALTH_BAR_ENTS 32
+int cg_numHealthBarEnts = 0;
+int cg_healthBarEnts[MAX_HEALTH_BAR_ENTS];
+#define HEALTH_BAR_WIDTH	50
+#define HEALTH_BAR_HEIGHT	5
+
+//draw the health bar based on current "health" and maxhealth
+void CG_DrawHealthBar(centity_t *cent, float chX, float chY, float chW, float chH)
+{
+	vec4_t aColor;
+	vec4_t cColor;
+	float x = chX-(chW/2);
+	float y = chY-chH;
+	float percent = 0.0f;
+
+	if ( !cent || !cent->gent )
+	{
+		return;
+	}
+	percent = ((float)cent->gent->health/(float)cent->gent->max_health);
+	if (percent <= 0)
+	{
+		return;
+	}
+
+	//color of the bar
+	//hostile
+	aColor[0] = 1.0f;
+	aColor[1] = 0.0f;
+	aColor[2] = 0.0f;
+	aColor[3] = 0.4f;
+
+	//color of greyed out "missing health"
+	cColor[0] = 0.5f;
+	cColor[1] = 0.5f;
+	cColor[2] = 0.5f;
+	cColor[3] = 0.4f;
+
+	//draw the background (black)
+	CG_DrawRect(x, y, chW, chH, 1.0f, colorTable[CT_BLACK]);
+
+	//now draw the part to show how much health there is in the color specified
+	CG_FillRect(x+1.0f, y+1.0f, (percent*chW)-1.0f, chH-1.0f, aColor);
+
+	//then draw the other part greyed out
+	CG_FillRect(x+(percent*chW), y+1.0f, chW-(percent*chW)-1.0f, chH-1.0f, cColor);
+}
+
+void CG_DrawHealthBars( void )
+{
+	float chX=0, chY=0;
+	centity_t *cent;
+	vec3_t pos;
+	for ( int i = 0; i < cg_numHealthBarEnts; i++ )
+	{
+		cent = &cg_entities[cg_healthBarEnts[i]];
+		if ( cent && cent->gent )
+		{
+			VectorCopy( cent->lerpOrigin, pos );
+			pos[2] += cent->gent->maxs[2]+HEALTH_BAR_HEIGHT+8;
+			if ( CG_WorldCoordToScreenCoordFloat( pos, &chX, &chY ) )
+			{//on screen
+				CG_DrawHealthBar( cent, chX, chY, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT );
+			}
+		}
+	}
+}
+
+void CG_AddHealthBarEnt( int entNum )
+{
+	if ( cg_numHealthBarEnts >= MAX_HEALTH_BAR_ENTS )
+	{
+		Com_Printf("cannot add; cg_numHealthBarEnts = %u\n", cg_healthBarEnts);
+		return;
+	}
+
+	gentity_t* self = &g_entities[0];
+	if ( entNum == 0 ||
+         !G_ClearLOS( self, self->client->renderInfo.eyePoint, &g_entities[entNum] ) )
+	{//can't see him
+		return;
+	}
+
+	switch (g_entities[entNum].client->NPC_class)
+	{
+		case CLASS_TAVION:
+		case CLASS_DESANN:
+		case CLASS_REBORN:
+		case CLASS_SHADOWTROOPER:
+			break;
+		default:
+			return;
+	}
+
+	cg_healthBarEnts[cg_numHealthBarEnts++] = entNum;
+}
+
+void CG_ClearHealthBarEnts( void )
+{
+	if ( cg_numHealthBarEnts )
+	{
+		cg_numHealthBarEnts = 0;
+		memset( &cg_healthBarEnts, 0, sizeof(cg_healthBarEnts) );
+	}
+}
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

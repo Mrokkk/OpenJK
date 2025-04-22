@@ -455,3 +455,5 @@ void CG_DrawProportionalString( int x, int y, const char* str, int style, vec4_t
 	//assert(!style);//call this directly if you need style (OR it into the font handle)
 	cgi_R_Font_DrawString (x, y, str, color, cgs.media.qhFontMedium, -1, 1.0f);
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :
