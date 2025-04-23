@@ -1552,7 +1552,7 @@ void CG_SaberClashFlare( void )
 
 	CG_WorldCoordToScreenCoord( g_saberFlashPos, &x, &y );
 
-	VectorSet( color, 0.8f, 0.8f, 0.8f );
+	VectorSet( color, 0.5f, 0.5f, 0.5f );
 	cgi_R_SetColor( color );
 
 	CG_DrawPic( x - ( v * 300 ), y - ( v * 300 ),
