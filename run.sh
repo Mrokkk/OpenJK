@@ -10,10 +10,11 @@ CMAKE=${CMAKE:-cmake}
 BUILD_DIR="$(readlink -f build)"
 UNPACKED_ASSETS_DIR="${BUILD_DIR}/assets"
 
-if [[ ! -d build ]]
+if [[ ! -d build ]] || [[ ! -f build/CMakeCache.txt ]]
 then
-    mkdir build
+    mkdir -p build
     pushd_silent build
+    INSTALL_DIR="${1}"
     ${CMAKE} \
         -DCMAKE_TOOLCHAIN_FILE=cmake/Toolchains/linux-i686.cmake \
         -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}" \

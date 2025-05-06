@@ -17,50 +17,38 @@
 #============================================================================
 
 # Make sure the user is not executing this script directly
-if(NOT InOpenJK)
-	message(FATAL_ERROR "Use the top-level cmake script!")
-endif(NOT InOpenJK)
-
-set(TestFiles
-	"main.cpp"
-	"safe/string.cpp"
-	"safe/limited_vector.cpp"
-	"${SharedDir}/qcommon/safe/string.cpp"
-	)
-if(MSVC)
-	set(TestFiles
-		${TestFiles}
-		"${SharedDir}/openjk.natvis"
-		)
-endif()
-source_group( "tests" REGULAR_EXPRESSION ".*")
-source_group( "tests\\safe" REGULAR_EXPRESSION "safe/.*" )
-source_group( "qcommon\\safe" REGULAR_EXPRESSION "${SharedDir}/qcommon/safe/.*" )
+if(NOT IN_OPENJO)
+    message(FATAL_ERROR "Use the top-level cmake script!")
+endif(NOT IN_OPENJO)
 
 if(MSVC)
-	set( Boost_USE_STATIC_LIBS ON )
+    set(Boost_USE_STATIC_LIBS ON)
 endif()
-find_package( Boost COMPONENTS unit_test_framework REQUIRED )
 
-set(TestTarget "UnitTests")
-set(TestLibraries "${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}")
-set(TestIncludeDirectories
-	"${Boost_INCLUDE_DIRS}"
-	"${SharedDir}"
-	"${GSLIncludeDirectory}"
-	)
-set(TestDefines "${SharedDefines}")
+find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
-add_executable(${TestTarget} ${TestFiles})
-set_target_properties(${TestTarget} PROPERTIES COMPILE_DEFINITIONS "${TestDefines}")
-set_target_properties(${TestTarget} PROPERTIES INCLUDE_DIRECTORIES "${TestIncludeDirectories}")
-set_target_properties(${TestTarget} PROPERTIES PROJECT_LABEL "Unit Tests")
-target_link_libraries(${TestTarget} ${TestLibraries})
-install(TARGETS ${TestTarget} DESTINATION ".")
+set(TEST_TARGET "UnitTests")
+set(TEST_INCLUDE_DIRS
+    "${Boost_INCLUDE_DIRS}"
+    "${SRC_DIR}"
+    "${GSL_DIR}"
+)
+
+add_executable(${TEST_TARGET}
+    "main.cpp"
+    "safe/string.cpp"
+    "safe/limited_vector.cpp"
+    "${SRC_DIR}/qcommon/safe/string.cpp"
+)
+
+set_target_properties(${TEST_TARGET} PROPERTIES COMPILE_DEFINITIONS "${SHARED_DEFINES}")
+set_target_properties(${TEST_TARGET} PROPERTIES INCLUDE_DIRECTORIES "${TEST_INCLUDE_DIRS}")
+set_target_properties(${TEST_TARGET} PROPERTIES PROJECT_LABEL "Unit Tests")
+target_link_libraries(${TEST_TARGET} ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 
 if(NOT MSVC)
-	#Generate a main function
-	target_compile_definitions(${TestTarget} PRIVATE BOOST_TEST_DYN_LINK)
+    #Generate a main function
+    target_compile_definitions(${TEST_TARGET} PRIVATE BOOST_TEST_DYN_LINK)
 endif()
 
-add_test(NAME unittests COMMAND ${TestTarget})
+add_test(NAME unittests COMMAND ${TEST_TARGET})
