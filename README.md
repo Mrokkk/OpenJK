@@ -30,8 +30,9 @@ Apart from OpenJK changes described in the [CHANGELOG.md](https://github.com/Mro
   * warning about video reset is also centered and better aligned
 * setup/options
   * add crosshair selection with displayed image of crosshair
-  * add show FPS option
-  * add draw health bars option
+  * add dynamic crosshair switch
+  * add show FPS switch
+  * add draw health bars switch
   * move language-related settings to the setup/language
 * setup/other - new submenu with following options
   * enable/disable developer mode (non-persistent)

@@ -1,7 +1,7 @@
 VERSION 1
 ID 128
 REFERENCE OPENJO
-COUNT 14
+COUNT 16
 INDEX 0
 {
    REFERENCE ANTIALIASING
@@ -113,4 +113,18 @@ INDEX 13
    TEXT_LANGUAGE1 "Native"
    TEXT_LANGUAGE2 "Native"
    TEXT_LANGUAGE3 "Native"
+}
+INDEX 14
+{
+   REFERENCE DYNAMIC_CROSSHAIR
+   TEXT_LANGUAGE1 "Dynamic Crosshair"
+   TEXT_LANGUAGE2 "Dynamic Crosshair"
+   TEXT_LANGUAGE3 "Dynamic Crosshair"
+}
+INDEX 15
+{
+   REFERENCE DYNAMIC_CROSSHAIR_DESC
+   TEXT_LANGUAGE1 "Toggle to enable or disable dynamic crosshair"
+   TEXT_LANGUAGE2 "Toggle to enable or disable dynamic crosshair"
+   TEXT_LANGUAGE3 "Toggle to enable or disable dynamic crosshair"
 }

@@ -47,6 +47,15 @@ layoutDef
 
     itemDef : submenu_onoff_button
     {
+        name                dynamic_crosshair
+        group               options
+        text                @OPENJO_DYNAMIC_CROSSHAIR
+        descText            @OPENJO_DYNAMIC_CROSSHAIR_DESC
+        cvar                "cg_dynamicCrosshair"
+    }
+
+    itemDef : submenu_onoff_button
+    {
         name                healthbars
         group               options
         text                @OPENJO_DRAW_HEALTH_BARS
