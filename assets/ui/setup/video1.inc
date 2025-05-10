@@ -5,29 +5,6 @@ layoutDef
 
     itemDef : submenu_multi_button
     {
-        name                graphics
-        group               video
-        text                @MENUS0_VIDEO_QUALITY
-        descText            @MENUS1_SELECT_PRESET_GRAPHIC
-        cvar                "ui_r_glCustom"
-        cvarFloatList
-        {
-            @MENUS1_HIGH_QUALITY    0
-            @MENUS1_NORMAL          1
-            @MENUS1_FAST            2
-            @MENUS1_FASTEST         3
-            @MENUS1_CUSTOM          4
-        }
-        action
-        {
-            uiScript        update "ui_r_glCustom"
-            setcvar         ui_r_modified   1
-            show            applyChanges
-        }
-    }
-
-    itemDef : submenu_multi_button
-    {
         name                video_mode
         group               video
         text                @MENUS0_VIDEO_MODE
@@ -54,6 +31,7 @@ layoutDef
             "2048x1536"     20
             "2560x1440"     21
             "3840x2160"     22
+            @OPENJO_NATIVE  -2
         }
         cvar                "ui_r_mode"
         action

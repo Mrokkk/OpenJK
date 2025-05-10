@@ -9,7 +9,7 @@
         style                   WINDOW_STYLE_FILLED
         appearanceIncrement     75
         descX                   320
-        descY                   450
+        descY                   334
         descScale               .8
         descColor               .96 .933 .40 1
         descAlignment           ITEM_ALIGN_CENTER

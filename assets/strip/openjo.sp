@@ -1,7 +1,7 @@
 VERSION 1
 ID 128
 REFERENCE OPENJO
-COUNT 13
+COUNT 14
 INDEX 0
 {
    REFERENCE ANTIALIASING
@@ -106,4 +106,11 @@ INDEX 12
    TEXT_LANGUAGE1 "Draw health bars for enemies"
    TEXT_LANGUAGE2 "Draw health bars for enemies"
    TEXT_LANGUAGE3 "Draw health bars for enemies"
+}
+INDEX 13
+{
+   REFERENCE NATIVE
+   TEXT_LANGUAGE1 "Native"
+   TEXT_LANGUAGE2 "Native"
+   TEXT_LANGUAGE3 "Native"
 }

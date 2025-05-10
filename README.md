@@ -23,7 +23,7 @@ Apart from OpenJK changes described in the [CHANGELOG.md](https://github.com/Mro
 * controls/mouse joystick
   * hide joystick settings if joystick is disabled
 * setup/video
-  * add support for multiple widescreen resolutions
+  * add support for multiple widescreen resolutions, including native resolution
   * add anti-aliasing selection and compressed textures on/off switch
   * add texture compression on/off switch
   * video driver popup is now centered and uses smaller font
