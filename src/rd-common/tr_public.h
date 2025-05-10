@@ -61,10 +61,7 @@ typedef struct {
 	float				(*Cvar_VariableValue)				( const char *var_name );
 	int					(*Cvar_VariableIntegerValue)		( const char *var_name );
 
-
 	qboolean			(*LowPhysicalMemory)				( void );
-	const char*			(*SE_GetString)						( const char *reference );
-
 
 	void				(*FS_FreeFile)						( void *buffer );
 	void				(*FS_FreeFileList)					( char **fileList );

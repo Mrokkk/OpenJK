@@ -30,7 +30,6 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #include "client_ui.h"
 #include <limits.h>
 #include "ghoul2/G2.h"
-#include "qcommon/stringed_ingame.h"
 #include "sys/sys_loadlib.h"
 #include "qcommon/ojk_saved_game.h"
 
@@ -866,7 +865,7 @@ void CL_Frame ( int msec,float fractionMsec ) {
 		if (cl_skippingcin->modified){
 			S_StopSounds();		//kill em all but music
 			cl_skippingcin->modified=qfalse;
-			Com_Printf (S_COLOR_YELLOW "%s", SE_GetString("CON_TEXT_SKIPPING"));
+			Com_Printf (S_COLOR_YELLOW "%s", JK2SP_GetStringTextString("CON_TEXT_SKIPPING"));
 			SCR_UpdateScreen();
 		}
 	} else {
@@ -1006,19 +1005,6 @@ void QDECL CL_RefPrintf( int print_level, const char *fmt, ...) {
 	} else if ( print_level == PRINT_DEVELOPER ) {
 		Com_DPrintf (S_COLOR_RED "%s", msg);		// red
 	}
-}
-
-/*
-============
-String_GetStringValue
-
-DLL glue, but highly reusuable DLL glue at that
-============
-*/
-
-const char *String_GetStringValue( const char *reference )
-{
-	return JK2SP_GetStringTextString(reference);
 }
 
 extern qboolean gbAlreadyDoingLoad;
@@ -1167,7 +1153,6 @@ void CL_InitRef( void ) {
 	rit.LowPhysicalMemory = Sys_LowPhysicalMemory;
 	rit.Milliseconds = Sys_Milliseconds2;
 	rit.Printf = CL_RefPrintf;
-	rit.SE_GetString = String_GetStringValue;
 
 	rit.SV_Trace = SV_Trace;
 

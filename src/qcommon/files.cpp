@@ -2283,7 +2283,7 @@ static char** Sys_ConcatenateFileLists( char **list0, char **list1, char **list2
 //#endif
 
 // For base game mod listing
-const char *SE_GetString( const char *psPackageAndStringReference );
+const char *JK2SP_GetStringTextString( const char *psPackageAndStringReference );
 
 /*
 ================
@@ -2385,7 +2385,7 @@ int	FS_GetModList( char *listbuf, int bufsize ) {
 					}
 					FS_FCloseFile(descHandle);
 				} else if ( isBase ) {
-					strcpy(descPath, SE_GetString("MENUS_JEDI_ACADEMY"));
+					strcpy(descPath, JK2SP_GetStringTextString("MENUS_JEDI_ACADEMY"));
 				} else {
 					strcpy(descPath, name);
 				}

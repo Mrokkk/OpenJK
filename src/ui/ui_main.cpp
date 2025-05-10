@@ -41,13 +41,10 @@ USER INTERFACE MAIN
 #include "ui_shared.h"
 #include "ui_define.h"
 
-#include "ghoul2/G2.h"
-
 #include "game/bg_public.h"
 #include "game/anims.h"
 #include "cgame/animtable.h"
 
-#include "qcommon/stringed_ingame.h"
 #include "qcommon/stv_version.h"
 #include "qcommon/q_shared.h"
 
@@ -491,8 +488,8 @@ void _UI_Refresh( int realtime )
 		return;
 	}
 
-	extern void SE_CheckForLanguageUpdates(void);
-	SE_CheckForLanguageUpdates();
+	extern void JK2SP_CheckForLanguageUpdates(void);
+	JK2SP_CheckForLanguageUpdates();
 
 	if ( Menus_AnyFullScreenVisible() )
 	{//if not in full screen, don't mess with ghoul2

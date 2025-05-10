@@ -42,7 +42,6 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #include "client.h"
 #include "client_ui.h"	// CHC
 #include "snd_local.h"
-#include "qcommon/stringed_ingame.h"
 
 #define MAXSIZE				8
 #define MINSIZE				4

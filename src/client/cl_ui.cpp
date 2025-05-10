@@ -25,7 +25,6 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "client.h"
 #include "client_ui.h"
-#include "qcommon/stringed_ingame.h"
 
 #include "vmachine.h"
 
@@ -100,7 +99,7 @@ void Key_KeynumToStringBuf( int keynum, char *buf, int buflen )
 
 	// see if there's a more friendly (or localised) name...
 	//
-	const char *psKeyNameFriendly = SE_GetString( va("KEYNAMES_KEYNAME_%s",psKeyName) );
+	const char *psKeyNameFriendly = JK2SP_GetStringTextString( va("KEYNAMES_KEYNAME_%s",psKeyName) );
 
 	Q_strncpyz( buf, (psKeyNameFriendly && psKeyNameFriendly[0]) ? psKeyNameFriendly : psKeyName, buflen );
 }

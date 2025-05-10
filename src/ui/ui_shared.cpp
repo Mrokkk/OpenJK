@@ -35,8 +35,6 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_layout.h"
 #include "menudef.h"
 
-#include "qcommon/stringed_ingame.h"
-
 void		UI_LoadMenus(const char *menuFile, qboolean reset);
 
 extern vmCvar_t	ui_char_color_red;
@@ -5320,7 +5318,7 @@ static void Item_TextScroll_BuildLines ( itemDef_t* item )
 	if (*psText == '@')	// string reference
 	{
 //		trap_SP_GetStringTextString( &psText[1], text, sizeof(text));
-		psText = SE_GetString( &psText[1] );
+		psText = JK2SP_GetStringTextString( &psText[1] );
 	}
 
 	psCurrentTextReadPos = psText;
@@ -6567,7 +6565,7 @@ void Item_Text_Wrapped_Paint(itemDef_t *item)
 	}
 	if (*textPtr == '@')	// string reference
 	{
-		textPtr = SE_GetString( &textPtr[1] );
+		textPtr = JK2SP_GetStringTextString( &textPtr[1] );
 	}
 
 	if (*textPtr == '\0')
@@ -6656,7 +6654,7 @@ void Item_Text_Paint(itemDef_t *item)
 		textPtr = item->text2;
 		if (*textPtr == '@')	// string reference
 		{
-			textPtr = SE_GetString( &textPtr[1] );
+			textPtr = JK2SP_GetStringTextString( &textPtr[1] );
 		}
 
 		Item_TextColor(item, &color);
@@ -7006,7 +7004,7 @@ void Item_ListBox_Paint(itemDef_t *item)
 						text = DC->feederItemText(item->special, i, j, &optionalImage);
 						if (text[0]=='@')
 						{
-							text = SE_GetString( &text[1] );
+							text = JK2SP_GetStringTextString( &text[1] );
 						}
 
 						if (optionalImage >= 0)
@@ -7466,7 +7464,7 @@ void Item_Multi_Paint(itemDef_t *item)
 	text = Item_Multi_Setting(item);
 	if (*text == '@')	// string reference
 	{
-		text = SE_GetString( &text[1] );
+		text = JK2SP_GetStringTextString( &text[1] );
 	}
 
 	Item_TextColor(item, &color);
@@ -8242,7 +8240,7 @@ static qboolean Item_Paint(itemDef_t *item, qboolean bDraw)
 				const char *textPtr = item->descText;
 				if (*textPtr == '@')	// string reference
 				{
-					textPtr = SE_GetString( &textPtr[1] );
+					textPtr = JK2SP_GetStringTextString( &textPtr[1] );
 				}
 
 				vec4_t color = {1, 1, 1, 1};
@@ -8608,7 +8606,7 @@ void Item_Text_AutoWrapped_Paint(itemDef_t *item)
 	}
 	if (*textPtr == '@')	// string reference
 	{
-		textPtr = SE_GetString( &textPtr[1] );
+		textPtr = JK2SP_GetStringTextString( &textPtr[1] );
 	}
 
 	if (*textPtr == '\0')

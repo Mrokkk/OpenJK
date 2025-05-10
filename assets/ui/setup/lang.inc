@@ -17,23 +17,7 @@ layoutDef
             "English"       0
             "Francais"      1
             "Deutsch"       2
-            "EspaÃ±ol"       7
-        }
-    }
-
-    itemDef : submenu_multi_button
-    {
-        name                text
-        group               lang
-        text                @MENUS0_TEXT
-        descText            @MENUS2_CHOOSE_THE_LANGUAGE_FOR
-        cvarTest            ui_hidelang
-        hideCvar            { 0 }
-        cvar                "sp_language"
-        cvarFloatList
-        {
-            "English"       0
-            "Taiwanese"     5
+            "Español"       7
         }
     }
 
@@ -50,7 +34,7 @@ layoutDef
             "English",      "english"
             "Francais"      "francais"
             "Deutsch"       "deutsch"
-            "EspaÃ±ol"       "espanol"
+            "Español"       "espanol"
         }
         descText            @MENUS3_CHOOSE_THE_LANGUAGE_TO
     }

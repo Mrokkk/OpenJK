@@ -28,8 +28,6 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #include "tr_local.h"
 #include "tr_font.h"
 
-#include "qcommon/stringed_ingame.h"
-
 #include "qcommon/strippublic.h"
 
 cvar_t *r_fontSharpness;

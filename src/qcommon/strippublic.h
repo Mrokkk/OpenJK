@@ -23,6 +23,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef __STRIPPUB_H
 #define __STRIPPUB_H
 
+#include "qcommon/q_platform.h"
 
 #define STRIP_VERSION	1
 
@@ -92,23 +93,23 @@ inline void				JK2SP_Shutdown(void)
 }
 
 extern cvar_t	*sp_language;
-// query function from font code
-//
-/*inline qboolean Language_IsKorean(void)
-{
-	return (sp_language && sp_language->integer == SP_LANGUAGE_KOREAN);
-}
 
+// query function from font code
 inline qboolean Language_IsTaiwanese(void)
 {
-	return (sp_language && sp_language->integer == SP_LANGUAGE_TAIWANESE);
+	return (sp_language && !Q_stricmp(sp_language->string, "taiwanese")) ? qtrue : qfalse;
+}
+
+inline qboolean Language_IsKorean(void)
+{
+	return (sp_language && !Q_stricmp(sp_language->string, "korean")) ? qtrue : qfalse;
 }
 
 inline qboolean Language_IsJapanese(void)
 {
-	return (sp_language && sp_language->integer == SP_LANGUAGE_JAPANESE);
+	return (sp_language && !Q_stricmp(sp_language->string, "japanese")) ? qtrue : qfalse;
 }
-*/
+
 inline int Language_GetIntegerValue(void)
 {
 	if (sp_language)
@@ -118,7 +119,5 @@ inline int Language_GetIntegerValue(void)
 
 	return 0;
 }
-
-
 
 #endif // __STRIPPUB_H

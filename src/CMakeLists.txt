@@ -218,10 +218,6 @@ set(SP_ENGINE_FILES ${SP_ENGINE_FILES}
     qcommon/q_shared.cpp
     qcommon/q_shared.h
     qcommon/sstring.h
-    qcommon/stringed_ingame.cpp
-    qcommon/stringed_interface.cpp
-    qcommon/stringed_ingame.h
-    qcommon/stringed_interface.h
     qcommon/strip.cpp
     qcommon/persistence.cpp
     qcommon/tags.h

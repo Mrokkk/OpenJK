@@ -443,8 +443,8 @@ void SV_Frame( int msec,float fractionMsec ) {
 		return;
 	}
 
- 	extern void SE_CheckForLanguageUpdates(void);
-	SE_CheckForLanguageUpdates();	// will fast-return else load different language if menu changed it
+	extern void JK2SP_CheckForLanguageUpdates(void);
+	JK2SP_CheckForLanguageUpdates();
 
 	// allow pause if only the local client is connected
 	if ( SV_CheckPaused() ) {

@@ -27,7 +27,6 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #include "server/exe_headers.h"
 
 #include "client.h"
-#include "qcommon/stringed_ingame.h"
 #include "qcommon/stv_version.h"
 
 int g_console_field_width = 78;
@@ -124,7 +123,7 @@ void Con_Dump_f (void)
 
 	if (Cmd_Argc() != 2)
 	{
-		Com_Printf ("%s\n", SE_GetString("CON_TEXT_DUMP_USAGE"));
+		Com_Printf ("%s\n", JK2SP_GetStringTextString("CON_TEXT_DUMP_USAGE"));
 		return;
 	}
 

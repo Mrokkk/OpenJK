@@ -33,7 +33,6 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 										//	(EF1 behaviour). I should maybe time/date check them though?
 
 #include "server.h"
-#include "qcommon/stringed_ingame.h"
 #include "game/statindex.h"
 
 #include "qcommon/ojk_saved_game.h"
@@ -94,7 +93,7 @@ static const char *GetString_FailedToOpenSaveGame(const char *psFilename, qboole
 	strcpy(sTemp,S_COLOR_RED);
 
 	const char *psReference = bOpen ? "MENUS3_FAILED_TO_OPEN_SAVEGAME" : "MENUS3_FAILED_TO_CREATE_SAVEGAME";
-	Q_strncpyz(sTemp + strlen(sTemp), va( SE_GetString(psReference), psFilename),sizeof(sTemp));
+	Q_strncpyz(sTemp + strlen(sTemp), va( JK2SP_GetStringTextString(psReference), psFilename),sizeof(sTemp));
 	strcat(sTemp,"\n");
 	return sTemp;
 }

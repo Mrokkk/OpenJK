@@ -30,7 +30,6 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "client.h"
 #include "vmachine.h"
-#include "qcommon/stringed_ingame.h"
 #include "sys/sys_loadlib.h"
 
 vm_t	cgvm;
