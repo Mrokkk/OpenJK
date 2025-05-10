@@ -45,15 +45,6 @@ layoutDef
 
     itemDef : submenu_onoff_button
     {
-        name                video_sync
-        group               video2
-        text                @MENUS3_VIDEO_SYNC
-        descText            @MENUS3_VIDEO_SYNC_DESC
-        cvar                "r_swapInterval"
-    }
-
-    itemDef : submenu_onoff_button
-    {
         name                dynamic_light
         group               video2
         text                @MENUS0_DYNAMIC_LIGHTS
@@ -100,10 +91,14 @@ layoutDef
     itemDef : submenu_onoff_button
     {
         name                light_flares
-        group               video2_obsolete
+        group               video2
         text                @MENUS0_LIGHT_FLARES
         descText            @MENUS1_TOGGLE_TO_SHOW_HALOS
         cvar                "r_flares"
+    }
+
+    itemDef : submenu_separator
+    {
     }
 
     itemDef : submenu_base_button

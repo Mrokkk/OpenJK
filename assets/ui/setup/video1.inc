@@ -42,6 +42,15 @@ layoutDef
         }
     }
 
+    itemDef : submenu_onoff_button
+    {
+        name                video_sync
+        group               video
+        text                @MENUS3_VIDEO_SYNC
+        descText            @MENUS3_VIDEO_SYNC_DESC
+        cvar                "r_swapInterval"
+    }
+
     itemDef : submenu_multi_button
     {
         name                color_depth
