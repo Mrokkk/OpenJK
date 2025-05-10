@@ -32,7 +32,7 @@ function assets_update()
 
     for file in $(find . -type f)
     do
-        if [[ "${file}" -nt "${INSTALL_DIR}/base/zassets.pk3" ]]
+        if [[ "${file}" -nt "${INSTALL_DIR}/base/openjo.pk3" ]]
         then
             assets_to_update+=("${file#./}")
         fi
@@ -40,7 +40,7 @@ function assets_update()
 
     if [[ ${#assets_to_update[@]} -ne 0 ]]
     then
-        zip -r "${INSTALL_DIR}/base/zassets.pk3" ${assets_to_update[@]}
+        zip -r "${INSTALL_DIR}/base/openjo.pk3" ${assets_to_update[@]}
     fi
 
     popd_silent
