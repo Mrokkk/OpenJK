@@ -320,17 +320,17 @@ void CG_RegisterWeapon( int weaponNum ) {
 		cgi_R_RegisterShader( "gfx/effects/solidWhite_cull" );
 		cgi_R_RegisterShader( "gfx/effects/forcePush" );
 		cgi_R_RegisterShader( "gfx/effects/saberFlare" );
-		cgs.media.redSaberGlowShader		= cgi_R_RegisterShader( "gfx/effects/sabers/red_glow" );
+		cgs.media.redSaberGlowShader		= cgi_R_RegisterShader( "gfx/effects/sabers/red_glow2" );
 		cgs.media.redSaberCoreShader		= cgi_R_RegisterShader( "gfx/effects/sabers/red_line" );
-		cgs.media.orangeSaberGlowShader		= cgi_R_RegisterShader( "gfx/effects/sabers/orange_glow" );
+		cgs.media.orangeSaberGlowShader		= cgi_R_RegisterShader( "gfx/effects/sabers/orange_glow2" );
 		cgs.media.orangeSaberCoreShader		= cgi_R_RegisterShader( "gfx/effects/sabers/orange_line" );
-		cgs.media.yellowSaberGlowShader		= cgi_R_RegisterShader( "gfx/effects/sabers/yellow_glow" );
+		cgs.media.yellowSaberGlowShader		= cgi_R_RegisterShader( "gfx/effects/sabers/yellow_glow2" );
 		cgs.media.yellowSaberCoreShader		= cgi_R_RegisterShader( "gfx/effects/sabers/yellow_line" );
-		cgs.media.greenSaberGlowShader		= cgi_R_RegisterShader( "gfx/effects/sabers/green_glow" );
+		cgs.media.greenSaberGlowShader		= cgi_R_RegisterShader( "gfx/effects/sabers/green_glow2" );
 		cgs.media.greenSaberCoreShader		= cgi_R_RegisterShader( "gfx/effects/sabers/green_line" );
-		cgs.media.blueSaberGlowShader		= cgi_R_RegisterShader( "gfx/effects/sabers/blue_glow" );
+		cgs.media.blueSaberGlowShader		= cgi_R_RegisterShader( "gfx/effects/sabers/blue_glow2" );
 		cgs.media.blueSaberCoreShader		= cgi_R_RegisterShader( "gfx/effects/sabers/blue_line" );
-		cgs.media.purpleSaberGlowShader		= cgi_R_RegisterShader( "gfx/effects/sabers/purple_glow" );
+		cgs.media.purpleSaberGlowShader		= cgi_R_RegisterShader( "gfx/effects/sabers/purple_glow2" );
 		cgs.media.purpleSaberCoreShader		= cgi_R_RegisterShader( "gfx/effects/sabers/purple_line" );
 
 		cgs.media.forceCoronaShader			= cgi_R_RegisterShaderNoMip( "gfx/hud/force_swirl" );

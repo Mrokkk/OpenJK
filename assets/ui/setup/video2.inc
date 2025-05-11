@@ -52,6 +52,15 @@ layoutDef
         cvar                "r_dynamiclight"
     }
 
+    itemDef : submenu_onoff_button
+    {
+        name                dynamic_glow
+        group               video2
+        text                @OPENJO_DYNAMIC_GLOW
+        descText            @OPENJO_DYNAMIC_GLOW_DESC
+        cvar                "r_dynamicGlow"
+    }
+
     itemDef : submenu_multi_button
     {
         name                shadows
@@ -95,10 +104,6 @@ layoutDef
         text                @MENUS0_LIGHT_FLARES
         descText            @MENUS1_TOGGLE_TO_SHOW_HALOS
         cvar                "r_flares"
-    }
-
-    itemDef : submenu_separator
-    {
     }
 
     itemDef : submenu_base_button

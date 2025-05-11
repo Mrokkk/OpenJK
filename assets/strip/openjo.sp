@@ -1,7 +1,7 @@
 VERSION 1
 ID 128
 REFERENCE OPENJO
-COUNT 16
+COUNT 18
 INDEX 0
 {
    REFERENCE ANTIALIASING
@@ -127,4 +127,18 @@ INDEX 15
    TEXT_LANGUAGE1 "Toggle to enable or disable dynamic crosshair"
    TEXT_LANGUAGE2 "Toggle to enable or disable dynamic crosshair"
    TEXT_LANGUAGE3 "Toggle to enable or disable dynamic crosshair"
+}
+INDEX 16
+{
+   REFERENCE DYNAMIC_GLOW
+   TEXT_LANGUAGE1 "Dynamic Glow"
+   TEXT_LANGUAGE2 "Dynamic Glow"
+   TEXT_LANGUAGE3 "Dynamic Glow"
+}
+INDEX 17
+{
+   REFERENCE DYNAMIC_GLOW_DESC
+   TEXT_LANGUAGE1 "Toggle to enable or disable dynamic glow"
+   TEXT_LANGUAGE2 "Toggle to enable or disable dynamic glow"
+   TEXT_LANGUAGE3 "Toggle to enable or disable dynamic glow"
 }

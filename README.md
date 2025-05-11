@@ -10,6 +10,7 @@ Apart from OpenJK changes described in the [CHANGELOG.md](https://github.com/Mro
 
 * add more friction to player movement to decrease the sliding on the floor
 * lightsaber ignites faster
+* configurable dynamic glow
 * configurable option to draw health bars over enemy Jedi
 * sabers clash is less dazzling
 * use fonts from jk2mv
@@ -26,6 +27,7 @@ Apart from OpenJK changes described in the [CHANGELOG.md](https://github.com/Mro
   * add support for multiple widescreen resolutions, including native resolution
   * add anti-aliasing selection and compressed textures on/off switch
   * add texture compression on/off switch
+  * add dynamic glow switch
   * video driver popup is now centered and uses smaller font
   * warning about video reset is also centered and better aligned
 * setup/options
