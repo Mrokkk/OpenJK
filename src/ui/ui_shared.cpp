@@ -41,7 +41,18 @@ extern vmCvar_t	ui_char_color_red;
 extern vmCvar_t	ui_char_color_green;
 extern vmCvar_t	ui_char_color_blue;
 
-void *UI_Alloc( int size );
+static void *UI_Alloc( int size );
+
+template <typename T>
+static T *UI_Alloc()
+{
+	auto ptr = UI_Alloc(sizeof(T));
+	if (!ptr)
+	{
+		return NULL;
+	}
+	return new(ptr) T{};
+}
 
 void		Controls_GetConfig( void );
 void		Fade(int *flags, float *f, float clamp, int *nextTime, int offsetTime, qboolean bFlags, float fadeAmount);
@@ -186,7 +197,7 @@ NULL
 Init_Display
 
 Initializes the display with a structure to all the drawing routines
- ==================
+==================
 */
 void Init_Display(displayContextDef_t *dc)
 {
@@ -198,7 +209,6 @@ void Init_Display(displayContextDef_t *dc)
 Window_Init
 
 Initializes a window structure ( windowDef_t ) with defaults
-
 ==================
 */
 void Window_Init(Window *w)
@@ -248,7 +258,7 @@ qboolean PC_ParseStringMem(const char **out)
 
 	*(out) = String_Alloc(temp);
 
-    return qtrue;
+	return qtrue;
 }
 
 /*
@@ -1318,7 +1328,7 @@ qboolean MenuParse_itemDef( itemDef_t *item )
 		itemArray = menu->items;
 	}
 
-	auto newItem = itemArray[*count] = (itemDef_t*)UI_Alloc(sizeof(itemDef_t));
+	auto newItem = itemArray[*count] = UI_Alloc<itemDef_t>();
 	Item_Init(newItem);
 	if (!Item_Parse(newItem, menu, token))
 	{
@@ -1516,7 +1526,7 @@ const char *String_Alloc(const char *p)
 			last = last->next;
 		}
 
-		str  = (stringDef_s *) UI_Alloc( sizeof(stringDef_t));
+		str = UI_Alloc<stringDef_t>();
 		str->next = NULL;
 		str->str = &strPool[ph];
 		if (last)
@@ -1595,7 +1605,7 @@ void String_Init(void)
 UI_Alloc
 ===============
 */
-void *UI_Alloc( int size )
+static void *UI_Alloc( int size )
 {
 	char	*p;
 
@@ -3188,41 +3198,41 @@ qboolean Script_Orbit(itemDef_t *item, const char **args)
 
 commandDef_t commandList[] =
 {
-  {"activate",		&Script_Activate},				// menu
-  {"close",			&Script_Close},					// menu
-  {"exec",			&Script_Exec},					// group/name
-  {"fadein",		&Script_FadeIn},				// group/name
-  {"fadeout",		&Script_FadeOut},				// group/name
-  {"hide",			&Script_Hide},					// group/name
-  {"open",			&Script_Open},					// menu
-  {"openGoToMenu",	&Script_OpenGoToMenu},			//
-  {"orbit",			&Script_Orbit},					// group/name
-  {"play",			&Script_Play},					// group/name
-  {"playVoice",		&Script_PlayVoice},					// group/name
-  {"stopVoice",		&Script_StopVoice},					// group/name
-//  {"playlooped",	&Script_playLooped},			// group/name
-  {"setasset",		&Script_SetAsset},				// works on this
-  {"setbackground", &Script_SetBackground},			// works on this
-  {"setcolor",		&Script_SetColor},				// works on this
-  {"setcvar",		&Script_SetCvar},				// group/name
-  {"setfocus",		&Script_SetFocus},				// sets this background color to team color
-  {"setitemcolor",	&Script_SetItemColor},			// group/name
-  {"setitemflag",	&Script_SetItemFlag},			// name
-  {"show",			&Script_Show},					// group/name
-  {"showMenu",		&Script_ShowMenu},				// menu
-  {"transition",	&Script_Transition},			// group/name
-  {"transition2",	&Script_Transition2},			// group/name
-  {"setitembackground", &Script_SetItemBackground},	// group/name
-  {"setitemtext",	&Script_SetItemText},			// group/name
-  {"setitemrect",	&Script_SetItemRect},			// group/name
-  {"defer",			&Script_Defer},					//
-  {"rundeferred",	&Script_RunDeferred},			//
-  {"delay",			&Script_Delay},					// works on this (script)
-  {"transition3",   &Script_Transition3},			// model exclusive transition
-  {"incrementfeeder", &Script_IncrementFeeder},
-  {"decrementfeeder", &Script_DecrementFeeder},
-  {"setactivebutton", &Script_SetActiveButton},
-  {"showsubmenu",	&Script_ShowSubmenu},
+	{"activate",		&Script_Activate},				// menu
+	{"close",			&Script_Close},					// menu
+	{"exec",			&Script_Exec},					// group/name
+	{"fadein",			&Script_FadeIn},				// group/name
+	{"fadeout",			&Script_FadeOut},				// group/name
+	{"hide",			&Script_Hide},					// group/name
+	{"open",			&Script_Open},					// menu
+	{"openGoToMenu",	&Script_OpenGoToMenu},			//
+	{"orbit",			&Script_Orbit},					// group/name
+	{"play",			&Script_Play},					// group/name
+	{"playVoice",		&Script_PlayVoice},				// group/name
+	{"stopVoice",		&Script_StopVoice},				// group/name
+//  {"playlooped",		&Script_playLooped},			// group/name
+	{"setasset",		&Script_SetAsset},				// works on this
+	{"setbackground",	&Script_SetBackground},			// works on this
+	{"setcolor",		&Script_SetColor},				// works on this
+	{"setcvar",			&Script_SetCvar},				// group/name
+	{"setfocus",		&Script_SetFocus},				// sets this background color to team color
+	{"setitemcolor",	&Script_SetItemColor},			// group/name
+	{"setitemflag",		&Script_SetItemFlag},			// name
+	{"show",			&Script_Show},					// group/name
+	{"showMenu",		&Script_ShowMenu},				// menu
+	{"transition",		&Script_Transition},			// group/name
+	{"transition2",		&Script_Transition2},			// group/name
+	{"setitembackground", &Script_SetItemBackground},	// group/name
+	{"setitemtext",		&Script_SetItemText},			// group/name
+	{"setitemrect",		&Script_SetItemRect},			// group/name
+	{"defer",			&Script_Defer},					//
+	{"rundeferred",		&Script_RunDeferred},			//
+	{"delay",			&Script_Delay},					// works on this (script)
+	{"transition3",		&Script_Transition3},			// model exclusive transition
+	{"incrementfeeder",	&Script_IncrementFeeder},
+	{"decrementfeeder",	&Script_DecrementFeeder},
+	{"setactivebutton",	&Script_SetActiveButton},
+	{"showsubmenu",		&Script_ShowSubmenu},
 };
 
 int scriptCommandCount = sizeof(commandList) / sizeof(commandDef_t);
@@ -3235,7 +3245,6 @@ Item_Init
 */
 void Item_Init(itemDef_t *item)
 {
-	memset(item, 0, sizeof(itemDef_t));
 	item->textscale = 0.55f;
 	Window_Init(&item->window);
 }
@@ -4943,8 +4952,7 @@ void Item_ValidateTypeData(itemDef_t *item)
 
 	if (item->type == ITEM_TYPE_LISTBOX)
 	{
-		item->typeData = UI_Alloc(sizeof(listBoxDef_t));
-		memset(item->typeData, 0, sizeof(listBoxDef_t));
+		item->typeData = UI_Alloc<listBoxDef_t>();
 	}
 	else if (item->type == ITEM_TYPE_EDITFIELD ||
 				item->type == ITEM_TYPE_NUMERICFIELD ||
@@ -4954,8 +4962,7 @@ void Item_ValidateTypeData(itemDef_t *item)
 				item->type == ITEM_TYPE_TEXT ||
 				item->type == ITEM_TYPE_ONOFF)
 	{
-		item->typeData = UI_Alloc(sizeof(editFieldDef_t));
-		memset(item->typeData, 0, sizeof(editFieldDef_t));
+		item->typeData = UI_Alloc<editFieldDef_t>();
 		if (item->type == ITEM_TYPE_EDITFIELD)
 		{
 			if (!((editFieldDef_t *) item->typeData)->maxPaintChars)
@@ -4966,16 +4973,15 @@ void Item_ValidateTypeData(itemDef_t *item)
 	}
 	else if (item->type == ITEM_TYPE_MULTI)
 	{
-		item->typeData = UI_Alloc(sizeof(multiDef_t));
+		item->typeData = UI_Alloc<multiDef_t>();
 	}
 	else if (item->type == ITEM_TYPE_MODEL)
 	{
-		item->typeData = UI_Alloc(sizeof(modelDef_t));
-		memset(item->typeData, 0, sizeof(modelDef_t));
+		item->typeData = UI_Alloc<modelDef_t>();
 	}
 	else if (item->type == ITEM_TYPE_TEXTSCROLL )
 	{
-		item->typeData = UI_Alloc(sizeof(textScrollDef_t));
+		item->typeData = UI_Alloc<textScrollDef_t>();
 	}
 }
 
@@ -5238,7 +5244,7 @@ qboolean Item_Parse(itemDef_t *item, menuDef_t *parent, const char* token)
 			return qfalse;
 		}
 
-		memcpy(item, scheme, sizeof(*item));
+		*item = *scheme;
 		item->window.flags &= ~WINDOW_SCHEME;
 
 		if (PC_ParseString(&token))
@@ -5277,7 +5283,7 @@ qboolean Item_Parse(itemDef_t *item, menuDef_t *parent, const char* token)
 			return qtrue;
 		}
 
-		key = (keywordHash_s *) KeywordHash_Find(itemParseKeywordHash, token);
+		key = KeywordHash_Find(itemParseKeywordHash, token);
 		if (!key)
 		{
 			PC_ParseWarning(va("Unknown item keyword '%s'", token));
@@ -5317,7 +5323,7 @@ static void Item_TextScroll_BuildLines ( itemDef_t* item )
 
 	if (*psText == '@')	// string reference
 	{
-//		trap_SP_GetStringTextString( &psText[1], text, sizeof(text));
+		// trap_SP_GetStringTextString( &psText[1], text, sizeof(text));
 		psText = JK2SP_GetStringTextString( &psText[1] );
 	}
 
@@ -5885,26 +5891,26 @@ Menu_UpdatePosition
 */
 void Menu_UpdatePosition(menuDef_t *menu)
 {
-  int i;
-  float x, y;
+	int i;
+	float x, y;
 
-  if (menu == NULL)
-  {
-    return;
-  }
+	if (menu == NULL)
+	{
+		return;
+	}
 
-  x = menu->window.rect.x;
-  y = menu->window.rect.y;
-  if (menu->window.border != 0)
-  {
-    x += menu->window.borderSize;
-    y += menu->window.borderSize;
-  }
+	x = menu->window.rect.x;
+	y = menu->window.rect.y;
+	if (menu->window.border != 0)
+	{
+		x += menu->window.borderSize;
+		y += menu->window.borderSize;
+	}
 
-  for (i = 0; i < menu->itemCount; i++)
-  {
-    Item_SetScreenCoords(menu->items[i], x, y);
-  }
+	for (i = 0; i < menu->itemCount; i++)
+	{
+		Item_SetScreenCoords(menu->items[i], x, y);
+	}
 }
 
 /*
@@ -6504,8 +6510,8 @@ void Item_TextColor(itemDef_t *item, vec4_t *newColor)
 		lowLight[2] = 0.8 * item->window.foreColor[2];
 		lowLight[3] = 0.8 * item->window.foreColor[3];
 		LerpColor(item->window.foreColor,lowLight,*newColor,0.5+0.5*sin(DC->realTime / PULSE_DIVISOR));
-	}
-*/	else
+	}*/
+	else
 	{
 		memcpy(newColor, &item->window.foreColor, sizeof(vec4_t));
 	}
@@ -8316,7 +8322,7 @@ static qboolean Item_Paint(itemDef_t *item, qboolean bDraw)
 			color);
 	}
 
-  //DC->drawRect(item->window.rect.x, item->window.rect.y, item->window.rect.w, item->window.rect.h, 1, red);
+	//DC->drawRect(item->window.rect.x, item->window.rect.y, item->window.rect.w, item->window.rect.h, 1, red);
 
 	switch (item->type)
 	{
@@ -9248,7 +9254,7 @@ IsVisible
 */
 qboolean IsVisible(int flags)
 {
-  return (qboolean)((flags & WINDOW_VISIBLE && !(flags & WINDOW_FADINGOUT)) != 0);
+	return (qboolean)((flags & WINDOW_VISIBLE && !(flags & WINDOW_FADINGOUT)) != 0);
 }
 
 /*
@@ -10712,7 +10718,7 @@ Item_YesNo_HandleKey
 */
 qboolean Item_YesNo_HandleKey(itemDef_t *item, int key)
 {
-  if (Rect_ContainsPoint(&item->window.rect, DC->cursorx, DC->cursory) && item->window.flags & WINDOW_HASFOCUS && item->cvar)
+	if (Rect_ContainsPoint(&item->window.rect, DC->cursorx, DC->cursory) && item->window.flags & WINDOW_HASFOCUS && item->cvar)
 	{
 		if (key == A_MOUSE1 || key == A_ENTER || key == A_MOUSE2 || key == A_MOUSE3)
 		{
@@ -10791,11 +10797,11 @@ Item_OwnerDraw_HandleKey
 */
 qboolean Item_OwnerDraw_HandleKey(itemDef_t *item, int key)
 {
-  if (item && DC->ownerDrawHandleKey)
-  {
+	if (item && DC->ownerDrawHandleKey)
+	{
 		return DC->ownerDrawHandleKey(item->window.ownerDraw, item->window.ownerDrawFlags, &item->special, key);
-  }
-  return qfalse;
+	}
+	return qfalse;
 }
 
 /*
@@ -11063,8 +11069,6 @@ qboolean Item_HandleKey(itemDef_t *item, int key, qboolean down)
 			return qfalse;
 		break;
 	}
-
-  //return qfalse;
 }
 
 

@@ -144,7 +144,7 @@ typedef struct {
 
 	connstate_t	(*GetClientState)( void );
 
-	void		(*GetConfigString)( int index, char* buff, int buffsize );
+	int			(*GetConfigString)( int index, char* buff, int buffsize );
 
 	int			(*Milliseconds)( void );
 	void		(*Draw_DataPad)(int HUDType);

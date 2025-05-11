@@ -217,8 +217,10 @@ elseif (("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU") OR ("${CMAKE_C_COMPILER_ID}" M
     # enable somewhat modern C++
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
+    set(WARNING_FLAGS "-Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -Wno-comment")
+
     if("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
-        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wno-comment -fsigned-char")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${WARNING_FLAGS} -fsigned-char")
         if (X86)
             # "x86 vm will crash without -mstackrealign since MMX
             # instructions will be used no matter what and they
@@ -233,17 +235,16 @@ elseif (("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU") OR ("${CMAKE_C_COMPILER_ID}" M
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++")
         endif()
     elseif("${CMAKE_C_COMPILER_ID}" MATCHES "Clang")
-        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wno-comment -fsigned-char")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${WARNING_FLAGS} -fsigned-char")
     endif()
 
     if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-invalid-offsetof -Wno-write-strings -Wno-comment -fsigned-char")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS} -Wno-invalid-offsetof -Wno-write-strings -fsigned-char")
         if (X86)
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mstackrealign -mfpmath=sse")
         endif()
     elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-write-strings -Wno-comment -Wno-invalid-offsetof -fsigned-char")
-        #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-writable-strings")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS} -Wno-invalid-offsetof -Wno-write-strings -fsigned-char")
     endif()
 else()
     message(ERROR "Unsupported compiler")

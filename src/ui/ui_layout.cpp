@@ -3,10 +3,8 @@
 
 #include "server/exe_headers.h"
 
-#include "ui_local.h"
 #include "ui_shared.h"
 #include "ui_layout.h"
-#include "menudef.h"
 
 enum layoutType_t {
 	LAYOUT_HORIZONTAL,

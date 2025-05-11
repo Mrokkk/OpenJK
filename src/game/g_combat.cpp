@@ -1698,9 +1698,8 @@ qboolean G_LimbLost( gentity_t *ent, int hitLoc )
 		{
 			return qtrue;
 		}
-		//NOTE: falls through
+        [[fallthrough]];
 	case HL_LEG_RT:
-		//NOTE: feet fall through
 		if ( ent->locationDamage[HL_LEG_RT] >= Q3_INFINITE )
 		{
 			return qtrue;
@@ -1712,9 +1711,8 @@ qboolean G_LimbLost( gentity_t *ent, int hitLoc )
 		{
 			return qtrue;
 		}
-		//NOTE: falls through
+        [[fallthrough]];
 	case HL_LEG_LT:
-		//NOTE: feet fall through
 		if ( ent->locationDamage[HL_LEG_LT] >= Q3_INFINITE )
 		{
 			return qtrue;
@@ -1726,11 +1724,10 @@ qboolean G_LimbLost( gentity_t *ent, int hitLoc )
 		{
 			return qtrue;
 		}
-		//NOTE: falls through
+        [[fallthrough]];
 	case HL_ARM_LT:
 	case HL_CHEST_LT:
 	case HL_BACK_RT:
-		//NOTE: hand falls through
 		if ( ent->locationDamage[HL_ARM_LT] >= Q3_INFINITE
 			|| ent->locationDamage[HL_CHEST_LT] >= Q3_INFINITE
 			|| ent->locationDamage[HL_BACK_RT] >= Q3_INFINITE
@@ -1745,11 +1742,10 @@ qboolean G_LimbLost( gentity_t *ent, int hitLoc )
 		{
 			return qtrue;
 		}
-		//NOTE: falls through
+        [[fallthrough]];
 	case HL_ARM_RT:
 	case HL_CHEST_RT:
 	case HL_BACK_LT:
-		//NOTE: hand falls through
 		if ( ent->locationDamage[HL_ARM_RT] >= Q3_INFINITE
 			|| ent->locationDamage[HL_CHEST_RT] >= Q3_INFINITE
 			|| ent->locationDamage[HL_BACK_LT] >= Q3_INFINITE
@@ -1764,9 +1760,8 @@ qboolean G_LimbLost( gentity_t *ent, int hitLoc )
 		{
 			return qtrue;
 		}
-		//NOTE: falls through
+        [[fallthrough]];
 	case HL_WAIST:
-		//NOTE: head falls through
 		if ( ent->locationDamage[HL_WAIST] >= Q3_INFINITE )
 		{
 			return qtrue;

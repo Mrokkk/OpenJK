@@ -189,15 +189,15 @@ const char *Music_BaseStateToString( MusicState_e eMusicState, qboolean bDebugPr
 
 		// info only, not map<> lookup keys (unlike above)...
 		//
-		case eBGRNDTRACK_ACTIONTRANS0:		if (bDebugPrintQuery) return "action_tr0";
-		case eBGRNDTRACK_ACTIONTRANS1:		if (bDebugPrintQuery) return "action_tr1";
-		case eBGRNDTRACK_ACTIONTRANS2:		if (bDebugPrintQuery) return "action_tr2";
-		case eBGRNDTRACK_ACTIONTRANS3:		if (bDebugPrintQuery) return "action_tr3";
-		case eBGRNDTRACK_EXPLORETRANS0:		if (bDebugPrintQuery) return "explore_tr0";
-		case eBGRNDTRACK_EXPLORETRANS1:		if (bDebugPrintQuery) return "explore_tr1";
-		case eBGRNDTRACK_EXPLORETRANS2:		if (bDebugPrintQuery) return "explore_tr2";
-		case eBGRNDTRACK_EXPLORETRANS3:		if (bDebugPrintQuery) return "explore_tr3";
-		case eBGRNDTRACK_FADE:				if (bDebugPrintQuery) return "fade";
+		case eBGRNDTRACK_ACTIONTRANS0:		if (bDebugPrintQuery) return "action_tr0"; break;
+		case eBGRNDTRACK_ACTIONTRANS1:		if (bDebugPrintQuery) return "action_tr1"; break;
+		case eBGRNDTRACK_ACTIONTRANS2:		if (bDebugPrintQuery) return "action_tr2"; break;
+		case eBGRNDTRACK_ACTIONTRANS3:		if (bDebugPrintQuery) return "action_tr3"; break;
+		case eBGRNDTRACK_EXPLORETRANS0:		if (bDebugPrintQuery) return "explore_tr0"; break;
+		case eBGRNDTRACK_EXPLORETRANS1:		if (bDebugPrintQuery) return "explore_tr1"; break;
+		case eBGRNDTRACK_EXPLORETRANS2:		if (bDebugPrintQuery) return "explore_tr2"; break;
+		case eBGRNDTRACK_EXPLORETRANS3:		if (bDebugPrintQuery) return "explore_tr3"; break;
+		case eBGRNDTRACK_FADE:				if (bDebugPrintQuery) return "fade"; break;
 		default: break;
 	}
 

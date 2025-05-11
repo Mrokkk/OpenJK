@@ -176,6 +176,7 @@ static void unpack_sampL1()	/* unpack samples */
 /* -- end of dispatch -- */
 	 case 31:
 	    skip(pMP3Stream->bit_skip);
+	    __attribute__((fallthrough));
 	 case 30:
 	    s += 64;
       }				/* end switch */

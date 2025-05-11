@@ -927,7 +927,7 @@ void SavedGame::reset_buffer_offset()
 	io_buffer_offset_ = 0;
 }
 
-const uint32_t SavedGame::get_jo_magic_value()
+uint32_t SavedGame::get_jo_magic_value()
 {
 	return 0x1234ABCD;
 }

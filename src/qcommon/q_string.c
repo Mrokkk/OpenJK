@@ -114,6 +114,13 @@ void Q_strncpyz( char *dest, const char *src, int destsize ) {
 	dest[destsize-1] = 0;
 }
 
+void Q_strncpyt(char *s, const char *d, size_t n)
+{
+	size_t s_len = strlen(s) + 1;
+	size_t len = n < s_len ? n : s_len;
+	memcpy(s, d, len);
+}
+
 int Q_stricmpn (const char *s1, const char *s2, int n) {
 	int		c1, c2;
 
@@ -454,3 +461,5 @@ int Q_vsnprintf(char *str, size_t size, const char *format, va_list ap)
 	return retval;
 }
 #endif
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

@@ -76,7 +76,6 @@ void ClearInUse(gentity_t *ent)
 
 qboolean PInUse(unsigned int entNum)
 {
-	assert(entNum>=0);
 	assert(entNum<MAX_GENTITIES);
 	return (qboolean)((g_entityInUseBits[entNum / 32] & (1u << (entNum & 0x1f))) != 0);
 }

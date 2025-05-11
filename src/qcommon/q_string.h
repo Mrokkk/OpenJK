@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stddef.h>
 #include "q_platform.h"
 
 #if defined(__cplusplus)
@@ -26,6 +27,9 @@ char *Q_strrchr( const char* string, int c );
 // buffer size safe library replacements
 void Q_strncpyz( char *dest, const char *src, int destsize );
 void Q_strcat( char *dest, int size, const char *src );
+
+// Copy up to n bytes and allow for not copying a trailing zero
+void Q_strncpyt(char *s, const char *d, size_t n);
 
 const char *Q_stristr( const char *s, const char *find);
 

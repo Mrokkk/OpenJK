@@ -1,13 +1,7 @@
 #include <map>
 #include <string>
-#include <algorithm>
 
-#include "server/exe_headers.h"
-
-#include "ui_local.h"
-#include "ui_shared.h"
-#include "ui_layout.h"
-#include "menudef.h"
+#include "qcommon/q_platform.h"
 
 using constantsMap_t = std::map<std::string, std::string>;
 

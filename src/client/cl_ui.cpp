@@ -292,7 +292,7 @@ void CL_InitUI( void ) {
 
 	uii.GetGlconfig				= UI_GetGlconfig;
 
-	uii.GetConfigString			= (void (*)(int, char *, int))GetConfigString;
+	uii.GetConfigString			= GetConfigString;
 
 	uii.Milliseconds			= Sys_Milliseconds2;
 

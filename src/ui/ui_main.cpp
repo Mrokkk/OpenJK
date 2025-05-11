@@ -756,7 +756,7 @@ const char *UI_FeederItemText(float feederID, int index, int column, qhandle_t *
 	}
 	else if (feederID == FEEDER_MAPS)
 	{
-		if (index >= 0 && index < ARRAY_LEN(maps))
+		if (index >= 0 && (size_t)index < ARRAY_LEN(maps))
 		{
 			return maps[index];
 		}
@@ -3101,7 +3101,6 @@ UI_Update
 qboolean GlobalDefinitions_Parse(char **buffer)
 {
 	char		*token;
-	int			pointSize;
 
 	token = PC_ParseExt();
 
@@ -3511,16 +3510,6 @@ static void UI_DataPad_ForcePowers(rectDef_t *rect, float scale, vec4_t color, i
 }
 */
 
-static void UI_DrawCrosshair(rectDef_t *rect, float scale, vec4_t color) {
-	trap_R_SetColor( color );
-	if (uiInfo.currentCrosshair < 0 || uiInfo.currentCrosshair >= NUM_CROSSHAIRS) {
-		uiInfo.currentCrosshair = 0;
-	}
-	UI_DrawHandlePic( rect->x, rect->y, rect->w, rect->h, uiInfo.uiDC.Assets.crosshairShader[uiInfo.currentCrosshair]);
-	trap_R_SetColor( NULL );
-}
-
-
 /*
 =================
 UI_OwnerDraw
@@ -3813,12 +3802,11 @@ UI_DataPadMenu
 */
 void UI_DataPadMenu(void)
 {
-	int	newForcePower,newObjective;
+	int	newForcePower;
 
 	Menus_CloseByName("mainhud");
 
 	newForcePower = (int)trap_Cvar_VariableValue("cg_updatedDataPadForcePower1");
-	newObjective = (int)trap_Cvar_VariableValue("cg_updatedDataPadObjective");
 
 	if (newForcePower)
 	{
