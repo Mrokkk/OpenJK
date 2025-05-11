@@ -24,6 +24,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #define __ANIMS_H__
 // playerAnimations
 
+#include "game/bg_public.h"
 
 typedef enum //# animNumber_e
 {
@@ -1388,15 +1389,7 @@ typedef enum //# animNumber_e
 
 #define MAX_ANIM_SOUNDS 69
 
-#ifndef CG_PLAYERS_CPP
-
 extern stringID_table_t animTable [MAX_ANIMATIONS+1];
-
-#else
-
-// <"animTable" moved to cgame/animtable.h for PCH reasons>
-
-#endif// #ifndef CG_PLAYER_CPP
 
 // !!!!!!!!!!!! LOADSAVE-affecting structure !!!!!!!!!!!!
 class animFileSet_t

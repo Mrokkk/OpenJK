@@ -26,7 +26,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "b_local.h"
 #include "b_public.h"
-#include "anims.h"
+#include "game/anims.h"
 
 extern qboolean NPCsPrecached;
 extern vec3_t playerMins;

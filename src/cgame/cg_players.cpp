@@ -24,7 +24,6 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #include "cg_local.h"
 #include "game/g_local.h"
 #include "game/b_local.h"
-#define	CG_PLAYERS_CPP
 #include "cg_media.h"
 #include "FxScheduler.h"
 #include "ghoul2/ghoul2_shared.h"
@@ -32,9 +31,6 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #include "game/wp_saber.h"
 
 #define	LOOK_SWING_SCALE	0.5
-
-#include "animtable.h"
-
 
 /*
 

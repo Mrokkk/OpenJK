@@ -43,7 +43,6 @@ USER INTERFACE MAIN
 
 #include "game/bg_public.h"
 #include "game/anims.h"
-#include "cgame/animtable.h"
 
 #include "qcommon/stv_version.h"
 #include "qcommon/q_shared.h"

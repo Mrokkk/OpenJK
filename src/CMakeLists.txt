@@ -113,7 +113,6 @@ endif()
 # Source Files
 set(SP_ENGINE_FILES ${SP_ENGINE_FILES}
     cgame/cg_public.h
-    cgame/animtable.h
 
     client/keys.h
     client/keycodes.h
@@ -145,6 +144,7 @@ set(SP_ENGINE_FILES ${SP_ENGINE_FILES}
     game/genericparser2.cpp
     game/channels.h
     game/anims.h
+    game/animtable.cpp
     game/b_public.h
     game/bg_public.h
     game/bset.h
@@ -372,6 +372,7 @@ endif(SP_ENGINE_LIBRARIES)
 set(JK2SP_GAME_DEFINES ${SHARED_DEFINES} "JK2_MODE" "SP_GAME")
 
 add_library(${GAME_NAME} SHARED
+    game/animtable.cpp
     game/AI_Atst.cpp
     game/AI_Default.cpp
     game/AI_Droid.cpp
@@ -518,7 +519,6 @@ add_library(${GAME_NAME} SHARED
     cgame/FxTemplate.cpp
     cgame/FxUtil.cpp
     cgame/FxUtil.h
-    cgame/animtable.h
     cgame/cg_camera.cpp
     cgame/cg_camera.h
     cgame/cg_consolecmds.cpp
