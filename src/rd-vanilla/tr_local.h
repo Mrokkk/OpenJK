@@ -369,6 +369,30 @@ typedef struct {
 	int				videoMapHandle;
 } textureBundle_t;
 
+enum stencilMaskType_t
+{
+	STENCIL_NONE,
+	STENCIL_RANGE,
+	STENCIL_LESS,
+	STENCIL_LEQUAL,
+	STENCIL_GREATER,
+	STENCIL_GEQUAL,
+};
+
+struct stencilAlphaMask_t
+{
+	stencilMaskType_t	type;
+	union
+	{
+		struct
+		{
+			float		min;
+			float		max;
+		};
+		float			value;
+	};
+};
+
 #define NUM_TEXTURE_BUNDLES 2
 
 typedef struct {
@@ -397,6 +421,8 @@ typedef struct {
 
 	// Whether this object emits a glow or not.
 	bool			glow;
+	bool			isStenciled;
+	stencilAlphaMask_t	stencilMask;
 } shaderStage_t;
 
 struct shaderCommands_s;
@@ -1842,3 +1868,5 @@ Ghoul2 Insert End
 
 // tr_surfacesprites
 void RB_DrawSurfaceSprites( shaderStage_t *stage, shaderCommands_t *input);
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

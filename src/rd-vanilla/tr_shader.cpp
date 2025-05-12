@@ -1436,6 +1436,68 @@ static qboolean ParseStage( shaderStage_t *stage, const char **text )
 				depthMaskBits = 0;
 			}
 		}
+		else if ( !Q_stricmp( token, "stencilAlphaMask" ) )
+		{
+			token = COM_ParseExt( text, qfalse );
+			if ( token[0] == 0 )
+			{
+				ri.Printf( PRINT_WARNING, "WARNING: missing stencilAlphaMask type in shader '%s'\n", shader.name );
+				continue;
+			}
+			if (!Q_stricmp( token, "range"))
+			{
+				token = COM_ParseExt( text, qfalse);
+				if (token[0]==0)
+				{
+					ri.Printf( PRINT_WARNING, "WARNING: missing stencilAlphaMask min value in shader '%s'\n", shader.name );
+					continue;
+				}
+				stage->stencilMask.min = atof(token);
+				token = COM_ParseExt( text, qfalse);
+				if (token[0]==0)
+				{
+					ri.Printf( PRINT_WARNING, "WARNING: missing stencilAlphaMask max value in shader '%s'\n", shader.name );
+					continue;
+				}
+				stage->stencilMask.max = atof(token);
+				stage->stencilMask.type = STENCIL_RANGE;
+			}
+			else
+			{
+				if (!Q_stricmp( token, "less" ))
+				{
+					stage->stencilMask.type = STENCIL_LESS;
+				}
+				else if (!Q_stricmp( token, "lequal" ))
+				{
+					stage->stencilMask.type = STENCIL_LEQUAL;
+				}
+				else if (!Q_stricmp( token, "greater" ))
+				{
+					stage->stencilMask.type = STENCIL_GREATER;
+				}
+				else if (!Q_stricmp( token, "gequal" ))
+				{
+					stage->stencilMask.type = STENCIL_GREATER;
+				}
+				else
+				{
+					ri.Printf( PRINT_WARNING, "WARNING: unknown stencilAlphaMask type in '%s'\n", shader.name );
+				}
+				token = COM_ParseExt( text, qfalse);
+				if (token[0]==0)
+				{
+					ri.Printf( PRINT_WARNING, "WARNING: missing stencilAlphaMask value in shader '%s'\n", shader.name );
+					continue;
+				}
+				stage->stencilMask.value = atof(token);
+
+			}
+		}
+		else if ( !Q_stricmp( token, "stenciled" ) )
+		{
+			stage->isStenciled = true;
+		}
 		//
 		// rgbGen
 		//
@@ -3865,3 +3927,5 @@ Ghoul2 Insert End
 
 	CreateExternalShaders();
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

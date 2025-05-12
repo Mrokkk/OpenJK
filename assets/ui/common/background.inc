@@ -16,7 +16,7 @@ itemDef
     group               none
     style               WINDOW_STYLE_SHADER
     rect                143 12 470 93
-    background          "gfx/menus/menu4"
+    background          "gfx/menus/menu4a"
     forecolor           1 1 1 1
     visible             1
     decoration

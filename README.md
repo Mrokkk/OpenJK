@@ -13,6 +13,7 @@ Apart from OpenJK changes described in the [CHANGELOG.md](https://github.com/Mro
 * configurable dynamic glow
 * configurable option to draw health bars over enemy Jedi
 * sabers clash is less dazzling
+* bring back shining game title in menu
 * use fonts from jk2mv
 
 ### Menu changes
@@ -25,7 +26,7 @@ Apart from OpenJK changes described in the [CHANGELOG.md](https://github.com/Mro
   * hide joystick settings if joystick is disabled
 * setup/video
   * add support for multiple widescreen resolutions, including native resolution
-  * add anti-aliasing selection and compressed textures on/off switch
+  * add anti-aliasing selection
   * add texture compression on/off switch
   * add dynamic glow switch
   * video driver popup is now centered and uses smaller font

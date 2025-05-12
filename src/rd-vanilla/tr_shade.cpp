@@ -1826,7 +1826,8 @@ static void RB_IterateStagesGeneric( shaderCommands_t *input )
 		}
 		else
 		{
-			static bool lStencilled = false;
+			bool lAlphaTest = false;
+			bool lStencilled = false;
 
 			if ( !setArraysOnce )
 			{
@@ -1848,7 +1849,9 @@ static void RB_IterateStagesGeneric( shaderCommands_t *input )
 				GL_Bind( tr.whiteImage );
 			}
 			else
+			{
 				R_BindAnimatedImage( &pStage->bundle[0] );
+			}
 
 			if (tess.shader == tr.distortionShader &&
 				glConfig.stencilBits >= 4)
@@ -1868,19 +1871,68 @@ static void RB_IterateStagesGeneric( shaderCommands_t *input )
 				ForceAlpha((unsigned char *) tess.svars.colors, backEnd.currentEntity->e.shaderRGBA[3]);
 				GL_State(GLS_SRCBLEND_SRC_ALPHA | GLS_DSTBLEND_ONE_MINUS_SRC_ALPHA);
 			}
+			else if (pStage->stencilMask.type != STENCIL_NONE)
+			{
+				qglClearStencil(0);
+				qglClear(GL_STENCIL_BUFFER_BIT);
+				qglEnable(GL_STENCIL_TEST);
+
+				qglColorMask(false, false, false, false);
+				qglStencilFunc(GL_ALWAYS, 1, 0xFF);
+				qglStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
+
+				qglEnable(GL_ALPHA_TEST);
+				lAlphaTest = true;
+
+				switch (pStage->stencilMask.type)
+				{
+					case STENCIL_RANGE:
+						qglAlphaFunc(GL_GREATER, pStage->stencilMask.min);
+						R_DrawElements( input->numIndexes, input->indexes );
+						qglStencilOp(GL_ZERO, GL_ZERO, GL_ZERO);
+						qglAlphaFunc(GL_GREATER, pStage->stencilMask.max);
+						break;
+					case STENCIL_LESS:
+						qglAlphaFunc(GL_LESS, pStage->stencilMask.value);
+						break;
+					case STENCIL_LEQUAL:
+						qglAlphaFunc(GL_LEQUAL, pStage->stencilMask.value);
+						break;
+					case STENCIL_GREATER:
+						qglAlphaFunc(GL_GREATER, pStage->stencilMask.value);
+						break;
+					case STENCIL_GEQUAL:
+						qglAlphaFunc(GL_GEQUAL, pStage->stencilMask.value);
+						break;
+					default:
+						break;
+				}
+			}
+			else if (pStage->isStenciled)
+			{
+				lStencilled = true;
+				qglStencilFunc(GL_EQUAL, 1, 0xFF);
+				qglStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+				GL_State(stateBits);
+			}
 			else
 			{
 				GL_State( stateBits );
 			}
-
 			//
 			// draw
 			//
 			R_DrawElements( input->numIndexes, input->indexes );
 
+			if (lAlphaTest)
+			{
+				glColorMask(true, true, true, true);
+				glDisable(GL_ALPHA_TEST);
+			}
 			if (lStencilled)
 			{ //re-enable the color buffer, disable stencil test
 				lStencilled = false;
+
 				qglDisable(GL_STENCIL_TEST);
 				qglColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 			}
@@ -2114,3 +2166,4 @@ void RB_EndSurface( void ) {
 	GLimp_LogComment( "----------\n" );
 }
 
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :
