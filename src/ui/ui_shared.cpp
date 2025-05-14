@@ -35,8 +35,6 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_layout.h"
 #include "menudef.h"
 
-void		UI_LoadMenus(const char *menuFile, qboolean reset);
-
 extern vmCvar_t	ui_char_color_red;
 extern vmCvar_t	ui_char_color_green;
 extern vmCvar_t	ui_char_color_blue;
@@ -5612,29 +5610,8 @@ menuDef_t *Menus_ActivateByName(const char *p)
 	}
 
 	if (!m)
-	{	// A hack so we don't have to load all three mission menus before we know what tier we're on
-		if (!Q_stricmp( p, "ingameMissionSelect1" ) )
-		{
-			UI_LoadMenus("ui/tier1.txt",qfalse);
-			Menus_CloseAll();
-			Menus_OpenByName("ingameMissionSelect1");
-		}
-		else if (!Q_stricmp( p, "ingameMissionSelect2" ) )
-		{
-			UI_LoadMenus("ui/tier2.txt",qfalse);
-			Menus_CloseAll();
-			Menus_OpenByName("ingameMissionSelect2");
-		}
-		else if (!Q_stricmp( p, "ingameMissionSelect3" ) )
-		{
-			UI_LoadMenus("ui/tier3.txt",qfalse);
-			Menus_CloseAll();
-			Menus_OpenByName("ingameMissionSelect3");
-		}
-		else
-		{
-			Com_Printf(S_COLOR_YELLOW"WARNING: Menus_ActivateByName: Unable to find menu \"%s\"\n",p);
-		}
+	{
+		Com_Printf(S_COLOR_YELLOW"WARNING: Menus_ActivateByName: Unable to find menu \"%s\"\n",p);
 	}
 
 	// First time, show force select instructions
