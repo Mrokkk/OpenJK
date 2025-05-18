@@ -235,7 +235,12 @@ void RE_SetLightStyle(int style, int color);
 
 void R_Splash()
 {
-	image_t *pImage = R_FindImageFile( "menu/splash", qfalse, qfalse, qfalse, GL_CLAMP);
+	image_t *pImage = R_FindImageFile( "menu/splash", qfalse, qfalse, qfalse, GL_REPEAT);
+
+	if ( !pImage )
+	{
+		pImage = R_FindImageFile( "menu/art/unknownmap", qfalse, qfalse, qfalse, GL_REPEAT);
+	}
 
 	if ( !pImage )
 	{
