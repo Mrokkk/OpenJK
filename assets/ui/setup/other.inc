@@ -14,6 +14,15 @@ layoutDef
 
     itemDef : submenu_onoff_button
     {
+        name                openinglogos
+        group               other
+        text                "Opening logos:"
+        descText            "Show opening logos"
+        cvar                "com_bootlogo"
+    }
+
+    itemDef : submenu_onoff_button
+    {
         name                cheats
         group               other
         text                "Cheats:"
@@ -23,10 +32,10 @@ layoutDef
 
     itemDef : submenu_onoff_button
     {
-        name                openinglogos
+        name                jediknockdown
         group               other
-        text                "Opening logos:"
-        descText            "Show opening logos"
-        cvar                "com_bootlogo"
+        text                "Jedi knock down:"
+        descText            "Allow for knocking down Jedi by jumping on them"
+        cvar                "g_jediKnockDown"
     }
 }

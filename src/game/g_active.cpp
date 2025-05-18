@@ -1979,6 +1979,7 @@ usually be a couple times for each server frame on fast clients.
 ==============
 */
 
+extern cvar_t	*g_jediKnockDown;
 extern int G_FindLocalInterestPoint( gentity_t *self );
 void ClientThink_real( gentity_t *ent, usercmd_t *ucmd )
 {
@@ -2278,7 +2279,16 @@ extern cvar_t	*g_skippingcin;
 				}
 				//FIXME: need impact sound event
 				GEntity_PainFunc( groundEnt, ent, ent, groundEnt->currentOrigin, 0, MOD_CRUSH );
-				if ( groundEnt->client->NPC_class == CLASS_DESANN && ent->client->NPC_class != CLASS_LUKE )
+				auto groundClass = groundEnt->client->NPC_class;
+				if ( !g_jediKnockDown->integer && (
+						groundClass == CLASS_DESANN ||
+						groundClass == CLASS_REBORN ||
+						groundClass == CLASS_SHADOWTROOPER ||
+						groundClass == CLASS_TAVION ||
+						groundClass == CLASS_JEDI) )
+				{//can't knock any Jedi if g_jediKnockDown is set
+				}
+				else if ( groundClass == CLASS_DESANN && ent->client->NPC_class != CLASS_LUKE )
 				{//can't knock down desann unless you're luke
 					//FIXME: should he smack you away like Galak Mech?
 				}
@@ -2307,7 +2317,6 @@ extern cvar_t	*g_skippingcin;
 			}
 		}
 	}
-
 
 	client = ent->client;
 
@@ -3065,4 +3074,4 @@ void ClientEndFrame( gentity_t *ent )
 //	G_SetClientSound (ent);
 }
 
-
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

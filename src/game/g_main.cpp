@@ -168,6 +168,7 @@ cvar_t	*g_saberRealisticCombat;
 cvar_t	*g_saberMoveSpeed;
 cvar_t	*g_saberAnimSpeed;
 cvar_t	*g_saberAutoAim;
+cvar_t	*g_jediKnockDown;
 
 qboolean	stop_icarus = qfalse;
 
@@ -587,6 +588,7 @@ void G_InitCvars( void ) {
 	g_saberMoveSpeed = gi.cvar( "g_saberMoveSpeed", "1", CVAR_ARCHIVE|CVAR_CHEAT );//how fast you run while attacking with a saber
 	g_saberAnimSpeed = gi.cvar( "g_saberAnimSpeed", "1", CVAR_ARCHIVE|CVAR_CHEAT );//how fast saber animations run
 	g_saberAutoAim = gi.cvar( "g_saberAutoAim", "1", CVAR_ARCHIVE|CVAR_CHEAT );//auto-aims at enemies when not moving or when just running forward
+	g_jediKnockDown = gi.cvar( "g_jediKnockDown", "0", CVAR_ARCHIVE|CVAR_CHEAT);//enable knocking down Jedi by jumping on their head
 
 	g_AIsurrender = gi.cvar( "g_AIsurrender", "0", CVAR_CHEAT );
 	g_numEntities = gi.cvar( "g_numEntities", "0", CVAR_CHEAT );
@@ -1519,3 +1521,5 @@ IGhoul2InfoArray &TheGameGhoul2InfoArray()
 {
 	return gi.TheGhoul2InfoArray();
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

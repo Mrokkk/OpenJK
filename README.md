@@ -9,6 +9,7 @@ Apart from OpenJK changes described in the [CHANGELOG.md](https://github.com/Mro
 ### Gameplay and visuals changes
 
 * add more friction to player movement to decrease the sliding on the floor
+* by default disable the ability to knock down Jedi by jumping on their head; this can be enabled back with the `g_jediKnockDown` cheat available in setup/other menu
 * lightsaber ignites faster
 * configurable dynamic glow
 * configurable option to draw health bars over enemy Jedi
