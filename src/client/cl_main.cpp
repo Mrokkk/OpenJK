@@ -939,6 +939,9 @@ void CL_InitRenderer( void ) {
 	cls.consoleShader = re.RegisterShader( "console" );
 	g_console_field_width = cls.glconfig.vidWidth / SMALLCHAR_WIDTH - 2;
 	g_consoleField.widthInChars = g_console_field_width;
+
+	cls.xadjust = 1;
+	cls.yadjust = 1;
 }
 
 /*

@@ -57,6 +57,17 @@ extern qboolean R_inPVS( vec3_t p1, vec3_t p2 );
 
 void UI_SetActiveMenu( const char* menuname,const char *menuID );
 
+/*
+====================
+CL_CgameSetVirtualScreen
+====================
+*/
+void CL_CgameSetVirtualScreen(float w, float h)
+{
+	cls.xadjust = SCREEN_WIDTH_F / w;
+	cls.yadjust = SCREEN_HEIGHT_F / h;
+}
+
 qboolean CL_InitCGameVM( void *gameLibrary )
 {
 	typedef intptr_t SyscallProc( intptr_t, ... );
@@ -646,7 +657,7 @@ intptr_t CL_CgameSystemCalls( intptr_t *args ) {
 		re.SetColor( (const float *) VMA(1) );
 		return 0;
 	case CG_R_DRAWSTRETCHPIC:
-		re.DrawStretchPic( VMF(1), VMF(2), VMF(3), VMF(4), VMF(5), VMF(6), VMF(7), VMF(8), args[9] );
+		re.DrawStretchPic( VMF(1), VMF(2), VMF(3), VMF(4), VMF(5), VMF(6), VMF(7), VMF(8), args[9], cls.xadjust, cls.yadjust );
 		return 0;
 		// The below was commented out for whatever reason... /me shrugs --eez
 	case CG_R_DRAWSCREENSHOT:
@@ -659,10 +670,10 @@ intptr_t CL_CgameSystemCalls( intptr_t *args ) {
 		re.LerpTag( (orientation_t *) VMA(1), args[2], args[3], args[4], VMF(5), (const char *) VMA(6) );
 		return 0;
 	case CG_R_DRAWROTATEPIC:
-		re.DrawRotatePic( VMF(1), VMF(2), VMF(3), VMF(4), VMF(5), VMF(6), VMF(7), VMF(8), VMF(9), args[10] );
+		re.DrawRotatePic( VMF(1), VMF(2), VMF(3), VMF(4), VMF(5), VMF(6), VMF(7), VMF(8), VMF(9), args[10], cls.xadjust, cls.yadjust );
 		return 0;
 	case CG_R_DRAWROTATEPIC2:
-		re.DrawRotatePic2( VMF(1), VMF(2), VMF(3), VMF(4), VMF(5), VMF(6), VMF(7), VMF(8), VMF(9), args[10] );
+		re.DrawRotatePic2( VMF(1), VMF(2), VMF(3), VMF(4), VMF(5), VMF(6), VMF(7), VMF(8), VMF(9), args[10], cls.xadjust, cls.yadjust );
 		return 0;
 	case CG_R_SETRANGEFOG:
 		re.SetRangedFog( VMF( 1 ) );
@@ -827,6 +838,10 @@ Ghoul2 Insert End
 
 	case CG_OPENJK_GETMENU_BYNAME:
 		return (intptr_t)Menus_FindByName( (const char *)VMA(1) );
+
+	case CG_OPENJK_SETVIRTUALSCREEN:
+		CL_CgameSetVirtualScreen(VMF(1), VMF(2));
+		return 0;
 
 	case CG_UI_STRING_INIT:
 		String_Init();

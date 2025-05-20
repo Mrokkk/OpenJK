@@ -221,8 +221,11 @@ Ghoul2 Insert End
 
 	CG_OPENJK_MENU_PAINT,
 	CG_OPENJK_GETMENU_BYNAME,
+	CG_OPENJK_SETVIRTUALSCREEN,
 } cgameImport_t;
 
 //----------------------------------------------
 
 #endif // _CG_PUBLIC_H
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

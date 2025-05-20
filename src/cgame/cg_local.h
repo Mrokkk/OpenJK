@@ -1180,5 +1180,6 @@ void	CG_ClearLightStyles( void );
 void	CG_RunLightStyles( void );
 void	CG_SetLightstyle( int i );
 
+void trap_CG_SetVirtualScreen( float w, float h );
 
 #endif	//__CG_LOCAL_H__

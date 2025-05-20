@@ -1477,6 +1477,23 @@ Ghoul2 Insert End
 		cgi_R_RegisterShader( "gfx/misc/nav_arrow" );
 		cgi_R_RegisterShader( "gfx/misc/nav_node" );
 	}
+
+	if ( cgs.glconfig.vidWidth >= cgs.glconfig.vidHeight )
+	{
+		cgs.screenWidth = SCREEN_HEIGHT_F * cgs.glconfig.vidWidth / cgs.glconfig.vidHeight;
+		cgs.screenHeight = SCREEN_HEIGHT_F;
+	}
+	else
+	{
+		cgs.screenWidth = SCREEN_WIDTH_F;
+		cgs.screenHeight = SCREEN_WIDTH_F * cgs.glconfig.vidHeight / cgs.glconfig.vidWidth;
+	}
+
+	cgs.screenXFactor = SCREEN_WIDTH_F / cgs.screenWidth;
+	cgs.screenXFactorInv = cgs.screenWidth / SCREEN_WIDTH_F;
+
+	cgs.screenYFactor = SCREEN_HEIGHT_F / cgs.screenHeight;
+	cgs.screenYFactorInv = cgs.screenHeight / SCREEN_HEIGHT_F;
 }
 
 //===========================================================================
@@ -2793,12 +2810,19 @@ void CG_DrawInventorySelect( void )
 	{
 		cgi_SP_GetStringTextString("INGAME_EMPTY_INV",text, sizeof(text) );
 		int w = cgi_R_Font_StrLenPixels( text, cgs.media.qhFontSmall, 1.0f );
-		x = ( SCREEN_WIDTH - w ) / 2;
+		x = ( cgs.screenWidth - w ) / 2;
 		CG_DrawProportionalString(x, y2 + 22, text, CG_CENTER | CG_SMALLFONT, colorTable[CT_ICON_BLUE]);
 		return;
 	}
 
-	sideMax = 3;	// Max number of icons on the side
+	smallIconSize = 40;
+	bigIconSize = 80;
+	pad = 16;
+
+	x = 0.5 * cgs.screenWidth;
+	y = cgs.screenHeight - 70;
+
+	sideMax = (cgs.screenWidth - 240 - bigIconSize) / (smallIconSize + pad) / 2;	// Max number of icons on the side
 
 	// Calculate how many icons will appear to either side of the center one
 	holdCount = count - 1;	// -1 for the center icon
@@ -2823,13 +2847,6 @@ void CG_DrawInventorySelect( void )
 	{
 		i = INV_MAX-1;
 	}
-
-	smallIconSize = 40;
-	bigIconSize = 80;
-	pad = 16;
-
-	x = 320;
-	y = 410;
 
 	// Left side ICONS
 	// Work backwards from current icon
@@ -3336,7 +3353,6 @@ void CG_DrawForceSelect( void )
 	int		sideMax,holdCount,iconCnt;
 	char	text[1024]={0};
 
-
 	// don't display if dead
 	if ( cg.predicted_player_state.stats[STAT_HEALTH] <= 0 || ( cg.snap->ps.viewEntity > 0 && cg.snap->ps.viewEntity < ENTITYNUM_WORLD ))
 	{
@@ -3376,7 +3392,14 @@ void CG_DrawForceSelect( void )
 	// showing weapon select clears pickup item display, but not the blend blob
 	cg.itemPickupTime = 0;
 
-	sideMax = 3;	// Max number of icons on the side
+	smallIconSize = 30;
+	bigIconSize = 60;
+	pad = 12;
+
+	x = 0.5f * cgs.screenWidth;
+	y = cgs.screenHeight - 55;
+
+	sideMax = (cgs.screenWidth - 240 - bigIconSize) / (smallIconSize + pad) / 2;	// Max number of icons on the side
 
 	// Calculate how many icons will appear to either side of the center one
 	holdCount = count - 1;	// -1 for the center icon
@@ -3395,13 +3418,6 @@ void CG_DrawForceSelect( void )
 		sideLeftIconCnt = holdCount/2;
 		sideRightIconCnt = holdCount - sideLeftIconCnt;
 	}
-
-	smallIconSize = 30;
-	bigIconSize = 60;
-	pad = 12;
-
-	x = 320;
-	y = 425;
 
 	i = cg.forcepowerSelect - 1;
 	if (i < 0)
@@ -3438,7 +3454,6 @@ void CG_DrawForceSelect( void )
 	{
 		CG_DrawPic( x-(bigIconSize/2), (y-((bigIconSize-smallIconSize)/2)), bigIconSize, bigIconSize, force_icons[showPowers[cg.forcepowerSelect]] ); //only cache the icon for display
 	}
-
 
 	i = cg.forcepowerSelect + 1;
 	if (i>=MAX_SHOWPOWERS)
@@ -3845,6 +3860,4 @@ static void CG_RunCinematicFrame(int handle) {
 #pragma warning ( default : 4505)
 */
 
-
-
-
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

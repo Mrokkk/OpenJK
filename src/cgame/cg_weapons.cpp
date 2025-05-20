@@ -1301,8 +1301,8 @@ CG_DrawIconBackground
 */
 void CG_DrawIconBackground(void)
 {
-	int				height,xAdd,x2,y2,t;
-	int				prongLeftX,prongRightX;
+	int				height, xAdd, x2, y2, t;
+	int				prongLeftX, prongRightX, prongWidth;
 	qhandle_t		background;
 
 	if (( cg.zoomMode != 0 ) || !( cg_drawHUD.integer ))
@@ -1315,14 +1315,14 @@ void CG_DrawIconBackground(void)
 		return;
 	}
 
-
 	if (!cgi_UI_GetMenuInfo("iconbackground",&x2,&y2))
 	{
 		return;
 	}
 
-	prongLeftX =x2+37;
-	prongRightX =x2+544;
+	prongLeftX = x2 + 37;
+	prongRightX = cgs.screenWidth - x2 - 37 + 1;
+	prongWidth = cgs.screenWidth - 2 * (x2 + 60);
 
 	if (((cg.inventorySelectTime+WEAPON_SELECT_TIME)>cg.time) || (cgs.media.currentBackground == ICON_INVENTORY))	// Display inventory background?
 	{
@@ -1354,9 +1354,8 @@ void CG_DrawIconBackground(void)
 			xAdd = (int) 8*cg.iconHUDPercent;
 
 			height = (int) (60.0f*cg.iconHUDPercent);
-			CG_DrawPic( x2+60, y2+30, 460, -height, background);	// Top half
-			CG_DrawPic( x2+60, y2+30-2,460, height, background);	// Bottom half
-
+			CG_DrawPic( x2+60, y2+30, prongWidth, -height, background);	// Top half
+			CG_DrawPic( x2+60, y2+30-2, prongWidth, height, background);	// Bottom half
 		}
 		else
 		{
@@ -1370,8 +1369,8 @@ void CG_DrawIconBackground(void)
 		return;
 	}
 
-	prongLeftX =x2+37;
-	prongRightX =x2+544;
+	prongLeftX = x2 + 37;
+	prongRightX = cgs.screenWidth - x2 - 37 + 1;
 
 	if (!cg.iconHUDActive)
 	{
@@ -1396,9 +1395,8 @@ void CG_DrawIconBackground(void)
 
 	cgi_R_SetColor( colorTable[CT_WHITE] );
 	height = (int) (60.0f*cg.iconHUDPercent);
-	CG_DrawPic( x2+60, y2+30, 460, -height, background);	// Top half
-	CG_DrawPic( x2+60, y2+30-2,460, height, background);	// Bottom half
-
+	CG_DrawPic( x2+60, y2+30, prongWidth, -height, background);	// Top half
+	CG_DrawPic( x2+60, y2+30-2, prongWidth, height, background);	// Bottom half
 
 	// And now for the prongs
 	if ((cg.inventorySelectTime+WEAPON_SELECT_TIME)>cg.time)
@@ -1416,7 +1414,6 @@ void CG_DrawIconBackground(void)
 		cgs.media.currentBackground = ICON_FORCE;
 		background = cgs.media.forceProngsOn;
 	}
-
 
 	// Side Prongs
 	cgi_R_SetColor( colorTable[CT_WHITE]);
@@ -1859,7 +1856,14 @@ void CG_DrawWeaponSelect( void )
 		return;
 	}
 
-	sideMax = 3;	// Max number of icons on the side
+	smallIconSize = 40;
+	bigIconSize = 80;
+	pad = 12;
+
+	x = 0.5f * cgs.screenWidth;
+	y = cgs.screenHeight - 70;
+
+	sideMax = (cgs.screenWidth - 240 - bigIconSize) / (smallIconSize + pad) / 2;	// Max number of icons on the side
 
 	// Calculate how many icons will appear to either side of the center one
 	holdCount = count - 1;	// -1 for the center icon
@@ -1884,13 +1888,6 @@ void CG_DrawWeaponSelect( void )
 	{
 		i = 13;
 	}
-
-	smallIconSize = 40;
-	bigIconSize = 80;
-	pad = 12;
-
-	x = 320;
-	y = 410;
 
 	// Background
 	memcpy(calcColor, colorTable[CT_WHITE], sizeof(vec4_t));

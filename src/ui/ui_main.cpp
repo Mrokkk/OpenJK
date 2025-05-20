@@ -3562,7 +3562,7 @@ static void UI_OwnerDraw(float x, float y, float w, float h, float text_x, float
 			}
 			else if (levelshot)
 			{
-				ui.R_DrawStretchPic( x, y, w, h, 0, 0, 1, 1, levelshot );
+				ui.R_DrawStretchPic( x, y, w, h, 0, 0, 1, 1, levelshot, 1, 1 );
 			}
 			else
 			{
@@ -3591,7 +3591,7 @@ static void UI_OwnerDraw(float x, float y, float w, float h, float text_x, float
 				if (shader)
 				{
 					trap_R_SetColor( color );
-					ui.R_DrawStretchPic( x, y, w, h, 0, 0, 1, 1, shader );
+					ui.R_DrawStretchPic( x, y, w, h, 0, 0, 1, 1, shader, 1, 1 );
 					trap_R_SetColor( NULL );
 				}
 			}

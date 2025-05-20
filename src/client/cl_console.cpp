@@ -726,7 +726,7 @@ void Con_DrawSolidConsole( float frac )
 	// draw the bottom bar and version number
 
 	re.SetColor( console_color );
-	re.DrawStretchPic( 0, y, SCREEN_WIDTH, 2, 0, 0, 0, 0, cls.whiteShader );
+	re.DrawStretchPic( 0, y, SCREEN_WIDTH, 2, 0, 0, 0, 0, cls.whiteShader, 1, 1 );
 
 	i = strlen( Q3_VERSION );
 

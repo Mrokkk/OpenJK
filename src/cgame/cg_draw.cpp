@@ -747,7 +747,7 @@ extern void *cgi_UI_GetMenuByName( const char *menu );
 extern void cgi_UI_Menu_Paint( void *menu, qboolean force );
 static void CG_DrawHUD( centity_t *cent )
 {
-	int x,y,value;
+	int x, y, value;
 
 	if (cgi_UI_GetMenuInfo("lefthud",&x,&y))
 	{
@@ -790,11 +790,13 @@ static void CG_DrawHUD( centity_t *cent )
 			CG_DrawSmallStringColor(x, y - 40,va("Force:%d",cent->gent->client->ps.forcePower), colorTable[CT_HUD_GREEN] );
 		}
 
-		CG_DrawHUDRightFrame1(x,y);
-		CG_DrawForcePower(cent,x,y);
-		CG_DrawAmmo(cent,x,y);
-		CG_DrawMessageLit(cent,x,y);
-		CG_DrawHUDRightFrame2(x,y);
+		x = cgs.screenWidth - 80;
+
+		CG_DrawHUDRightFrame1(x, y);
+		CG_DrawForcePower(cent, x, y);
+		CG_DrawAmmo(cent, x, y);
+		CG_DrawMessageLit(cent, x ,y);
+		CG_DrawHUDRightFrame2(x ,y);
 	}
 }
 
@@ -1258,7 +1260,7 @@ static void CG_DrawPickupItem( void ) {
 		{
 			CG_RegisterItemVisuals( value );
 			cgi_R_SetColor( fadeColor );
-			CG_DrawPic( 573, 340, ICON_SIZE, ICON_SIZE, cg_items[ value ].icon );
+			CG_DrawPic( cgs.screenWidth - 67, 340, ICON_SIZE, ICON_SIZE, cg_items[ value ].icon );
 			//CG_DrawBigString( ICON_SIZE + 16, 398, bg_itemlist[ value ].classname, fadeColor[0] );
 			//CG_DrawProportionalString( ICON_SIZE + 16, 398,
 			//	bg_itemlist[ value ].classname, CG_SMALLFONT,fadeColor );
@@ -1509,8 +1511,8 @@ static void CG_DrawCrosshair( vec3_t worldPoint )
 	}
 	else
 	{
-		x = cg_crosshairX.integer;
-		y = cg_crosshairY.integer;
+		x = 0.5f * cgs.screenWidth + cg_crosshairX.value;
+		y = 0.5f * cgs.screenHeight + cg_crosshairY.value;
 	}
 
 	if ( cg.snap->ps.viewEntity > 0 && cg.snap->ps.viewEntity < ENTITYNUM_WORLD )
@@ -1559,34 +1561,46 @@ qboolean CG_WorldCoordToScreenCoord(vec3_t worldCoord, int *x, int *y)
 */
 qboolean CG_WorldCoordToScreenCoordFloat(vec3_t worldCoord, float *x, float *y)
 {
-    vec3_t trans;
-    float xc, yc;
-    float px, py;
-    float z;
+	float	xcenter, ycenter;
+	vec3_t	local, transformed;
+	vec3_t	vfwd;
+	vec3_t	vright;
+	vec3_t	vup;
+	float xzi;
+	float yzi;
 
-    px = tan(cg.refdef.fov_x * (M_PI / 360) );
-    py = tan(cg.refdef.fov_y * (M_PI / 360) );
+	xcenter = 0.5f * cgs.screenWidth;
+	ycenter = 0.5f * cgs.screenHeight;
 
-    VectorSubtract(worldCoord, cg.refdef.vieworg, trans);
+	AngleVectors (cg.refdefViewAngles, vfwd, vright, vup);
 
-    xc = SCREEN_WIDTH / 2.0;
-    yc = SCREEN_HEIGHT / 2.0;
+	VectorSubtract (worldCoord, cg.refdef.vieworg, local);
 
-	// z = how far is the object in our forward direction
-    z = DotProduct(trans, cg.refdef.viewaxis[0]);
-    if (z <= 0.001)
-        return qfalse;
+	transformed[0] = DotProduct(local,vright);
+	transformed[1] = DotProduct(local,vup);
+	transformed[2] = DotProduct(local,vfwd);		
 
-    *x = xc - DotProduct(trans, cg.refdef.viewaxis[1])*xc/(z*px);
-    *y = yc - DotProduct(trans, cg.refdef.viewaxis[2])*yc/(z*py);
+	// Make sure Z is not negative.
+	if (transformed[2] < 0.01)
+	{
+		return qfalse;
+	}
 
-    return qtrue;
+	xzi = xcenter / transformed[2] * (90.0/cg.refdef.fov_x);
+	yzi = ycenter / transformed[2] * (90.0/cg.refdef.fov_y);
+
+	*x = xcenter + xzi * transformed[0];
+	*y = ycenter - yzi * transformed[1];
+
+	return qtrue;
 }
 
-qboolean CG_WorldCoordToScreenCoord( vec3_t worldCoord, int *x, int *y ) {
+qboolean CG_WorldCoordToScreenCoord( vec3_t worldCoord, int *x, int *y )
+{
 	float xF, yF;
 
-	if ( CG_WorldCoordToScreenCoordFloat( worldCoord, &xF, &yF ) ) {
+	if ( CG_WorldCoordToScreenCoordFloat( worldCoord, &xF, &yF ) )
+	{
 		*x = (int)xF;
 		*y = (int)yF;
 		return qtrue;
@@ -1949,9 +1963,9 @@ static void CG_DrawCrosshairNames( void )
 static void CG_DrawRocketLocking( int lockEntNum, int lockTime )
 //--------------------------------------------------------------
 {
-	gentity_t *gent = &g_entities[lockEntNum];
+	centity_t *cent = &cg_entities[lockEntNum];
 
-	if ( !gent )
+	if ( !cent )
 	{
 		return;
 	}
@@ -1960,13 +1974,12 @@ static void CG_DrawRocketLocking( int lockEntNum, int lockTime )
 	vec3_t	org;
 	static	int oldDif = 0;
 
-	VectorCopy( gent->currentOrigin, org );
-	org[2] += (gent->mins[2] + gent->maxs[2]) * 0.5f;
+	VectorCopy( cent->lerpOrigin, org );
 
 	if ( CG_WorldCoordToScreenCoord( org, &cx, &cy ))
 	{
 		// we care about distance from enemy to eye, so this is good enough
-		float sz = Distance( gent->currentOrigin, cg.refdef.vieworg ) / 1024.0f;
+		float sz = Distance( cent->lerpOrigin, cg.refdef.vieworg ) / 1024.0f;
 
 		if ( cg.zoomMode > 0 )
 		{
@@ -2258,7 +2271,6 @@ extern vmCvar_t	cg_drawHealthBars;
 
 static void CG_Draw2D( void )
 {
-	char	text[1024]={0};
 	int		w,y_pos;
 	centity_t *cent = &cg_entities[cg.snap->ps.clientNum];
 
@@ -2315,6 +2327,8 @@ static void CG_Draw2D( void )
 		return;
 	}
 
+	trap_CG_SetVirtualScreen(cgs.screenWidth, cgs.screenHeight);
+
 	if (cg_drawHealthBars.integer)
 	{
 		CG_DrawHealthBars();
@@ -2341,7 +2355,6 @@ static void CG_Draw2D( void )
 		//{
 		//	CG_DrawCrosshair( NULL );
 		//}
-
 
 		CG_DrawCrosshairNames();
 
@@ -2375,21 +2388,6 @@ static void CG_Draw2D( void )
 	{
 		if (cg.predicted_player_state.pm_type != PM_DEAD)
 		{
-			// Was a objective given?
-/*			if ((cg_updatedDataPadForcePower.integer) || (cg_updatedDataPadObjective.integer))
-			{
-				// How long has the game been running? If within 15 seconds of starting, throw up the datapad.
-				if (cg.dataPadLevelStartTime>cg.time)
-				{
-					// Make it pop up
-					if (!in_camera)
-					{
-						cgi_SendConsoleCommand( "datapad" );
-						cg.dataPadLevelStartTime=cg.time;	//and don't do it again this level!
-					}
-				}
-			}
-*/
 			if (!cg.missionInfoFlashTime)
 			{
 				cg.missionInfoFlashTime	= cg.time + cg_missionInfoFlashTime.integer;
@@ -2403,6 +2401,7 @@ static void CG_Draw2D( void )
 				CG_ClearDataPadCvars();
 			}
 
+			char	text[128]{};
 			cgi_SP_GetStringTextString( "INGAME_DATAPAD_UPDATED", text, sizeof(text) );
 
 			int x_pos = 0;
@@ -2445,6 +2444,7 @@ static void CG_Draw2D( void )
 	//		}
 		}
 	}
+	trap_CG_SetVirtualScreen(SCREEN_WIDTH_F, SCREEN_HEIGHT_F);
 }
 
 

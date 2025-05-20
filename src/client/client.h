@@ -216,6 +216,9 @@ typedef struct {
 
 	// Engine menu
 	int			menuFont;
+
+	float		xadjust;
+	float		yadjust;
 } clientStatic_t;
 
 #define	CON_TEXTSIZE	0x30000 //was 32768
