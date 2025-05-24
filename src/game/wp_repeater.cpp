@@ -37,32 +37,23 @@ static void WP_RepeaterMainFire( gentity_t *ent, vec3_t dir )
 //---------------------------------------------------------
 {
 	vec3_t	start;
-	int		damage	= weaponData[WP_REPEATER].damage;
+	int		damage, velocity, size;
+
+	velocity = weaponData[WP_REPEATER].velocity;
+	size = weaponData[WP_REPEATER].missileSize;
+
+	// Do the damages
+	damage = ent->NPC
+		? NPC_Damage(weaponData[WP_REPEATER].npcDamages, g_spskill->integer)
+		: weaponData[WP_REPEATER].damage;
 
 	VectorCopy( wpMuzzle, start );
 	WP_TraceSetStart( ent, start, vec3_origin, vec3_origin );//make sure our start point isn't on the other side of a wall
 
-	gentity_t *missile = CreateMissile( start, dir, REPEATER_VELOCITY, 10000, ent );
+	gentity_t *missile = CreateMissile( start, dir, velocity, 10000, ent );
 
 	missile->classname = "repeater_proj";
 	missile->s.weapon = WP_REPEATER;
-
-	// Do the damages
-	if ( ent->s.number != 0 )
-	{
-		if ( g_spskill->integer == 0 )
-		{
-			damage = REPEATER_NPC_DAMAGE_EASY;
-		}
-		else if ( g_spskill->integer == 1 )
-		{
-			damage = REPEATER_NPC_DAMAGE_NORMAL;
-		}
-		else
-		{
-			damage = REPEATER_NPC_DAMAGE_HARD;
-		}
-	}
 
 //	if ( ent->client && ent->client->ps.powerups[PW_WEAPON_OVERCHARGE] > 0 && ent->client->ps.powerups[PW_WEAPON_OVERCHARGE] > cg.time )
 //	{
@@ -70,6 +61,12 @@ static void WP_RepeaterMainFire( gentity_t *ent, vec3_t dir )
 //		missile->flags |= FL_OVERCHARGED;
 //		damage *= 2;
 //	}
+
+	if (size)
+	{
+		VectorSet( missile->maxs, size, size, size );
+		VectorScale( missile->maxs, -1, missile->mins );
+	}
 
 	missile->damage = damage;
 	missile->dflags = DAMAGE_DEATH_KNOCKBACK;
@@ -85,8 +82,20 @@ static void WP_RepeaterAltFire( gentity_t *ent )
 //---------------------------------------------------------
 {
 	vec3_t	start;
-	int		damage	= weaponData[WP_REPEATER].altDamage;
+	int		damage;
+	int		velocity, size;
 	gentity_t *missile = NULL;
+
+	if (cg_improvedWeapons.integer)
+	{
+		velocity = weaponData[WP_REPEATER].altVelocity;
+		size = weaponData[WP_REPEATER].altMissileSize;
+	}
+	else
+	{
+		velocity = REPEATER_ALT_VELOCITY;
+		size = REPEATER_ALT_SIZE;
+	}
 
 	VectorCopy( wpMuzzle, start );
 	WP_TraceSetStart( ent, start, vec3_origin, vec3_origin );//make sure our start point isn't on the other side of a wall
@@ -97,7 +106,7 @@ static void WP_RepeaterAltFire( gentity_t *ent )
 	}
 	else
 	{
-		missile = CreateMissile( start, wpFwd, REPEATER_ALT_VELOCITY, 10000, ent, qtrue );
+		missile = CreateMissile( start, wpFwd, velocity, 10000, ent, qtrue );
 	}
 
 	missile->classname = "repeater_alt_proj";
@@ -105,23 +114,11 @@ static void WP_RepeaterAltFire( gentity_t *ent )
 	missile->mass = 10;
 
 	// Do the damages
-	if ( ent->s.number != 0 )
-	{
-		if ( g_spskill->integer == 0 )
-		{
-			damage = REPEATER_ALT_NPC_DAMAGE_EASY;
-		}
-		else if ( g_spskill->integer == 1 )
-		{
-			damage = REPEATER_ALT_NPC_DAMAGE_NORMAL;
-		}
-		else
-		{
-			damage = REPEATER_ALT_NPC_DAMAGE_HARD;
-		}
-	}
+	damage = ent->NPC
+		? NPC_Damage(weaponData[WP_REPEATER].npcAltDamages, g_spskill->integer)
+		: weaponData[WP_REPEATER].altDamage;
 
-	VectorSet( missile->maxs, REPEATER_ALT_SIZE, REPEATER_ALT_SIZE, REPEATER_ALT_SIZE );
+	VectorSet( missile->maxs, size, size, size );
 	VectorScale( missile->maxs, -1, missile->mins );
 	missile->s.pos.trType = TR_GRAVITY;
 	missile->s.pos.trDelta[2] += 40.0f; //give a slight boost in the upward direction
@@ -182,3 +179,5 @@ void WP_FireRepeater( gentity_t *ent, qboolean alt_fire )
 		WP_RepeaterMainFire( ent, dir );
 	}
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

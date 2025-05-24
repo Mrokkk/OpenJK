@@ -35,30 +35,21 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 static void WP_BowcasterMainFire( gentity_t *ent )
 //---------------------------------------------------------
 {
-	int			damage	= weaponData[WP_BOWCASTER].damage, count;
-	float		vel;
+	int			count;
+	float		vel, spread;
 	vec3_t		angs, dir, start;
 	gentity_t	*missile;
 
-	VectorCopy( wpMuzzle, start );
-	WP_TraceSetStart( ent, start, vec3_origin, vec3_origin );//make sure our start point isn't on the other side of a wall
+	int velocity	= weaponData[WP_BOWCASTER].velocity;
+	int size		= weaponData[WP_BOWCASTER].missileSize;
 
 	// Do the damages
-	if ( ent->s.number != 0 )
-	{
-		if ( g_spskill->integer == 0 )
-		{
-			damage = BOWCASTER_NPC_DAMAGE_EASY;
-		}
-		else if ( g_spskill->integer == 1 )
-		{
-			damage = BOWCASTER_NPC_DAMAGE_NORMAL;
-		}
-		else
-		{
-			damage = BOWCASTER_NPC_DAMAGE_HARD;
-		}
-	}
+	int damage = ent->NPC
+		? NPC_Damage(weaponData[WP_BOWCASTER].npcDamages, g_spskill->integer)
+		: weaponData[WP_BOWCASTER].damage;
+
+	VectorCopy( wpMuzzle, start );
+	WP_TraceSetStart( ent, start, vec3_origin, vec3_origin );//make sure our start point isn't on the other side of a wall
 
 	count = ( level.time - ent->client->ps.weaponChargeTime ) / BOWCASTER_CHARGE_UNIT;
 
@@ -86,13 +77,14 @@ static void WP_BowcasterMainFire( gentity_t *ent )
 	for ( int i = 0; i < count; i++ )
 	{
 		// create a range of different velocities
-		vel = BOWCASTER_VELOCITY * ( Q_flrand(-1.0f, 1.0f) * BOWCASTER_VEL_RANGE + 1.0f );
+		vel = velocity * ( Q_flrand(-1.0f, 1.0f) * BOWCASTER_VEL_RANGE + 1.0f );
 
 		vectoangles( wpFwd, angs );
 
 		// add some slop to the fire direction
-		angs[PITCH] += Q_flrand(-1.0f, 1.0f) * BOWCASTER_ALT_SPREAD * 0.2f;
-		angs[YAW]	+= ((i+0.5f) * BOWCASTER_ALT_SPREAD - count * 0.5f * BOWCASTER_ALT_SPREAD );
+		spread = weaponData[WP_BOWCASTER].spread;
+		angs[PITCH] += Q_flrand(-1.0f, 1.0f) * spread * 0.2f;
+		angs[YAW]	+= ((i+0.5f) * spread - count * 0.5f * spread );
 		if ( ent->NPC )
 		{
 			angs[PITCH] += ( Q_flrand(-1.0f, 1.0f) * (BLASTER_NPC_SPREAD+(6-ent->NPC->currentAim)*0.25f) );
@@ -106,7 +98,7 @@ static void WP_BowcasterMainFire( gentity_t *ent )
 		missile->classname = "bowcaster_proj";
 		missile->s.weapon = WP_BOWCASTER;
 
-		VectorSet( missile->maxs, BOWCASTER_SIZE, BOWCASTER_SIZE, BOWCASTER_SIZE );
+		VectorSet( missile->maxs, size, size, size );
 		VectorScale( missile->maxs, -1, missile->mins );
 
 //		if ( ent->client && ent->client->ps.powerups[PW_WEAPON_OVERCHARGE] > 0 && ent->client->ps.powerups[PW_WEAPON_OVERCHARGE] > cg.time )
@@ -132,34 +124,24 @@ static void WP_BowcasterAltFire( gentity_t *ent )
 //---------------------------------------------------------
 {
 	vec3_t	start;
-	int		damage	= weaponData[WP_BOWCASTER].altDamage;
+
+	int velocity	= weaponData[WP_BOWCASTER].altVelocity;
+	int size		= weaponData[WP_BOWCASTER].altMissileSize;
+
+	// Do the damages
+	int damage = ent->NPC
+		? NPC_Damage(weaponData[WP_BOWCASTER].npcAltDamages, g_spskill->integer)
+		: weaponData[WP_BOWCASTER].altDamage;
 
 	VectorCopy( wpMuzzle, start );
 	WP_TraceSetStart( ent, start, vec3_origin, vec3_origin );//make sure our start point isn't on the other side of a wall
 
-	gentity_t *missile = CreateMissile( start, wpFwd, BOWCASTER_VELOCITY, 10000, ent, qtrue );
+	gentity_t *missile = CreateMissile( start, wpFwd, velocity, 10000, ent, qtrue );
 
 	missile->classname = "bowcaster_alt_proj";
 	missile->s.weapon = WP_BOWCASTER;
 
-	// Do the damages
-	if ( ent->s.number != 0 )
-	{
-		if ( g_spskill->integer == 0 )
-		{
-			damage = BOWCASTER_NPC_DAMAGE_EASY;
-		}
-		else if ( g_spskill->integer == 1 )
-		{
-			damage = BOWCASTER_NPC_DAMAGE_NORMAL;
-		}
-		else
-		{
-			damage = BOWCASTER_NPC_DAMAGE_HARD;
-		}
-	}
-
-	VectorSet( missile->maxs, BOWCASTER_SIZE, BOWCASTER_SIZE, BOWCASTER_SIZE );
+	VectorSet( missile->maxs, size, size, size );
 	VectorScale( missile->maxs, -1, missile->mins );
 
 //	if ( ent->client && ent->client->ps.powerups[PW_WEAPON_OVERCHARGE] > 0 && ent->client->ps.powerups[PW_WEAPON_OVERCHARGE] > cg.time )
@@ -193,3 +175,5 @@ void WP_FireBowcaster( gentity_t *ent, qboolean alt_fire )
 		WP_BowcasterMainFire( ent );
 	}
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

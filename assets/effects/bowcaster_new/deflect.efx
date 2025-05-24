@@ -1,0 +1,29 @@
+Sound
+{
+    cullrange           800
+
+    sounds
+    [
+        sound/weapons/bowcaster/bc_ricco.mp3
+    ]
+}
+
+FxRunner
+{
+    cullrange           1400
+
+    playfx
+    [
+        black_smoke
+    ]
+}
+
+FxRunner
+{
+    cullrange           1000
+
+    playfx
+    [
+        bowcaster_new/sparks
+    ]
+}

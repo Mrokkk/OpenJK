@@ -157,15 +157,27 @@ typedef struct weaponData_s
 	int		altSplashDamage;
 	float	splashRadius;
 	float	altSplashRadius;
+	int		npcDamages[3];
+	int		npcAltDamages[3];
+
+	// OPENJO ADD
+	int		velocity;
+	int		altVelocity;
+	float	spread;
+	float	altSpread;
+	float	npcSpread;
+	int		missileSize;
+	int		altMissileSize;
 
 } weaponData_t;
-
 
 typedef struct ammoData_s
 {
 	char	icon[64];	// Name of ammo icon file
 	int		max;		// Max amount player can hold of ammo
 } ammoData_t;
+
+extern vmCvar_t	cg_improvedWeapons;
 
 // Bryar Pistol
 //--------
@@ -328,12 +340,12 @@ typedef struct ammoData_s
 #define LT_SPLASH_RAD		256.0f
 #define LT_SPLASH_DAM		90
 
-#define LT_VELOCITY			250.0f
-#define LT_ALT_VELOCITY		1000.0f
+#define LT_VELOCITY			250
+#define LT_ALT_VELOCITY		1000
 
 #define PROX_MINE_RADIUS_CHECK		190
 
-#define LT_SIZE				3.0f
+#define LT_SIZE				3
 #define LT_ALT_TIME			2000
 #define	LT_ACTIVATION_DELAY	1000
 #define	LT_DELAY_TIME		50
@@ -358,5 +370,16 @@ typedef struct ammoData_s
 #define TD_ALT_MIN_CHARGE	0.15f
 #define TD_ALT_TIME			3000
 
+static inline int NPC_Damage(int damages[3], int spskill)
+{
+	switch (spskill)
+	{
+		case 0:		return damages[0];
+		case 1:		return damages[1];
+		default:	return damages[2];
+	}
+}
 
-#endif//#ifndef __WEAPONS_H__
+#endif //#ifndef __WEAPONS_H__
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

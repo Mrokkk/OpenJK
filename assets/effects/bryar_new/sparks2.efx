@@ -1,0 +1,54 @@
+Light
+{
+    name                Flash
+
+    life                50 100
+    origin              30 0 0
+
+    size
+    {
+        start           60 80
+    }
+
+    rgb
+    {
+        start           1 1 0
+    }
+}
+
+Tail
+{
+    flags               usePhysics
+    count               15 30
+    life                1000 2000
+    bounce              0.25 0.4
+    velocity            170 -100 -100 50 80 80
+    gravity             -350 -450
+
+    size
+    {
+        start           0.5 1.0
+    }
+
+    length
+    {
+        start           4 10
+        end             0.1 1
+        flags           linear
+    }
+
+    shaders
+    [
+        gfx/misc/spark_new
+    ]
+}
+
+FxRunner
+{
+    count               70 100
+    delay               0 100
+    playfx
+    [
+        black_smoke
+    ]
+}

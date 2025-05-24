@@ -143,7 +143,6 @@ void WP_FireRocket( gentity_t *ent, qboolean alt_fire )
 //---------------------------------------------------------
 {
 	vec3_t	start;
-	int		damage	= weaponData[WP_ROCKET_LAUNCHER].damage;
 	float	vel = ROCKET_VELOCITY;
 
 	if ( alt_fire )
@@ -161,21 +160,9 @@ void WP_FireRocket( gentity_t *ent, qboolean alt_fire )
 	missile->mass = 10;
 
 	// Do the damages
-	if ( ent->s.number != 0 )
-	{
-		if ( g_spskill->integer == 0 )
-		{
-			damage = ROCKET_NPC_DAMAGE_EASY;
-		}
-		else if ( g_spskill->integer == 1 )
-		{
-			damage = ROCKET_NPC_DAMAGE_NORMAL;
-		}
-		else
-		{
-			damage = ROCKET_NPC_DAMAGE_HARD;
-		}
-	}
+	int damage = ent->NPC
+		? NPC_Damage(weaponData[WP_ROCKET_LAUNCHER].npcDamages, g_spskill->integer)
+		: weaponData[WP_ROCKET_LAUNCHER].damage;
 
 	if ( alt_fire )
 	{
@@ -259,3 +246,5 @@ void WP_FireRocket( gentity_t *ent, qboolean alt_fire )
 	// we don't want it to ever bounce
 	missile->bounceCount = 0;
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

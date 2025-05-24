@@ -6,7 +6,13 @@ OpenJO is my attempt to have improved Jedi Outcast SP for Linux. I don't plan to
 
 Apart from OpenJK changes described in the [CHANGELOG.md](https://github.com/Mrokkk/OpenJO/blob/master/CHANGELOG.md), it adds following:
 
-### Gameplay and visuals changes
+### Shooting changes
+
+* missiles are faster and have size so that it would be easier to hit an enemy (and so it's easier to hit player as well)
+* better effects of weapons (mostly Bryar, E11, Bowcaster, Flechette)
+* vanilla version can be enabled back by disabling "Improved Weapons" in setup/other menu or by `cg_improvedWeapons` cvar
+
+### Other gameplay and visuals changes
 
 * add more friction to player movement to decrease the sliding on the floor
 * by default disable the ability to knock down Jedi by jumping on their head; this can be enabled back with the `g_jediKnockDown` cheat available in setup/other menu

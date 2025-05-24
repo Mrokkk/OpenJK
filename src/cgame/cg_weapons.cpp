@@ -337,26 +337,50 @@ void CG_RegisterWeapon( int weaponNum ) {
 		break;
 
 	case WP_BRYAR_PISTOL:
-		cgs.effects.bryarShotEffect			= theFxScheduler.RegisterEffect( "bryar/shot" );
-											theFxScheduler.RegisterEffect( "bryar/NPCshot" );
-		cgs.effects.bryarPowerupShotEffect	= theFxScheduler.RegisterEffect( "bryar/crackleShot" );
-		cgs.effects.bryarWallImpactEffect	= theFxScheduler.RegisterEffect( "bryar/wall_impact" );
-		cgs.effects.bryarWallImpactEffect2	= theFxScheduler.RegisterEffect( "bryar/wall_impact2" );
-		cgs.effects.bryarWallImpactEffect3	= theFxScheduler.RegisterEffect( "bryar/wall_impact3" );
-		cgs.effects.bryarFleshImpactEffect	= theFxScheduler.RegisterEffect( "bryar/flesh_impact" );
+	case WP_BLASTER_PISTOL: // enemy version
+		if (cg_improvedWeapons.integer)
+		{
+			cgs.effects.bryarShotEffect			= theFxScheduler.RegisterEffect( "bryar_new/shot" );
+			cgs.effects.bryarNpcShotEffect		= theFxScheduler.RegisterEffect( "bryar_new/NPCshot" );
+			cgs.effects.bryarPowerupShotEffect	= theFxScheduler.RegisterEffect( "bryar_new/crackleShot" );
+			cgs.effects.bryarWallImpactEffect	= theFxScheduler.RegisterEffect( "bryar_new/wall_impact" );
+			cgs.effects.bryarWallImpactEffect2	= theFxScheduler.RegisterEffect( "bryar_new/wall_impact2" );
+			cgs.effects.bryarWallImpactEffect3	= theFxScheduler.RegisterEffect( "bryar_new/wall_impact3" );
+			cgs.effects.bryarFleshImpactEffect	= theFxScheduler.RegisterEffect( "bryar_new/flesh_impact" );
+		}
+		else
+		{
+			cgs.effects.bryarShotEffect			= theFxScheduler.RegisterEffect( "bryar/shot" );
+			cgs.effects.bryarNpcShotEffect		= theFxScheduler.RegisterEffect( "bryar/NPCshot" );
+			cgs.effects.bryarPowerupShotEffect	= theFxScheduler.RegisterEffect( "bryar/crackleShot" );
+			cgs.effects.bryarWallImpactEffect	= theFxScheduler.RegisterEffect( "bryar/wall_impact" );
+			cgs.effects.bryarWallImpactEffect2	= theFxScheduler.RegisterEffect( "bryar/wall_impact2" );
+			cgs.effects.bryarWallImpactEffect3	= theFxScheduler.RegisterEffect( "bryar/wall_impact3" );
+			cgs.effects.bryarFleshImpactEffect	= theFxScheduler.RegisterEffect( "bryar/flesh_impact" );
+		}
 
 		// Note....these are temp shared effects
-		theFxScheduler.RegisterEffect( "blaster/deflect" );
+		cgs.effects.bryarFleshImpactEffect		= theFxScheduler.RegisterEffect( "blaster/deflect" );
 		theFxScheduler.RegisterEffect( "blaster/smoke_bolton" ); // note: this will be called game side
 		break;
 
 	case WP_BLASTER:
-		cgs.effects.blasterShotEffect			= theFxScheduler.RegisterEffect( "blaster/shot" );
-													theFxScheduler.RegisterEffect( "blaster/NPCshot" );
+		if (cg_improvedWeapons.integer)
+		{
+			cgs.effects.blasterShotEffect			= theFxScheduler.RegisterEffect( "blaster_new/shot" );
+			cgs.effects.blasterWallImpactEffect		= theFxScheduler.RegisterEffect( "blaster_new/wall_impact" );
+			cgs.effects.blasterFleshImpactEffect	= theFxScheduler.RegisterEffect( "blaster_new/flesh_impact" );
+			cgs.effects.blasterNpcShotEffect		= theFxScheduler.RegisterEffect( "blaster_new/NPCshot" );
+		}
+		else
+		{
+			cgs.effects.blasterShotEffect			= theFxScheduler.RegisterEffect( "blaster/shot" );
+			cgs.effects.blasterWallImpactEffect		= theFxScheduler.RegisterEffect( "blaster/wall_impact" );
+			cgs.effects.blasterFleshImpactEffect	= theFxScheduler.RegisterEffect( "blaster/flesh_impact" );
+			cgs.effects.blasterNpcShotEffect		= theFxScheduler.RegisterEffect( "blaster/NPCshot" );
+		}
 //		cgs.effects.blasterOverchargeEffect		= theFxScheduler.RegisterEffect( "blaster/overcharge" );
-		cgs.effects.blasterWallImpactEffect		= theFxScheduler.RegisterEffect( "blaster/wall_impact" );
-		cgs.effects.blasterFleshImpactEffect	= theFxScheduler.RegisterEffect( "blaster/flesh_impact" );
-		theFxScheduler.RegisterEffect( "blaster/deflect" );
+		cgs.effects.bryarFleshImpactEffect		= theFxScheduler.RegisterEffect( "blaster/deflect" );
 		theFxScheduler.RegisterEffect( "blaster/smoke_bolton" ); // note: this will be called game side
 		break;
 
@@ -388,10 +412,22 @@ void CG_RegisterWeapon( int weaponNum ) {
 		break;
 
 	case WP_BOWCASTER:
-		cgs.effects.bowcasterShotEffect		= theFxScheduler.RegisterEffect( "bowcaster/shot" );
-		cgs.effects.bowcasterBounceEffect	= theFxScheduler.RegisterEffect( "bowcaster/bounce" );
-		cgs.effects.bowcasterImpactEffect	= theFxScheduler.RegisterEffect( "bowcaster/explosion" );
-		theFxScheduler.RegisterEffect( "bowcaster/deflect" );
+		if (cg_improvedWeapons.integer)
+		{
+			cgs.effects.bowcasterShotEffect		= theFxScheduler.RegisterEffect( "bowcaster_new/shot" );
+			cgs.effects.bowcasterImpactEffect	= theFxScheduler.RegisterEffect( "bowcaster_new/explosion" );
+			cgs.effects.bowcasterBounceEffect	= theFxScheduler.RegisterEffect( "bowcaster_new/bounce" );
+			cgs.effects.bowcasterDeflectEffect	= theFxScheduler.RegisterEffect( "bowcaster_new/deflect" );
+			theFxScheduler.RegisterEffect( "bowcaster_new/sparks" );
+			theFxScheduler.RegisterEffect( "bowcaster_new/sparks2" );
+		}
+		else
+		{
+			cgs.effects.bowcasterShotEffect		= theFxScheduler.RegisterEffect( "bowcaster/shot" );
+			cgs.effects.bowcasterImpactEffect	= theFxScheduler.RegisterEffect( "bowcaster/explosion" );
+			cgs.effects.bowcasterBounceEffect	= theFxScheduler.RegisterEffect( "bowcaster/bounce" );
+			cgs.effects.bowcasterDeflectEffect	= theFxScheduler.RegisterEffect( "bowcaster/deflect" );
+		}
 		break;
 
 	case WP_REPEATER:
@@ -431,14 +467,21 @@ void CG_RegisterWeapon( int weaponNum ) {
 		break;
 
 	case WP_FLECHETTE:
+		if (cg_improvedWeapons.integer)
+		{
+			cgs.effects.flechetteShotDeathEffect		= theFxScheduler.RegisterEffect( "flechette_new/wall_impact" ); // shot death
+			cgs.effects.flechetteFleshImpactEffect		= theFxScheduler.RegisterEffect( "flechette_new/flesh_impact" );
+			cgs.effects.flechetteBlowEffect				= theFxScheduler.RegisterEffect( "flechette_new/alt_blow" );
+		}
+		else
+		{
+			cgs.effects.flechetteShotDeathEffect		= theFxScheduler.RegisterEffect( "flechette/wall_impact" ); // shot death
+			cgs.effects.flechetteFleshImpactEffect		= theFxScheduler.RegisterEffect( "flechette/flesh_impact" );
+			cgs.effects.flechetteBlowEffect				= theFxScheduler.RegisterEffect( "flechette/alt_blow" );
+		}
 		cgs.effects.flechetteShotEffect				= theFxScheduler.RegisterEffect( "flechette/shot" );
 		cgs.effects.flechetteAltShotEffect			= theFxScheduler.RegisterEffect( "flechette/alt_shot" );
-		cgs.effects.flechetteShotDeathEffect		= theFxScheduler.RegisterEffect( "flechette/wall_impact" ); // shot death
-		cgs.effects.flechetteFleshImpactEffect		= theFxScheduler.RegisterEffect( "flechette/flesh_impact" );
 		cgs.effects.flechetteRicochetEffect			= theFxScheduler.RegisterEffect( "flechette/ricochet" );
-
-//		theFxScheduler.RegisterEffect( "flechette/explosion" );
-		theFxScheduler.RegisterEffect( "flechette/alt_blow" );
 		break;
 
 	case WP_ROCKET_LAUNCHER:
@@ -518,16 +561,6 @@ void CG_RegisterWeapon( int weaponNum ) {
 		theFxScheduler.RegisterEffect( "turret/shot" );
 		theFxScheduler.RegisterEffect( "turret/wall_impact" );
 		theFxScheduler.RegisterEffect( "turret/flesh_impact" );
-		break;
-
-	case WP_BLASTER_PISTOL: // enemy version
-		cgs.effects.bryarShotEffect			= theFxScheduler.RegisterEffect( "bryar/shot" );
-		cgs.effects.bryarPowerupShotEffect	= theFxScheduler.RegisterEffect( "bryar/crackleShot" );
-		cgs.effects.bryarWallImpactEffect	= theFxScheduler.RegisterEffect( "bryar/wall_impact" );
-		cgs.effects.bryarFleshImpactEffect	= theFxScheduler.RegisterEffect( "bryar/flesh_impact" );
-		// Note....these are temp shared effects
-		theFxScheduler.RegisterEffect( "blaster/deflect" );
-		theFxScheduler.RegisterEffect( "blaster/smoke_bolton" ); // note: this will be called game side
 		break;
 	}
 }
@@ -2799,7 +2832,7 @@ void CG_MissileHitWall( centity_t *cent, int weapon, vec3_t origin, vec3_t dir, 
 	case WP_FLECHETTE:
 		if ( altFire )
 		{
-			theFxScheduler.PlayEffect( "flechette/alt_blow", origin, dir );
+			theFxScheduler.PlayEffect( cgs.effects.flechetteBlowEffect, origin, dir );
 		}
 		else
 		{
@@ -2926,7 +2959,7 @@ void CG_MissileHitPlayer( centity_t *cent, int weapon, vec3_t origin, vec3_t dir
 	case WP_FLECHETTE:
 		if ( altFire )
 		{
-			theFxScheduler.PlayEffect( "flechette/alt_blow", origin, dir );
+			theFxScheduler.PlayEffect( cgs.effects.flechetteBlowEffect, origin, dir );
 		}
 		else
 		{
@@ -2975,3 +3008,5 @@ void CG_MissileHitPlayer( centity_t *cent, int weapon, vec3_t origin, vec3_t dir
 		break;
 	}
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

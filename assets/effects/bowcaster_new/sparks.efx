@@ -1,0 +1,60 @@
+Light
+{
+    life                200 260
+    origin              1 0 0
+
+    size
+    {
+        start           60 120
+        end             0
+        flags           linear
+    }
+
+    rgb
+    {
+        start           0 1 0
+    }
+}
+
+Tail
+{
+    flags               usePhysics
+    count               15 30
+    life                400 600
+    bounce              0.25 0.4
+    velocity            220 -180 -180 150 180 180
+    gravity             -350 -450
+
+    size
+    {
+        start           0.5 1.0
+    }
+
+    length
+    {
+        start           4 10
+        end             0.1 1
+        flags           linear
+    }
+
+    rgb
+    {
+        start           1 1 0
+        end             0 1 0
+    }
+
+    shaders
+    [
+        gfx/misc/spark_new
+    ]
+}
+
+FxRunner
+{
+    count               8 12
+    delay               0 100
+    playfx
+    [
+        black_smoke
+    ]
+}

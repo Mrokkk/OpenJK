@@ -36,8 +36,23 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 static void WP_FireBlasterMissile( gentity_t *ent, vec3_t start, vec3_t dir, qboolean altFire )
 //---------------------------------------------------------
 {
-	int velocity	= BLASTER_VELOCITY;
-	int	damage		= !altFire ? weaponData[WP_BLASTER].damage : weaponData[WP_BLASTER].altDamage;
+	int velocity, size;
+
+	if (altFire)
+	{
+		velocity = weaponData[WP_BLASTER].altVelocity;
+		size = weaponData[WP_BLASTER].altMissileSize;
+	}
+	else
+	{
+		velocity = weaponData[WP_BLASTER].velocity;
+		size = weaponData[WP_BLASTER].missileSize;
+	}
+
+	// Do the damages
+	int damage = ent->NPC
+		? NPC_Damage(weaponData[WP_BLASTER].npcDamages, g_spskill->integer)
+		: !altFire ? weaponData[WP_BLASTER].damage : weaponData[WP_BLASTER].altDamage;
 
 	// If an enemy is shooting at us, lower the velocity so you have a chance to evade
 	if ( ent->client && ent->client->ps.clientNum != 0 )
@@ -59,23 +74,6 @@ static void WP_FireBlasterMissile( gentity_t *ent, vec3_t start, vec3_t dir, qbo
 	missile->classname = "blaster_proj";
 	missile->s.weapon = WP_BLASTER;
 
-	// Do the damages
-	if ( ent->s.number != 0 )
-	{
-		if ( g_spskill->integer == 0 )
-		{
-			damage = BLASTER_NPC_DAMAGE_EASY;
-		}
-		else if ( g_spskill->integer == 1 )
-		{
-			damage = BLASTER_NPC_DAMAGE_NORMAL;
-		}
-		else
-		{
-			damage = BLASTER_NPC_DAMAGE_HARD;
-		}
-	}
-
 //	if ( ent->client )
 //	{
 //		if ( ent->client->ps.powerups[PW_WEAPON_OVERCHARGE] > 0 && ent->client->ps.powerups[PW_WEAPON_OVERCHARGE] > cg.time )
@@ -85,6 +83,13 @@ static void WP_FireBlasterMissile( gentity_t *ent, vec3_t start, vec3_t dir, qbo
 //			damage *= 2;
 //		}
 //	}
+
+	if (size)
+	{
+		// Make it easier to hit things
+		VectorSet( missile->maxs, size, size, size );
+		VectorScale( missile->maxs, -1, missile->mins );
+	}
 
 	missile->damage = damage;
 	missile->dflags = DAMAGE_DEATH_KNOCKBACK;
@@ -106,15 +111,17 @@ static void WP_FireBlasterMissile( gentity_t *ent, vec3_t start, vec3_t dir, qbo
 void WP_FireBlaster( gentity_t *ent, qboolean alt_fire )
 //---------------------------------------------------------
 {
+	float	spread;
 	vec3_t	dir, angs;
 
 	vectoangles( wpFwd, angs );
 
 	if ( alt_fire )
 	{
+		spread = weaponData[WP_BLASTER].altSpread;
 		// add some slop to the alt-fire direction
-		angs[PITCH] += Q_flrand(-1.0f, 1.0f) * BLASTER_ALT_SPREAD;
-		angs[YAW]	+= Q_flrand(-1.0f, 1.0f) * BLASTER_ALT_SPREAD;
+		angs[PITCH] += Q_flrand(-1.0f, 1.0f) * spread;
+		angs[YAW]	+= Q_flrand(-1.0f, 1.0f) * spread;
 	}
 	else
 	{
@@ -129,9 +136,10 @@ void WP_FireBlaster( gentity_t *ent, qboolean alt_fire )
 		}
 		else
 		{
+			spread = weaponData[WP_BLASTER].spread;
 			// add some slop to the main-fire direction
-			angs[PITCH] += Q_flrand(-1.0f, 1.0f) * BLASTER_MAIN_SPREAD;
-			angs[YAW]	+= Q_flrand(-1.0f, 1.0f) * BLASTER_MAIN_SPREAD;
+			angs[PITCH] += Q_flrand(-1.0f, 1.0f) * spread;
+			angs[YAW]	+= Q_flrand(-1.0f, 1.0f) * spread;
 		}
 	}
 
@@ -140,3 +148,5 @@ void WP_FireBlaster( gentity_t *ent, qboolean alt_fire )
 	// FIXME: if temp_org does not have clear trace to inside the bbox, don't shoot!
 	WP_FireBlasterMissile( ent, wpMuzzle, dir, alt_fire );
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

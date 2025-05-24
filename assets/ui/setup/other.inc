@@ -7,7 +7,7 @@ layoutDef
     {
         name                developer
         group               other
-        text                "Developer mode:"
+        text                "Developer Mode:"
         descText            "Set developer mode"
         cvar                "developer"
     }
@@ -16,9 +16,23 @@ layoutDef
     {
         name                openinglogos
         group               other
-        text                "Opening logos:"
+        text                "Opening Logos:"
         descText            "Show opening logos"
         cvar                "com_bootlogo"
+    }
+
+    itemDef : submenu_onoff_button
+    {
+        name                improvedweapons
+        group               other
+        text                "Improved Weapons:"
+        descText            "Enable better shooting experience (changing this will drop you to main menu)"
+        cvar                "cg_improvedWeapons"
+
+        action
+        {
+            uiScript        update cg_improvedWeapons
+        }
     }
 
     itemDef : submenu_onoff_button
@@ -26,7 +40,7 @@ layoutDef
         name                cheats
         group               other
         text                "Cheats:"
-        descText            "Enable cheats"
+        descText            "Enable Cheats"
         cvar                "helpUsObi"
     }
 
@@ -34,7 +48,7 @@ layoutDef
     {
         name                jediknockdown
         group               other
-        text                "Jedi knock down:"
+        text                "Jedi Knockdown:"
         descText            "Allow for knocking down Jedi by jumping on them"
         cvar                "g_jediKnockDown"
     }

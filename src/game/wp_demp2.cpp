@@ -37,32 +37,20 @@ static void WP_DEMP2_MainFire( gentity_t *ent )
 //---------------------------------------------------------
 {
 	vec3_t	start;
-	int		damage	= weaponData[WP_DEMP2].damage;
+	int		damage;
 
 	VectorCopy( wpMuzzle, start );
 	WP_TraceSetStart( ent, start, vec3_origin, vec3_origin );//make sure our start point isn't on the other side of a wall
 
-	gentity_t *missile = CreateMissile( start, wpFwd, DEMP2_VELOCITY, 10000, ent );
+	gentity_t *missile = CreateMissile( start, wpFwd, weaponData[WP_DEMP2].velocity, 10000, ent );
 
 	missile->classname = "demp2_proj";
 	missile->s.weapon = WP_DEMP2;
 
 	// Do the damages
-	if ( ent->s.number != 0 )
-	{
-		if ( g_spskill->integer == 0 )
-		{
-			damage = DEMP2_NPC_DAMAGE_EASY;
-		}
-		else if ( g_spskill->integer == 1 )
-		{
-			damage = DEMP2_NPC_DAMAGE_NORMAL;
-		}
-		else
-		{
-			damage = DEMP2_NPC_DAMAGE_HARD;
-		}
-	}
+	damage = ent->NPC
+		? NPC_Damage(weaponData[WP_DEMP2].npcDamages, g_spskill->integer)
+		: weaponData[WP_DEMP2].damage;
 
 	VectorSet( missile->maxs, DEMP2_SIZE, DEMP2_SIZE, DEMP2_SIZE );
 	VectorScale( missile->maxs, -1, missile->mins );
@@ -174,7 +162,6 @@ void DEMP2_AltRadiusDamage( gentity_t *ent )
 	}
 }
 
-
 //---------------------------------------------------------
 void DEMP2_AltDetonate( gentity_t *ent )
 //---------------------------------------------------------
@@ -219,7 +206,7 @@ static void WP_DEMP2_AltFire( gentity_t *ent )
 
 	// the shot can travel a whopping 4096 units in 1 second. Note that the shot will auto-detonate at 4096 units...we'll see if this looks cool or not
 
-	gentity_t *missile = CreateMissile( start, wpFwd, DEMP2_ALT_RANGE, 1000, ent, qtrue );
+	gentity_t *missile = CreateMissile( start, wpFwd, weaponData[WP_DEMP2].altVelocity, 1000, ent, qtrue );
 
 	// letting it know what the charge size is.
 	missile->count = count;
@@ -256,3 +243,5 @@ void WP_FireDEMP2( gentity_t *ent, qboolean alt_fire )
 		WP_DEMP2_MainFire( ent );
 	}
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

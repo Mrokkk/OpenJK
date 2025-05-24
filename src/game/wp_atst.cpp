@@ -33,7 +33,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 void WP_ATSTMainFire( gentity_t *ent )
 //---------------------------------------------------------
 {
-	float vel = ATST_MAIN_VEL;
+	float vel = weaponData[WP_ATST_MAIN].velocity;
 
 //	if ( ent->client && (ent->client->ps.eFlags & EF_IN_ATST ))
 //	{
@@ -68,12 +68,11 @@ void WP_ATSTMainFire( gentity_t *ent )
 void WP_ATSTSideAltFire( gentity_t *ent )
 //---------------------------------------------------------
 {
-	int	damage	= weaponData[WP_ATST_SIDE].altDamage;
 	float	vel = ATST_SIDE_ALT_NPC_VELOCITY;
 
 	if ( ent->client && (ent->client->ps.eFlags & EF_IN_ATST ))
 	{
-		vel = ATST_SIDE_ALT_VELOCITY;
+		vel = weaponData[WP_ATST_SIDE].altVelocity;
 	}
 
 	gentity_t *missile = CreateMissile( wpMuzzle, wpFwd, vel, 10000, ent, qtrue );
@@ -84,21 +83,9 @@ void WP_ATSTSideAltFire( gentity_t *ent )
 	missile->mass = 10;
 
 	// Do the damages
-	if ( ent->s.number != 0 )
-	{
-		if ( g_spskill->integer == 0 )
-		{
-			damage = ATST_SIDE_ROCKET_NPC_DAMAGE_EASY;
-		}
-		else if ( g_spskill->integer == 1 )
-		{
-			damage = ATST_SIDE_ROCKET_NPC_DAMAGE_NORMAL;
-		}
-		else
-		{
-			damage = ATST_SIDE_ROCKET_NPC_DAMAGE_HARD;
-		}
-	}
+	int damage = ent->NPC
+		? NPC_Damage(weaponData[WP_ATST_SIDE].npcAltDamages, g_spskill->integer)
+		: weaponData[WP_ATST_SIDE].altDamage;
 
 	VectorCopy( wpFwd, missile->movedir );
 
@@ -125,29 +112,15 @@ void WP_ATSTSideAltFire( gentity_t *ent )
 void WP_ATSTSideFire( gentity_t *ent )
 //---------------------------------------------------------
 {
-	int	damage	= weaponData[WP_ATST_SIDE].damage;
-
-	gentity_t *missile = CreateMissile( wpMuzzle, wpFwd, ATST_SIDE_MAIN_VELOCITY, 10000, ent, qfalse );
+	gentity_t *missile = CreateMissile( wpMuzzle, wpFwd, weaponData[WP_ATST_SIDE].velocity, 10000, ent, qfalse );
 
 	missile->classname = "atst_side_proj";
 	missile->s.weapon = WP_ATST_SIDE;
 
 	// Do the damages
-	if ( ent->s.number != 0 )
-	{
-		if ( g_spskill->integer == 0 )
-		{
-			damage = ATST_SIDE_MAIN_NPC_DAMAGE_EASY;
-		}
-		else if ( g_spskill->integer == 1 )
-		{
-			damage = ATST_SIDE_MAIN_NPC_DAMAGE_NORMAL;
-		}
-		else
-		{
-			damage = ATST_SIDE_MAIN_NPC_DAMAGE_HARD;
-		}
-	}
+	int damage = ent->NPC
+		? NPC_Damage(weaponData[WP_ATST_SIDE].npcDamages, g_spskill->integer)
+		: weaponData[WP_ATST_SIDE].damage;
 
 	VectorSet( missile->maxs, ATST_SIDE_MAIN_SIZE, ATST_SIDE_MAIN_SIZE, ATST_SIDE_MAIN_SIZE );
 	VectorScale( missile->maxs, -1, missile->mins );
@@ -163,3 +136,5 @@ void WP_ATSTSideFire( gentity_t *ent )
 	// we don't want it to bounce
 	missile->bounceCount = 0;
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

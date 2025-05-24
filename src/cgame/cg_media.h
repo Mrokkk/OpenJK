@@ -286,6 +286,7 @@ typedef struct
 {
 	// BRYAR PISTOL
 	fxHandle_t	bryarShotEffect;
+	fxHandle_t	bryarNpcShotEffect;
 	fxHandle_t	bryarPowerupShotEffect;
 	fxHandle_t	bryarWallImpactEffect;
 	fxHandle_t	bryarWallImpactEffect2;
@@ -294,13 +295,16 @@ typedef struct
 
 	// BLASTER
 	fxHandle_t	blasterShotEffect;
+	fxHandle_t	blasterNpcShotEffect;
 	fxHandle_t	blasterOverchargeEffect;
 	fxHandle_t	blasterWallImpactEffect;
 	fxHandle_t	blasterFleshImpactEffect;
+	fxHandle_t	blasterDeflectEffect;
 
 	// BOWCASTER
 	fxHandle_t	bowcasterShotEffect;
 	fxHandle_t	bowcasterBounceEffect;
+	fxHandle_t	bowcasterDeflectEffect;
 	fxHandle_t	bowcasterImpactEffect;
 
 	// FLECHETTE
@@ -309,6 +313,7 @@ typedef struct
 	fxHandle_t	flechetteShotDeathEffect;
 	fxHandle_t	flechetteFleshImpactEffect;
 	fxHandle_t	flechetteRicochetEffect;
+	fxHandle_t	flechetteBlowEffect;
 
 	//FORCE
 	fxHandle_t	forceConfusion;

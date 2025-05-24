@@ -1,0 +1,92 @@
+Light
+{
+    life                200 260
+    origin              1 0 0
+
+    size
+    {
+        start           60 120
+        end             0
+        flags           linear
+    }
+
+    rgb
+    {
+        start           1 0 0
+    }
+}
+
+Line
+{
+    count               10  20
+    life                100 300
+
+    origin2             2 -5 -5 5 5 5
+
+    width
+    {
+        start           0.0 0.1
+        end             1.0
+        flags           nonlinear
+    }
+
+    alpha
+    {
+        start           0.25 0.5
+        end             0.0
+        flags           nonlinear
+    }
+
+    rgb
+    {
+        start           0.6 0 0 0.8 0 0
+    }
+
+    shaders
+    [
+        gfx/misc/spark_new
+    ]
+}
+
+Tail
+{
+    count               10   20
+    life                100 150
+
+    bounce              0.25 0.4
+
+    vel                 20 -80 -80  40 80 80
+    gravity             -350 -450
+
+    size
+    {
+        start           0.4 0.55
+    }
+
+    length
+    {
+        start           4.0 5.0
+        end             0.1 1.0
+        flags           linear
+    }
+
+    rgb
+    {
+        start           0.6 0.6 0   0.8 0.8 0
+    }
+
+    shaders
+    [
+        gfx/misc/spark_new
+    ]
+}
+
+FxRunner
+{
+    count               2 4
+    delay               0 100
+    playfx
+    [
+        black_smoke
+    ]
+}

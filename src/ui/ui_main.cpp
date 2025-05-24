@@ -3095,7 +3095,7 @@ qboolean Asset_Parse(char **buffer)
 
 /*
 =================
-UI_Update
+GlobalDefinitions_Parse
 =================
 */
 qboolean GlobalDefinitions_Parse(char **buffer)
@@ -3167,10 +3167,8 @@ static void UI_Update(const char *name)
 	if (Q_stricmp(name, "s_khz") == 0)
 	{
 		ui.Cmd_ExecuteText( EXEC_APPEND, "snd_restart\n" );
-		return;
 	}
-
-	if (Q_stricmp(name, "ui_SetName") == 0)
+	else if (Q_stricmp(name, "ui_SetName") == 0)
 	{
 		Cvar_Set( "name", UI_Cvar_VariableString("ui_Name"));
 	}
@@ -3289,6 +3287,14 @@ static void UI_Update(const char *name)
 		else
 		{
 			Cvar_SetValue( "m_pitch", -0.022f );
+		}
+	}
+	else if (Q_stricmp(name, "cg_improvedWeapons") == 0)
+	{
+		auto ingame = Cvar_Get("cl_paused", "0", CVAR_ROM);
+		if (ingame->integer)
+		{
+			ui.Cmd_ExecuteText( EXEC_APPEND, "disconnect\n");
 		}
 	}
 	else

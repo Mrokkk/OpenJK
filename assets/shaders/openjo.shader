@@ -85,3 +85,56 @@ gfx/menus/menu4a
         stenciled
     }
 }
+
+gfx/misc/spark_new
+{
+    cull    disable
+    {
+        map gfx/misc/spark
+        blendFunc GL_ONE GL_ONE
+        rgbGen vertex
+        glow
+    }
+}
+
+gfx/misc/spark2_new
+{
+    cull    disable
+    {
+        map gfx/misc/spark2
+        blendFunc GL_ONE GL_ONE
+        rgbGen vertex
+        glow
+    }
+}
+
+gfx/misc/spark3_new
+{
+    cull    disable
+    {
+        map gfx/misc/spark3
+        blendFunc GL_ONE GL_ONE
+        rgbGen vertex
+        glow
+    }
+}
+
+icons/w_icon_turret
+{
+    nopicmip
+    nomipmaps
+    {
+        map gfx/hud/w_icon_atst
+        blendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA
+    }
+}
+
+icons/w_icon_turret_na
+{
+    nopicmip
+    nomipmaps
+    {
+        map gfx/hud/w_icon_atst
+        blendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA
+    }
+}

@@ -34,7 +34,7 @@ void WP_EmplacedFire( gentity_t *ent )
 //---------------------------------------------------------
 {
 	float damage = weaponData[WP_EMPLACED_GUN].damage * ( ent->NPC ? 0.1f : 1.0f );
-	float vel = EMPLACED_VEL * ( ent->NPC ? 0.4f : 1.0f );
+	float vel = weaponData[WP_EMPLACED_GUN].velocity * ( ent->NPC ? 0.4f : 1.0f );
 
 	gentity_t	*missile = CreateMissile( wpMuzzle, wpFwd, vel, 10000, ent );
 

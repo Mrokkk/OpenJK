@@ -57,29 +57,16 @@ int G_GetHitLocFromTrace( trace_t *trace, int mod )
 static void WP_DisruptorMainFire( gentity_t *ent )
 //---------------------------------------------------------
 {
-	int			damage = weaponData[WP_DISRUPTOR].damage;
+	int			damage;
 	qboolean	render_impact = qtrue;
 	vec3_t		start, end, spot;
 	trace_t		tr;
 	gentity_t	*traceEnt = NULL, *tent;
 	float		dist, shotDist, shotRange = 8192;
 
-	if ( ent->NPC )
-	{
-		switch ( g_spskill->integer )
-		{
-		case 0:
-			damage = DISRUPTOR_NPC_MAIN_DAMAGE_EASY;
-			break;
-		case 1:
-			damage = DISRUPTOR_NPC_MAIN_DAMAGE_MEDIUM;
-			break;
-		case 2:
-		default:
-			damage = DISRUPTOR_NPC_MAIN_DAMAGE_HARD;
-			break;
-		}
-	}
+	damage = ent->NPC
+		? NPC_Damage(weaponData[WP_DISRUPTOR].npcDamages, g_spskill->integer)
+		: weaponData[WP_DISRUPTOR].damage;
 
 	VectorCopy( wpMuzzle, start );
 	WP_TraceSetStart( ent, start, vec3_origin, vec3_origin );
@@ -167,7 +154,7 @@ static void WP_DisruptorMainFire( gentity_t *ent )
 void WP_DisruptorAltFire( gentity_t *ent )
 //---------------------------------------------------------
 {
-	int			damage = weaponData[WP_DISRUPTOR].altDamage, skip, traces = DISRUPTOR_ALT_TRACES;
+	int			damage, skip, traces = DISRUPTOR_ALT_TRACES;
 	qboolean	render_impact = qtrue;
 	vec3_t		start, end;
 	vec3_t		muzzle2, spot, dir;
@@ -181,25 +168,16 @@ void WP_DisruptorAltFire( gentity_t *ent )
 	// The trace start will originate at the eye so we can ensure that it hits the crosshair.
 	if ( ent->NPC )
 	{
-		switch ( g_spskill->integer )
-		{
-		case 0:
-			damage = DISRUPTOR_NPC_ALT_DAMAGE_EASY;
-			break;
-		case 1:
-			damage = DISRUPTOR_NPC_ALT_DAMAGE_MEDIUM;
-			break;
-		case 2:
-		default:
-			damage = DISRUPTOR_NPC_ALT_DAMAGE_HARD;
-			break;
-		}
+		damage = NPC_Damage(weaponData[WP_DISRUPTOR].npcAltDamages, g_spskill->integer);
+
 		VectorCopy( wpMuzzle, start );
 
 		fullCharge = qtrue;
 	}
 	else
 	{
+		damage = weaponData[WP_DISRUPTOR].altDamage;
+
 		VectorCopy( ent->client->renderInfo.eyePoint, start );
 		AngleVectors( ent->client->renderInfo.eyeAngles, wpFwd, NULL, NULL );
 
@@ -360,3 +338,5 @@ void WP_FireDisruptor( gentity_t *ent, qboolean alt_fire )
 
 	G_PlayEffect( G_EffectIndex( "disruptor/line_cap" ), wpMuzzle, wpFwd );
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

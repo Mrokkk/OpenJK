@@ -208,7 +208,14 @@ void WP_flechette_alt_blow( gentity_t *ent )
 	EvaluateTrajectory( &ent->s.pos, level.time, ent->currentOrigin ); // Not sure if this is even necessary, but correct origins are cool?
 
 	G_RadiusDamage( ent->currentOrigin, ent->owner, ent->splashDamage, ent->splashRadius, NULL, MOD_EXPLOSIVE_SPLASH );
-	G_PlayEffect( "flechette/alt_blow", ent->currentOrigin );
+	if (cg_improvedWeapons.integer)
+	{
+		G_PlayEffect( "flechette_new/alt_blow", ent->currentOrigin );
+	}
+	else
+	{
+		G_PlayEffect( "flechette/alt_blow", ent->currentOrigin );
+	}
 
 	G_FreeEntity( ent );
 }
@@ -286,3 +293,5 @@ void WP_FireFlechette( gentity_t *ent, qboolean alt_fire )
 		WP_FlechetteMainFire( ent );
 	}
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

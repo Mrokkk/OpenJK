@@ -63,7 +63,7 @@ void FX_BryarProjectileThink(  centity_t *cent, const struct weaponInfo_s *weapo
 
 	if ( cent->gent && cent->gent->owner && cent->gent->owner->s.number > 0 )
 	{
-		theFxScheduler.PlayEffect( "bryar/NPCshot", cent->lerpOrigin, forward );
+		theFxScheduler.PlayEffect( cgs.effects.bryarNpcShotEffect, cent->lerpOrigin, forward );
 	}
 	else
 	{

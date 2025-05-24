@@ -33,11 +33,24 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 //---------------
 
 //---------------------------------------------------------
-void WP_FireBryarPistol( gentity_t *ent, qboolean alt_fire )
+void WP_FireBryarPistol( gentity_t *ent, qboolean altFire )
 //---------------------------------------------------------
 {
 	vec3_t	start;
-	int		damage = !alt_fire ? weaponData[ent->s.weapon].damage : weaponData[ent->s.weapon].altDamage;
+	int		damage, velocity, size;
+
+	if (altFire)
+	{
+		damage		= weaponData[ent->s.weapon].altDamage;
+		velocity	= weaponData[WP_BRYAR_PISTOL].altVelocity;
+		size		= weaponData[WP_BRYAR_PISTOL].altMissileSize;
+	}
+	else
+	{
+		damage		= weaponData[ent->s.weapon].damage;
+		velocity	= weaponData[WP_BRYAR_PISTOL].velocity;
+		size		= weaponData[WP_BRYAR_PISTOL].missileSize;
+	}
 
 	VectorCopy( wpMuzzle, start );
 	WP_TraceSetStart( ent, start, vec3_origin, vec3_origin );//make sure our start point isn't on the other side of a wall
@@ -62,12 +75,12 @@ void WP_FireBryarPistol( gentity_t *ent, qboolean alt_fire )
 		AngleVectors( angs, wpFwd, NULL, NULL );
 	}
 
-	gentity_t	*missile = CreateMissile( start, wpFwd, BRYAR_PISTOL_VEL, 10000, ent, alt_fire );
+	gentity_t	*missile = CreateMissile( start, wpFwd, velocity, 10000, ent, altFire );
 
 	missile->classname = "bryar_proj";
 	missile->s.weapon = WP_BRYAR_PISTOL;
 
-	if ( alt_fire )
+	if ( altFire )
 	{
 		int count = ( level.time - ent->client->ps.weaponChargeTime ) / BRYAR_CHARGE_UNIT;
 
@@ -91,10 +104,17 @@ void WP_FireBryarPistol( gentity_t *ent, qboolean alt_fire )
 //		damage *= 2;
 //	}
 
+	if (size)
+	{
+		// Make it easier to hit things
+		VectorSet( missile->maxs, size, size, size );
+		VectorScale( missile->maxs, -1, missile->mins );
+	}
+
 	missile->damage = damage;
 	missile->dflags = DAMAGE_DEATH_KNOCKBACK;
 
-	if ( alt_fire )
+	if ( altFire )
 	{
 		missile->methodOfDeath = MOD_BRYAR_ALT;
 	}
@@ -108,3 +128,5 @@ void WP_FireBryarPistol( gentity_t *ent, qboolean alt_fire )
 	// we don't want it to bounce forever
 	missile->bounceCount = 8;
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

@@ -60,7 +60,7 @@ void FX_BlasterProjectileThink( centity_t *cent, const struct weaponInfo_s *weap
 
 	if ( cent->gent && cent->gent->owner && cent->gent->owner->s.number > 0 )
 	{
-		theFxScheduler.PlayEffect( "blaster/NPCshot", cent->lerpOrigin, forward );
+		theFxScheduler.PlayEffect( cgs.effects.blasterNpcShotEffect, cent->lerpOrigin, forward );
 	}
 	else
 	{

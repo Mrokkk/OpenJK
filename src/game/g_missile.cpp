@@ -27,6 +27,8 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #include "g_functions.h"
 #include "wp_saber.h"
 #include "bg_local.h"
+#include "cgame/cg_media.h"
+#include "cgame/FxScheduler.h"
 
 extern qboolean InFront( vec3_t spot, vec3_t from, vec3_t fromAngles, float threshHold = 0.0f );
 qboolean LogAccuracyHit( gentity_t *target, gentity_t *attacker );
@@ -45,11 +47,11 @@ void G_MissileBounceEffect( gentity_t *ent, vec3_t org, vec3_t dir )
 	switch( ent->s.weapon )
 	{
 	case WP_BOWCASTER:
-		G_PlayEffect( "bowcaster/deflect", ent->currentOrigin, dir );
+		theFxScheduler.PlayEffect( cgs.effects.bowcasterDeflectEffect, ent->currentOrigin, dir );
 		break;
 	case WP_BLASTER:
 	case WP_BRYAR_PISTOL:
-		G_PlayEffect( "blaster/deflect", ent->currentOrigin, dir );
+		theFxScheduler.PlayEffect( cgs.effects.blasterDeflectEffect, ent->currentOrigin, dir );
 		break;
 	default:
 		{
@@ -67,12 +69,12 @@ void G_MissileReflectEffect( gentity_t *ent, vec3_t org, vec3_t dir )
 	switch( ent->s.weapon )
 	{
 	case WP_BOWCASTER:
-		G_PlayEffect( "bowcaster/deflect", ent->currentOrigin, dir );
+		theFxScheduler.PlayEffect( cgs.effects.bowcasterDeflectEffect, ent->currentOrigin, dir );
 		break;
 	case WP_BLASTER:
 	case WP_BRYAR_PISTOL:
 	default:
-		G_PlayEffect( "blaster/deflect", ent->currentOrigin, dir );
+		theFxScheduler.PlayEffect( cgs.effects.blasterDeflectEffect, ent->currentOrigin, dir );
 		break;
 	}
 }
@@ -492,16 +494,27 @@ void G_MissileImpacted( gentity_t *ent, gentity_t *other, vec3_t impactPos, vec3
 
 	if ( (other->takedamage && other->client ) || (ent->s.weapon == WP_FLECHETTE && other->contents&CONTENTS_LIGHTSABER) )
 	{
+		if (cg_improvedWeapons.integer)
+		{
+			// Use reversed direction vector as base for spawning FX
+			VectorCopy( ent->s.pos.trDelta, ent->pos1 );
+			VectorNormalize(ent->pos1);
+			VectorScale(ent->pos1, -1, ent->pos1);
+		}
+		else
+		{
+			VectorCopy( normal, ent->pos1 );
+		}
+
 		G_AddEvent( ent, EV_MISSILE_HIT, DirToByte( normal ) );
 		ent->s.otherEntityNum = other->s.number;
 	}
 	else
 	{
+		VectorCopy( normal, ent->pos1 );
 		G_AddEvent( ent, EV_MISSILE_MISS, DirToByte( normal ) );
 		ent->s.otherEntityNum = other->s.number;
 	}
-
-	VectorCopy( normal, ent->pos1 );
 
 	if ( ent->owner )//&& ent->owner->s.number == 0 )
 	{
@@ -1430,3 +1443,5 @@ void G_RunMissile( gentity_t *ent )
 
 	G_MissileImpact( ent, &tr, trHitLoc );
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :
