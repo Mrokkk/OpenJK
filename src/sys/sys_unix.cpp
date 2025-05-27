@@ -19,6 +19,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 ===========================================================================
 */
 
+#include <cstring>
 #include <dirent.h>
 #include <stdarg.h>
 #include <stdlib.h>
@@ -37,6 +38,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #include "qcommon/qcommon.h"
 #include "qcommon/q_shared.h"
 #include "sys_local.h"
+#include "sys_loadlib.h"
 
 qboolean stdinIsATTY = qfalse;
 
@@ -51,11 +53,12 @@ void Sys_PlatformInit( int argc, char *argv[] )
 {
 	const char* term = getenv( "TERM" );
 
-	signal( SIGHUP, Sys_SigHandler );
-	signal( SIGQUIT, Sys_SigHandler );
-	signal( SIGTRAP, Sys_SigHandler );
-	signal( SIGABRT, Sys_SigHandler );
-	signal( SIGBUS, Sys_SigHandler );
+	signal( SIGHUP,		Sys_SigHandler );
+	signal( SIGQUIT,	Sys_SigHandler );
+	signal( SIGTRAP,	Sys_SigHandler );
+	signal( SIGABRT,	Sys_SigHandler );
+	signal( SIGBUS,		Sys_SigHandler );
+	signal( SIGSEGV,	Sys_SigHandler );
 
 	if (isatty( STDIN_FILENO ) && !( term && ( !strcmp( term, "raw" ) || !strcmp( term, "dumb" ) ) ))
 		stdinIsATTY = qtrue;
@@ -634,6 +637,84 @@ void Sys_AnsiColorPrint( const char *msg )
 		buffer[length] = '\0';
 		fputs( buffer, stderr );
 	}
+}
+
+#ifdef OPENJO_STACKTRACE
+
+#include <backtrace.h>
+#include <cxxabi.h>
+
+#define _COLOR_GREEN	"\e[32m"
+#define _COLOR_YELLOW	"\e[33m"
+#define _COLOR_BLUE		"\e[34m"
+#define _COLOR_RESET	"\e[0m"
+
+static void Sys_BacktraceErrorCallback(void *data, const char *message, int error)
+{
+	if (error == -1)
+	{
+		Com_Printf(S_COLOR_RED "Debug info missing\n");
+		return;
+	}
+
+	Com_Printf(S_COLOR_RED "Backtrace error %d: %s\n", error, message);
+}
+
+static int Sys_BacktraceCallback(void *data, uintptr_t pc, const char *pathname, int lineNumber, const char *function)
+{
+	static int index = 0;
+	if (pathname != NULL || function != NULL)
+	{
+		int status;
+
+		if (function)
+		{
+			auto demangled = abi::__cxa_demangle(function, NULL, NULL, &status);
+			if (!status)
+			{
+				function = demangled;
+			}
+		}
+		else
+		{
+			function = "??";
+		}
+
+		Com_Printf("#%u " _COLOR_BLUE "%p " _COLOR_RESET "in " _COLOR_YELLOW "%s " _COLOR_RESET "at " _COLOR_GREEN"%s" _COLOR_RESET ":%d\n",
+			index,
+			(void*)pc,
+			function,
+			pathname,
+			lineNumber);
+	}
+	else
+	{
+		Com_Printf("#%u " _COLOR_BLUE "%p " _COLOR_RESET "in ??\n", index, (void*)pc);
+	}
+	index++;
+	return 0;
+}
+
+void Sys_BacktracePrint(void)
+{
+	Com_Printf("Backtrace:\n");
+	auto state = backtrace_create_state(NULL, 0, Sys_BacktraceErrorCallback, NULL);
+	backtrace_full(state, 1, Sys_BacktraceCallback, Sys_BacktraceErrorCallback, NULL);
+}
+
+#endif
+
+void Sys_CrashHandle(int signum)
+{
+	Com_Printf(S_COLOR_RED "SIG%s received\n", sigabbrev_np(signum));
+#if OPENJO_STACKTRACE
+	Sys_BacktracePrint();
+#endif
+	signal(signum, SIG_DFL); // Restore default signal handling so that core dump can be collected
+
+#ifndef DEDICATED
+	SDL_Quit(); // Just to do graphics cleanup
+#endif
 }
 
 // vim: set noexpandtab tabstop=4 shiftwidth=4 :

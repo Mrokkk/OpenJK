@@ -33,6 +33,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 #=============================================================================
 option(BUILD_PORTABLE "Build portable version (does not read or write files from your user/home directory" OFF)
 option(BUILD_TESTS "Whether to build automatic unit tests (requires Boost)" OFF)
+option(DECODE_STACKTRACE "Add ability to print decoded stacktrace when crash is encountered" ON)
 
 # Configure the use of bundled libraries.  By default, we assume the user is on
 # a platform that does not require any bundling.
@@ -252,6 +253,10 @@ endif()
 
 set(SHARED_DEFINES ${SHARED_DEFINES} "$<$<CONFIG:Debug>:_DEBUG>")
 set(SHARED_DEFINES ${SHARED_DEFINES} "$<$<NOT:$<CONFIG:Debug>>:FINAL_BUILD>")
+
+if(DECODE_STACKTRACE)
+    set(SHARED_DEFINES ${SHARED_DEFINES} "OPENJO_STACKTRACE")
+endif()
 
 #=============================================================================
 #

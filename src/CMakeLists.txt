@@ -298,6 +298,14 @@ else()
         sys/sys_unix.cpp
         sys/con_tty.cpp
     )
+
+    if(DECODE_STACKTRACE)
+        include(FindPkgConfig)
+        pkg_check_modules(BACKTRACE REQUIRED libbacktrace)
+        list(APPEND SP_ENGINE_INCLUDE_DIRS ${BACKTRACE_INCLUDE_DIRS})
+        list(APPEND SP_ENGINE_LIBRARIES ${BACKTRACE_LIBRARIES})
+        set(SP_ENGINE_LIBRARY_DIRS  ${BACKTRACE_LIBRARY_DIRS})
+    endif()
 endif()
 
 # Transparently use our bundled minizip.
@@ -366,6 +374,9 @@ set_property(TARGET ${ENGINE_NAME} APPEND PROPERTY COMPILE_OPTIONS ${OPENJK_VISI
 target_include_directories(${ENGINE_NAME} PRIVATE "${SP_ENGINE_INCLUDE_DIRS}")
 set_target_properties(${ENGINE_NAME} PROPERTIES PROJECT_LABEL "JK2 SP Client")
 if(SP_ENGINE_LIBRARIES)
+    if(SP_ENGINE_LIBRARY_DIRS)
+        target_link_directories(${ENGINE_NAME} PRIVATE ${SP_ENGINE_LIBRARY_DIRS})
+    endif()
     target_link_libraries(${ENGINE_NAME} ${SP_ENGINE_LIBRARIES})
 endif(SP_ENGINE_LIBRARIES)
 

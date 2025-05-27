@@ -689,6 +689,16 @@ void Sys_SigHandler( int signal )
 	else
 	{
 		signalcaught = qtrue;
+
+#ifdef __unix__
+		if (signal == SIGABRT || signal == SIGSEGV || signal == SIGBUS)
+		{
+			extern void Sys_CrashHandle(int signal);
+			Sys_CrashHandle(signal);
+			return;
+		}
+#endif
+
 		//VM_Forced_Unload_Start();
 #ifndef DEDICATED
 		CL_Shutdown();
@@ -820,3 +830,5 @@ int main ( int argc, char* argv[] )
 	// never gets here
 	return 0;
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :
