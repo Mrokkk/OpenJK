@@ -27,9 +27,9 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include <map>
 
-#define G2T_SV_TIME (0)
-#define G2T_CG_TIME (1)
-#define NUM_G2T_TIME (2)
+#define G2T_SV_TIME		(0)
+#define G2T_CG_TIME		(1)
+#define NUM_G2T_TIME	(2)
 
 void		G2API_SetTime(int currentTime,int clock);
 int			G2API_GetTime(int argTime); // this may or may not return arg depending on ghoul2_time cvar
@@ -49,18 +49,17 @@ struct surfaceInfo_t
 	int			genPolySurfaceIndex; // used to point back to the original surface and poly if this is a generated surface
 	int			genLod;			// used to determine original lod of original surface and poly hit location
 
-surfaceInfo_t():
-	offFlags(0),
-	surface(0),
-	genBarycentricJ(0),
-	genBarycentricI(0),
-	genPolySurfaceIndex(0),
-	genLod(0)
-	{}
+	surfaceInfo_t()
+		: offFlags(0)
+		, surface(0)
+		, genBarycentricJ(0)
+		, genBarycentricI(0)
+		, genPolySurfaceIndex(0)
+		, genLod(0)
+	{
+	}
 
-
-	void sg_export(
-		ojk::SavedGameHelper& saved_game) const
+	void sg_export(ojk::SavedGameHelper& saved_game) const
 	{
 		saved_game.write<int32_t>(offFlags);
 		saved_game.write<int32_t>(surface);
@@ -70,8 +69,7 @@ surfaceInfo_t():
 		saved_game.write<int32_t>(genLod);
 	}
 
-	void sg_import(
-		ojk::SavedGameHelper& saved_game)
+	void sg_import(ojk::SavedGameHelper& saved_game)
 	{
 		saved_game.read<int32_t>(offFlags);
 		saved_game.read<int32_t>(surface);
@@ -192,29 +190,27 @@ struct  boneInfo_t
 	int			airTime; //base is in air, be more quick and sensitive about collisions
 	//rww - RAGDOLL_END
 
-boneInfo_t():
-	boneNumber(-1),
-	flags(0),
-	startFrame(0),
-	endFrame(0),
-	startTime(0),
-	pauseTime(0),
-	animSpeed(0),
-	blendFrame(0),
-	blendLerpFrame(0),
-	blendTime(0),
-	blendStart(0),
-	boneBlendTime(0),
-	boneBlendStart(0)
+	boneInfo_t()
+		: boneNumber(-1)
+		, flags(0)
+		, startFrame(0)
+		, endFrame(0)
+		, startTime(0)
+		, pauseTime(0)
+		, animSpeed(0)
+		, blendFrame(0)
+		, blendLerpFrame(0)
+		, blendTime(0)
+		, blendStart(0)
+		, boneBlendTime(0)
+		, boneBlendStart(0)
 	{
 		matrix.matrix[0][0] = matrix.matrix[0][1] = matrix.matrix[0][2] = matrix.matrix[0][3] =
 		matrix.matrix[1][0] = matrix.matrix[1][1] = matrix.matrix[1][2] = matrix.matrix[1][3] =
 		matrix.matrix[2][0] = matrix.matrix[2][1] = matrix.matrix[2][2] = matrix.matrix[2][3] = 0.0f;
 	}
 
-
-	void sg_export(
-		ojk::SavedGameHelper& saved_game) const
+	void sg_export(ojk::SavedGameHelper& saved_game) const
 	{
 		saved_game.write<int32_t>(boneNumber);
 		saved_game.write<>(matrix);
@@ -233,8 +229,7 @@ boneInfo_t():
 		saved_game.write(newMatrix);
 	}
 
-	void sg_import(
-		ojk::SavedGameHelper& saved_game)
+	void sg_import(ojk::SavedGameHelper& saved_game)
 	{
 		saved_game.read<int32_t>(boneNumber);
 		saved_game.read<>(matrix);
@@ -253,22 +248,23 @@ boneInfo_t():
 		saved_game.read(newMatrix);
 	}
 };
+
 //we save from top to boltUsed here. Don't bother saving the position, it gets rebuilt every frame anyway
 struct boltInfo_t{
 	int			boneNumber;		// bone number bolt attaches to
 	int			surfaceNumber;	// surface number bolt attaches to
 	int			surfaceType;	// if we attach to a surface, this tells us if it is an original surface or a generated one - doesn't go across the network
 	int			boltUsed;		// nor does this
-	boltInfo_t():
-	boneNumber(-1),
-	surfaceNumber(-1),
-	surfaceType(0),
-	boltUsed(0)
-	{}
 
+	boltInfo_t()
+		: boneNumber(-1)
+		, surfaceNumber(-1)
+		, surfaceType(0)
+		, boltUsed(0)
+	{
+	}
 
-	void sg_export(
-		ojk::SavedGameHelper& saved_game) const
+	void sg_export(ojk::SavedGameHelper& saved_game) const
 	{
 		saved_game.write<int32_t>(boneNumber);
 		saved_game.write<int32_t>(surfaceNumber);
@@ -276,8 +272,7 @@ struct boltInfo_t{
 		saved_game.write<int32_t>(boltUsed);
 	}
 
-	void sg_import(
-		ojk::SavedGameHelper& saved_game)
+	void sg_import(ojk::SavedGameHelper& saved_game)
 	{
 		saved_game.read<int32_t>(boneNumber);
 		saved_game.read<int32_t>(surfaceNumber);
@@ -285,7 +280,6 @@ struct boltInfo_t{
 		saved_game.read<int32_t>(boltUsed);
 	}
 };
-
 
 #define MAX_GHOUL_COUNT_BITS 8 // bits required to send across the MAX_G2_MODELS inside of the networking - this is the only restriction on ghoul models possible per entity
 
@@ -300,7 +294,6 @@ typedef std::vector <mdxaBone_t> mdxaBone_v;
 #define		GHOUL2_NOMODEL	 0x004
 #define		GHOUL2_NEWORIGIN 0x008
 
-
 // NOTE order in here matters. We save out from mModelindex to mFlags, but not the STL vectors that are at the top or the bottom.
 class CBoneCache;
 struct model_s;
@@ -314,17 +307,19 @@ public:
  	CBoneCache 		*boneCache;		// pointer to transformed bone list for this surf
 	mdxmSurface_t	*surfaceData;	// pointer to surface data loaded into file - only used by client renderer DO NOT USE IN GAME SIDE - if there is a vid restart this will be out of wack on the game
 
-CRenderableSurface():
-	ident(8), //SF_MDX
-	boneCache(0),
-	surfaceData(0)
-	{}
+	CRenderableSurface()
+		: ident(8) //SF_MDX
+		, boneCache(0)
+		, surfaceData(0)
+	{
+	}
 
-CRenderableSurface(const CRenderableSurface& rs):
-	ident(rs.ident),
-	boneCache(rs.boneCache),
-	surfaceData(rs.surfaceData)
-	{}
+	CRenderableSurface(const CRenderableSurface& rs)
+		: ident(rs.ident)
+		, boneCache(rs.boneCache)
+		, surfaceData(rs.surfaceData)
+	{
+	}
 };
 #endif
 
@@ -370,39 +365,37 @@ public:
 	int					currentAnimModelSize;
 	const mdxaHeader_t	*aHeader;
 
-	CGhoul2Info():
-	mModelindex(-1),
-	animModelIndexOffset(0),
-	mCustomShader(0),
-	mCustomSkin(0),
-	mModelBoltLink(0),
-	mSurfaceRoot(0),
-	mLodBias(0),
-	mNewOrigin(-1),
+	CGhoul2Info()
+		: mModelindex(-1)
+		, animModelIndexOffset(0)
+		, mCustomShader(0)
+		, mCustomSkin(0)
+		, mModelBoltLink(0)
+		, mSurfaceRoot(0)
+		, mLodBias(0)
+		, mNewOrigin(-1)
 #ifdef _G2_GORE
-	mGoreSetTag(0),
+		, mGoreSetTag(0)
 #endif
-	mModel(0),
-	mAnimFrameDefault(0),
-	mSkelFrameNum(-1),
-	mMeshFrameNum(-1),
-	mFlags(0),
-	mTransformedVertsArray(0),
-	mBoneCache(0),
-	mSkin(0),
-	mValid(false),
-	currentModel(0),
-	currentModelSize(0),
-	animModel(0),
-	currentAnimModelSize(0),
-	aHeader(0)
+		, mModel(0)
+		, mAnimFrameDefault(0)
+		, mSkelFrameNum(-1)
+		, mMeshFrameNum(-1)
+		, mFlags(0)
+		, mTransformedVertsArray(0)
+		, mBoneCache(0)
+		, mSkin(0)
+		, mValid(false)
+		, currentModel(0)
+		, currentModelSize(0)
+		, animModel(0)
+		, currentAnimModelSize(0)
+		, aHeader(0)
 	{
 		mFileName[0] = 0;
 	}
 
-
-	void sg_export(
-		ojk::SavedGameHelper& saved_game) const
+	void sg_export(ojk::SavedGameHelper& saved_game) const
 	{
 		saved_game.write<int32_t>(mModelindex);
 		saved_game.write<int32_t>(mCustomShader);
@@ -424,8 +417,7 @@ public:
 		saved_game.write<int32_t>(mFlags);
 	}
 
-	void sg_import(
-		ojk::SavedGameHelper& saved_game)
+	void sg_import(ojk::SavedGameHelper& saved_game)
 	{
 		saved_game.read<int32_t>(mModelindex);
 		saved_game.read<int32_t>(mCustomShader);
@@ -489,38 +481,46 @@ class CGhoul2Info_v
 		mItem=InfoArray().New();
 		Q_assert(!Array().size());
 	}
+
 	void Free()
 	{
 		if (mItem)
 		{
-			Q_assert(InfoArray().IsValid(mItem));
-			InfoArray().Delete(mItem);
-			mItem=0;
+			int temp = mItem;
+			mItem = 0;
+			Q_assert(InfoArray().IsValid(temp));
+			InfoArray().Delete(temp);
 		}
 	}
+
 	std::vector<CGhoul2Info> &Array()
 	{
 		Q_assert(InfoArray().IsValid(mItem));
 		return InfoArray().Get(mItem);
 	}
+
 	const std::vector<CGhoul2Info> &Array() const
 	{
 		Q_assert(InfoArray().IsValid(mItem));
 		return InfoArray().Get(mItem);
 	}
+
 public:
 	CGhoul2Info_v()
 	{
 		mItem=0;
 	}
+
 	~CGhoul2Info_v()
 	{
 		Free(); //this had better be taken care of via the clean ghoul2 models call
 	}
+
 	void operator=(const CGhoul2Info_v &other)
 	{
 		mItem=other.mItem;
 	}
+
 	void DeepCopy(const CGhoul2Info_v &other)
 	{
 		Free();
@@ -538,18 +538,21 @@ public:
 			}
 		}
 	}
+
 	CGhoul2Info &operator[](int idx)
 	{
 		Q_assert(mItem);
 		Q_assert(idx>=0&&idx<size());
 		return Array()[idx];
 	}
+
 	const CGhoul2Info &operator[](int idx) const
 	{
 		Q_assert(mItem);
 		Q_assert(idx>=0&&idx<size());
 		return Array()[idx];
 	}
+
 	void resize(int num)
 	{
 		Q_assert(num>=0);
@@ -565,10 +568,12 @@ public:
 			Array().resize(num);
 		}
 	}
+
 	void clear()
 	{
 		Free();
 	}
+
 	void push_back(const CGhoul2Info &model)
 	{
 		if (!mItem)
@@ -577,6 +582,7 @@ public:
 		}
 		Array().push_back(model);
 	}
+
 	int size() const
 	{
 		if (!IsValid())
@@ -585,10 +591,12 @@ public:
 		}
 		return static_cast<int>(Array().size());
 	}
+
 	bool IsValid() const
 	{
 		return InfoArray().IsValid(mItem);
 	}
+
 	void kill()
 	{
 		// this scary method zeros the infovector handle without actually freeing it
@@ -597,21 +605,16 @@ public:
 		mItem=0;
 	}
 
-
-	void sg_export(
-		ojk::SavedGameHelper& saved_game) const
+	void sg_export(ojk::SavedGameHelper& saved_game) const
 	{
 		saved_game.write<int32_t>(mItem);
 	}
 
-	void sg_import(
-		ojk::SavedGameHelper& saved_game)
+	void sg_import(ojk::SavedGameHelper& saved_game)
 	{
 		saved_game.read<int32_t>(mItem);
 	}
 };
-
-
 
 // collision detection stuff
 #define G2_FRONTFACE 1
@@ -633,14 +636,13 @@ public:
 	float		mBarycentricI; // two barycentic coodinates for the hit point
 	float		mBarycentricJ; // K = 1-I-J
 
-	CCollisionRecord():
-	mDistance(100000),
-	mEntityNum(-1)
-	{}
+	CCollisionRecord()
+		: mDistance(100000)
+		, mEntityNum(-1)
+	{
+	}
 
-
-	void sg_export(
-		ojk::SavedGameHelper& saved_game) const
+	void sg_export(ojk::SavedGameHelper& saved_game) const
 	{
 		saved_game.write<float>(mDistance);
 		saved_game.write<int32_t>(mEntityNum);
@@ -656,8 +658,7 @@ public:
 		saved_game.write<float>(mBarycentricJ);
 	}
 
-	void sg_import(
-		ojk::SavedGameHelper& saved_game)
+	void sg_import(ojk::SavedGameHelper& saved_game)
 	{
 		saved_game.read<float>(mDistance);
 		saved_game.read<int32_t>(mEntityNum);
@@ -682,8 +683,8 @@ enum EG2_Collision
 	G2_RETURNONHIT
 };
 
-
-
 //====================================================================
 
 #endif // GHOUL2_SHARED_H_INC
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

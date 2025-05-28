@@ -249,6 +249,21 @@ static void CG_UseItem( centity_t *cent )
 
 /*
 ==============
+CG_IsVectorValid
+
+Workaround for issues with gentity_t lifetime and the fact that
+vectors for events (usually normals) are passed through gentity,
+while those can be freed (and even reused) before it's handled
+in CG_EntityEvent
+==============
+*/
+static bool CG_IsVectorValid(vec3_t vec)
+{
+	return vec[0] != 0.0f || vec[1] != 0.0f || vec[2] != 0.0f;
+}
+
+/*
+==============
 CG_EntityEvent
 
 An entity has an event value
@@ -264,13 +279,16 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 	//clientInfo_t	*ci;
 
 	es = &cent->currentState;
+
 	event = es->event & ~EV_EVENT_BITS;
 
-	if ( cg_debugEvents.integer ) {
+	if ( cg_debugEvents.integer )
+	{
 		CG_Printf( "ent:%3i  event:%3i ", es->number, event );
 	}
 
-	if ( !event ) {
+	if ( !event )
+	{
 		DEBUGNAME("ZEROEVENT");
 		return;
 	}
@@ -328,7 +346,6 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 				cgs.media.footsteps[ FOOTSTEP_SWIM ][rand()&3] );
 		}
 		break;
-
 
 	case EV_FALL_SHORT:
 		DEBUGNAME("EV_FALL_SHORT");
@@ -678,12 +695,18 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 
 	case EV_MISSILE_HIT:
 		DEBUGNAME("EV_MISSILE_HIT");
-		CG_MissileHitPlayer( cent, es->weapon, position, cent->gent->pos1, cent->gent->alt_fire );
+		if (CG_IsVectorValid(cent->gent->pos1))
+		{
+			CG_MissileHitPlayer( cent, es->weapon, position, cent->gent->pos1, cent->gent->alt_fire );
+		}
 		break;
 
 	case EV_MISSILE_MISS:
 		DEBUGNAME("EV_MISSILE_MISS");
-		CG_MissileHitWall( cent, es->weapon, position, cent->gent->pos1, cent->gent->alt_fire );
+		if (CG_IsVectorValid(cent->gent->pos1))
+		{
+			CG_MissileHitWall( cent, es->weapon, position, cent->gent->pos1, cent->gent->alt_fire );
+		}
 		break;
 
 	case EV_BMODEL_SOUND:
@@ -780,6 +803,10 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		}
 		else
 		{
+			if (!CG_IsVectorValid(cent->gent->pos3) || !CG_IsVectorValid(cent->gent->pos4))
+			{
+				return;
+			}
 			VectorCopy( cent->gent->pos3, axis[0] );
 			VectorCopy( cent->gent->pos4, axis[1] );
 			CrossProduct( axis[0], axis[1], axis[2] );
@@ -1077,3 +1104,4 @@ void CG_CheckEvents( centity_t *cent ) {
 	CG_EntityEvent( cent, cent->lerpOrigin );
 }
 
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

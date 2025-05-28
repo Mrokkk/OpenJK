@@ -206,20 +206,16 @@ elseif (("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU") OR ("${CMAKE_C_COMPILER_ID}" M
     set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
     set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
 
-    # additional flags for debug configuration
-    set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -ggdb3")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -ggdb3")
-
     if (X86)
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -msse2")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse2")
     endif()
 
-    set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O3")
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
+    set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -s")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -s")
 
-    # enable somewhat modern C++ and disable warnings about memsetting and memcpying non-POD types
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wno-class-memaccess")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -ggdb3")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O2 -ggdb3 -Wno-class-memaccess")
 
     set(WARNING_FLAGS "-Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -Wno-comment")
 

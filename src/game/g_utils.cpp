@@ -234,21 +234,23 @@ extern void CG_TryPlayCustomSound( vec3_t origin, int entityNum, soundChannel_t 
 //NOTE: Do NOT Try to use this before the cgame DLL is valid, it will NOT work!
 void G_SoundOnEnt (gentity_t *ent, soundChannel_t channel, const char *soundPath)
 {
-	int	index = G_SoundIndex( (char *)soundPath );
+	int	index = G_SoundIndex((char *)soundPath);
 
-	if ( !ent )
+	extern qboolean skippingCinematic;
+
+	if (!ent || skippingCinematic)
 	{
 		return;
 	}
 
-	cgi_S_UpdateEntityPosition( ent->s.number, ent->currentOrigin );
-	if ( cgs.sound_precache[ index ] )
+	cgi_S_UpdateEntityPosition(ent->s.number, ent->currentOrigin);
+	if (cgs.sound_precache[index])
 	{
-		cgi_S_StartSound( NULL, ent->s.number, channel, cgs.sound_precache[ index ] );
+		cgi_S_StartSound(NULL, ent->s.number, channel, cgs.sound_precache[ index ]);
 	}
 	else
 	{
-		CG_TryPlayCustomSound( NULL, ent->s.number, channel, soundPath, -1 );
+		CG_TryPlayCustomSound(NULL, ent->s.number, channel, soundPath, -1);
 	}
 }
 
@@ -1538,3 +1540,4 @@ void G_SetBoltSurfaceRemoval( const int entNum, const int modelIndex, const int 
 Ghoul2 Insert End
 */
 
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

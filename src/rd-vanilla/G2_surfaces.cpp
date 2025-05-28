@@ -55,20 +55,30 @@ public:
 	{
 		mCurrentTouch++;
 	}
-	void Set(int index,int pos)
+	void Set(int index, int pos)
 	{
 		if (index==10000)
 		{
 			return;
 		}
-		Q_assert(index>=0&&index<512);
+
+		if (index < 0 || index >= 512)
+		{
+			Q_assert(0);
+			return;
+		}
+
 		mOverride[index]=mCurrentTouch;
 		mAt[index]=pos;
 	}
 	int Test(int index)
 	{
-		Q_assert(index>=0&&index<512);
-		if (mOverride[index]!=mCurrentTouch)
+		if (index < 0 || index >= 512)
+		{
+			Q_assert(0);
+			return -1;
+		}
+		if (mOverride[index] != mCurrentTouch)
 		{
 			return -1;
 		}
@@ -441,3 +451,5 @@ int G2_IsSurfaceRendered(CGhoul2Info *ghlInfo, const char *surfaceName, surfaceI
 	return flags;
 
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

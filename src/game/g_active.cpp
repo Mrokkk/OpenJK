@@ -1823,29 +1823,27 @@ void RunEmplacedWeapon( gentity_t *ent, usercmd_t **ucmd )
 	}
 }
 
+qboolean skippingCinematic;
+
 // yes...   so stop skipping...
 void G_StopCinematicSkip( void )
 {
 	gi.cvar_set("skippingCinematic", "0");
 	gi.cvar_set("timescale", "1");
+	skippingCinematic = qfalse;
 }
 
 void G_StartCinematicSkip( void )
 {
-
 	if (cinematicSkipScript[0])
 	{
 		ICARUS_RunScript( &g_entities[0], va( "%s/%s", Q3_SCRIPT_DIR, cinematicSkipScript ) );
 		memset( cinematicSkipScript, 0, sizeof( cinematicSkipScript ) );
-		gi.cvar_set("skippingCinematic", "1");
-		gi.cvar_set("timescale", "100");
 	}
-	else
-	{
-		// no... so start skipping...
-		gi.cvar_set("skippingCinematic", "1");
-		gi.cvar_set("timescale", "100");
-	}
+
+	gi.cvar_set("skippingCinematic", "1");
+	gi.cvar_set("timescale", "100");
+	skippingCinematic = qtrue;
 }
 
 void G_CheckClientIdle( gentity_t *ent, usercmd_t *ucmd )

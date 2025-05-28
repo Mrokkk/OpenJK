@@ -861,14 +861,18 @@ void CL_Frame ( int msec,float fractionMsec ) {
 		cl_noprint->integer = oldnoprint;
 	}
 
-	if (cl_skippingcin->integer && !cl_endcredits->integer && !com_developer->integer ) {
-		if (cl_skippingcin->modified){
+	if (cl_skippingcin->integer && !cl_endcredits->integer && !com_developer->integer )
+	{
+		if (cl_skippingcin->modified)
+		{
 			S_StopSounds();		//kill em all but music
-			cl_skippingcin->modified=qfalse;
-			Com_Printf (S_COLOR_YELLOW "%s", JK2SP_GetStringTextString("CON_TEXT_SKIPPING"));
+			cl_skippingcin->modified = qfalse;
+			Com_Printf("Skipping cinematic...\n");
 			SCR_UpdateScreen();
 		}
-	} else {
+	}
+	else
+	{
 		// update the screen
 		SCR_UpdateScreen();
 	}

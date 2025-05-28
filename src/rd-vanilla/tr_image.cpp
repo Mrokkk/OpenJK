@@ -926,7 +926,16 @@ qboolean RE_RegisterImages_LevelLoadEnd(void)
 	return imageDeleted;
 }
 
-
+static const char *R_ClampModeName(int mode)
+{
+	switch (mode)
+	{
+		case GL_REPEAT:			return "GL_REPEAT";
+		case GL_CLAMP:			return "GL_CLAMP";
+		case GL_CLAMP_TO_EDGE:	return "GL_CLAMP_TO_EDGE";
+		default:				return "unknown";
+	}
+}
 
 // returns image_t struct if we already have this, else NULL. No disk-open performed
 //	(important for creating default images).
@@ -959,7 +968,8 @@ static image_t *R_FindImageFile_NoLoad(const char *name, qboolean mipmap, qboole
 				ri.Printf( PRINT_WARNING, "WARNING: reused image %s with mixed allowPicmip parm\n", pName );
 			}
 			if ( pImage->wrapClampMode != glWrapClampMode ) {
-				ri.Printf( PRINT_WARNING, "WARNING: reused image %s with mixed glWrapClampMode parm\n", pName );
+				ri.Printf( PRINT_WARNING, "WARNING: reused image %s with mixed glWrapClampMode (loaded %s, requested %s)\n",
+					pName, R_ClampModeName(pImage->wrapClampMode), R_ClampModeName(glWrapClampMode));
 			}
 		}
 
@@ -1462,3 +1472,4 @@ void R_DeleteTextures( void ) {
 	GL_ResetBinds();
 }
 
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

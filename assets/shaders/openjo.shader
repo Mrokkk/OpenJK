@@ -119,6 +119,24 @@ gfx/misc/spark3_new
     }
 }
 
+gfx/hud/w_icon_atst
+{
+    nomipmaps
+    {
+        map gfx/hud/w_icon_atst
+        blendFunc GL_ONE GL_ZERO
+    }
+}
+
+gfx/hud/w_icon_atstside
+{
+    nomipmaps
+    {
+        map gfx/hud/w_icon_atstside
+        blendFunc GL_ONE GL_ZERO
+    }
+}
+
 icons/w_icon_turret
 {
     nopicmip

@@ -360,7 +360,7 @@ void CG_RegisterWeapon( int weaponNum ) {
 		}
 
 		// Note....these are temp shared effects
-		cgs.effects.bryarFleshImpactEffect		= theFxScheduler.RegisterEffect( "blaster/deflect" );
+		cgs.effects.blasterDeflectEffect		= theFxScheduler.RegisterEffect( "blaster/deflect" );
 		theFxScheduler.RegisterEffect( "blaster/smoke_bolton" ); // note: this will be called game side
 		break;
 
@@ -380,7 +380,7 @@ void CG_RegisterWeapon( int weaponNum ) {
 			cgs.effects.blasterNpcShotEffect		= theFxScheduler.RegisterEffect( "blaster/NPCshot" );
 		}
 //		cgs.effects.blasterOverchargeEffect		= theFxScheduler.RegisterEffect( "blaster/overcharge" );
-		cgs.effects.bryarFleshImpactEffect		= theFxScheduler.RegisterEffect( "blaster/deflect" );
+		cgs.effects.blasterDeflectEffect		= theFxScheduler.RegisterEffect( "blaster/deflect" );
 		theFxScheduler.RegisterEffect( "blaster/smoke_bolton" ); // note: this will be called game side
 		break;
 

@@ -274,8 +274,8 @@ qhandle_t RE_RegisterIndividualSkin( const char *name , qhandle_t hSkin)
 
 	// load and parse the skin file
     ri.FS_ReadFile( name, (void **)&text );
-	if ( !text ) {
-		ri.Printf( PRINT_WARNING, "WARNING: RE_RegisterSkin( '%s' ) failed to load!\n", name );
+	if ( !text )
+	{
 		return 0;
 	}
 
@@ -471,3 +471,5 @@ void	R_SkinList_f (void) {
 	}
 	ri.Printf (PRINT_ALL, "------------------\n");
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

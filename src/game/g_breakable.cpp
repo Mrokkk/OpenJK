@@ -900,11 +900,14 @@ void SP_misc_model_breakable( gentity_t *ent )
 
 	misc_model_breakable_init( ent );
 
-	len = strlen( ent->model ) - 4;
-	strncpy( damageModel, ent->model, len );
-	damageModel[len] = 0;	//chop extension
-	strncpy( chunkModel, damageModel, sizeof(chunkModel));
-	strncpy( useModel, damageModel, sizeof(useModel));
+	len = strlen( ent->model );
+
+	Q_assert(len < MAX_QPATH);
+
+	Q_strncpyz(damageModel, ent->model, sizeof(damageModel));
+	damageModel[len - 4] = 0;	//chop extension
+	Q_strncpyz(chunkModel, damageModel, sizeof(chunkModel));
+	Q_strncpyz(useModel, damageModel, sizeof(useModel));
 
 	if (ent->takedamage) {
 		//Dead/damaged model

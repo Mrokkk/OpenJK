@@ -506,14 +506,14 @@ void G_MissileImpacted( gentity_t *ent, gentity_t *other, vec3_t impactPos, vec3
 			VectorCopy( normal, ent->pos1 );
 		}
 
-		G_AddEvent( ent, EV_MISSILE_HIT, DirToByte( normal ) );
 		ent->s.otherEntityNum = other->s.number;
+		G_AddEvent( ent, EV_MISSILE_HIT, DirToByte( normal ) );
 	}
 	else
 	{
 		VectorCopy( normal, ent->pos1 );
-		G_AddEvent( ent, EV_MISSILE_MISS, DirToByte( normal ) );
 		ent->s.otherEntityNum = other->s.number;
+		G_AddEvent( ent, EV_MISSILE_MISS, DirToByte( normal ) );
 	}
 
 	if ( ent->owner )//&& ent->owner->s.number == 0 )

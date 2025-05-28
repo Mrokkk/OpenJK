@@ -1432,3 +1432,5 @@ void VectorClear4( vec4_t vec )
 void VectorSet5( vec5_t vec, float x, float y, float z, float w, float u ) {
 	vec[0]=x; vec[1]=y; vec[2]=z; vec[3]=w; vec[4]=u;
 }
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

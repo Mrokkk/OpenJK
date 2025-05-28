@@ -712,7 +712,7 @@ void Sys_StacktraceDump(void)
 
 void Sys_CrashHandle(int signum)
 {
-	Com_Printf(S_COLOR_RED "SIG%s received\n", sigabbrev_np(signum));
+	Com_Printf(S_COLOR_RED "==== SIG%s received ====\n", sigabbrev_np(signum));
 	Sys_StacktraceDump();
 	signal(signum, SIG_DFL); // Restore default signal handling so that core dump can be collected
 

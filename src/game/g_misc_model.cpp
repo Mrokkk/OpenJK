@@ -40,24 +40,24 @@ void SetMiscModelModels( char *modelNameString, gentity_t *ent, qboolean damage_
 	int		len;
 
 	//Main model
-	ent->s.modelindex = G_ModelIndex( modelNameString );
+	ent->s.modelindex = G_ModelIndex(modelNameString);
 
-	if ( damage_model )
+	if (damage_model)
 	{
-		len = strlen( modelNameString ) - 4; // extract the extension
-
+		len = strlen(modelNameString);
+		Q_assert(len < MAX_QPATH);
 		//Dead/damaged model
-		strncpy( damageModel, modelNameString, len );
-		damageModel[len] = 0;
-		strncpy( chunkModel, damageModel, sizeof(chunkModel));
-		strcat( damageModel, "_d1.md3" );
-		ent->s.modelindex2 = G_ModelIndex( damageModel );
+		Q_strncpyz(damageModel, modelNameString, sizeof(damageModel));
+		damageModel[len - 4] = 0; // chop extension
+		Q_strncpyz(chunkModel, damageModel, sizeof(chunkModel));
+		strcat(damageModel, "_d1.md3");
+		ent->s.modelindex2 = G_ModelIndex(damageModel);
 
 		ent->spawnflags |= 4; // deadsolid
 
 		//Chunk model
-		strcat( chunkModel, "_c1.md3" );
-		ent->s.modelindex3 = G_ModelIndex( chunkModel );
+		strcat(chunkModel, "_c1.md3");
+		ent->s.modelindex3 = G_ModelIndex(chunkModel);
 	}
 }
 
@@ -120,7 +120,6 @@ void HealthStationSettings(gentity_t *ent)
 		}
 	}
 }
-
 
 void CrystalAmmoSettings(gentity_t *ent)
 {

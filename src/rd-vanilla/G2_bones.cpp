@@ -1015,7 +1015,6 @@ qboolean G2_Stop_Bone_Anim(CGhoul2Info *ghlInfo, boneInfo_v &blist, const char *
 		blist[index].flags &= ~(BONE_ANIM_TOTAL);
 		return G2_Remove_Bone_Index(blist, index);
 	}
-	Q_assert(0);
 	return qfalse;
 }
 
