@@ -89,8 +89,8 @@ private:
 	}
 	int			alloc_low()
 	{
-		assert(mSize<CAPACITY);
-		assert(!mUsed[mFree.top()]);
+		Q_assert(mSize<CAPACITY);
+		Q_assert(!mUsed[mFree.top()]);
 
 		int NextIndex = mFree.top();				// Get The First Available Location
 
@@ -139,7 +139,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	const TTValue&	value_at_index(int i) const
 	{
-		assert(mUsed[i]);
+		Q_assert(mUsed[i]);
 		return (mData[i]);
 	}
 
@@ -148,7 +148,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	TTValue&			value_at_index(int i)
 	{
-		assert(mUsed[i]);
+		Q_assert(mUsed[i]);
 		return (mData[i]);
 	}
 
@@ -176,12 +176,12 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	int pointer_to_index(const TTValue *me) const
 	{
-		assert(mSize>0);
+		Q_assert(mSize>0);
 
 		int index=mData.pointer_to_index(me);
 
-		assert(index>=0 && index<CAPACITY);
-		assert(mUsed[index]);	// I am disallowing obtaining the index of a freed item
+		Q_assert(index>=0 && index<CAPACITY);
+		Q_assert(mUsed[index]);	// I am disallowing obtaining the index of a freed item
 
 		return index;
 	}
@@ -191,12 +191,12 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	int pointer_to_index(const TRatlNew *me) const
 	{
-		assert(mSize>0);
+		Q_assert(mSize>0);
 
 		int index=mData.pointer_to_index(me);
 
-		assert(index>=0 && index<CAPACITY);
-		assert(mUsed[index]);	// I am disallowing obtaining the index of a freed item
+		Q_assert(index>=0 && index<CAPACITY);
+		Q_assert(mUsed[index]);	// I am disallowing obtaining the index of a freed item
 
 		return index;
 	}
@@ -206,8 +206,8 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	void swap_index(int i,int j)
 	{
-		assert(i>=0 && i<CAPACITY);
-		assert(j>=0 && j<CAPACITY);
+		Q_assert(i>=0 && i<CAPACITY);
+		Q_assert(j>=0 && j<CAPACITY);
 		mData.swap(i,j);
 	}
 
@@ -246,9 +246,9 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	void		free_index(int i)
 	{
-		assert(mSize>0);
-		assert(i>=0 && i<CAPACITY);
-		assert(mUsed[i]);
+		Q_assert(mSize>0);
+		Q_assert(i>=0 && i<CAPACITY);
+		Q_assert(mUsed[i]);
 
 		mData.destruct(i);
 
@@ -296,24 +296,24 @@ public:
 
 		// Equality Operators
 		//--------------------
-		bool	operator!=(const iterator& t)	{assert(mOwner && mOwner==t.mOwner);		return (mIndex!=t.mIndex);}
-		bool	operator==(const iterator& t)	{assert(mOwner && mOwner==t.mOwner);		return (mIndex==t.mIndex);}
+		bool	operator!=(const iterator& t)	{Q_assert(mOwner && mOwner==t.mOwner);		return (mIndex!=t.mIndex);}
+		bool	operator==(const iterator& t)	{Q_assert(mOwner && mOwner==t.mOwner);		return (mIndex==t.mIndex);}
 
 		// Dereference Operators
 		//----------------------
-		TTValue&		operator* () const				{assert(mOwner && mOwner->is_used_index(mIndex));	return (mOwner->mData[mIndex]);}
-		TTValue*		operator->() const				{assert(mOwner && mOwner->is_used_index(mIndex));	return (&mOwner->mData[mIndex]);}
+		TTValue&		operator* () const				{Q_assert(mOwner && mOwner->is_used_index(mIndex));	return (mOwner->mData[mIndex]);}
+		TTValue*		operator->() const				{Q_assert(mOwner && mOwner->is_used_index(mIndex));	return (&mOwner->mData[mIndex]);}
 
 		// Handle & Index Access
 		//-----------------------
-		int		index()							{assert(mOwner && mOwner->is_used_index(mIndex));	return mIndex;}
+		int		index()							{Q_assert(mOwner && mOwner->is_used_index(mIndex));	return mIndex;}
 
 		// Inc Operator
 		//-------------
 		iterator operator++(int)	 // postfix
 		{
-			assert(mIndex>=0&&mIndex<CAPACITY);						// this typically means you did end()++
-			assert(mOwner && mOwner->is_used_index(mIndex));
+			Q_assert(mIndex>=0&&mIndex<CAPACITY);						// this typically means you did end()++
+			Q_assert(mOwner && mOwner->is_used_index(mIndex));
 
 			iterator ret(*this);
 			mIndex = mOwner->mUsed.next_bit(mIndex+1);
@@ -323,8 +323,8 @@ public:
 		//-------------
 		iterator operator++()	 // prefix
 		{
-			assert(mIndex>=0&&mIndex<CAPACITY);						// this typically means you did end()++
-			assert(mOwner && mOwner->is_used_index(mIndex));
+			Q_assert(mIndex>=0&&mIndex<CAPACITY);						// this typically means you did end()++
+			Q_assert(mOwner && mOwner->is_used_index(mIndex));
 			mIndex = mOwner->mUsed.next_bit(mIndex+1);
 			return *this;
 		}
@@ -352,26 +352,26 @@ public:
 
 		// Equality Operators
 		//--------------------
-		bool	operator!=(const const_iterator& t) const		{assert(mOwner && mOwner==t.mOwner);		return (mIndex!=t.mIndex);}
-		bool	operator==(const const_iterator& t) const		{assert(mOwner && mOwner==t.mOwner);		return (mIndex==t.mIndex);}
-		bool	operator!=(const iterator& t) const				{assert(mOwner && mOwner==t.mOwner);		return (mIndex!=t.mIndex);}
-		bool	operator==(const iterator& t) const				{assert(mOwner && mOwner==t.mOwner);		return (mIndex==t.mIndex);}
+		bool	operator!=(const const_iterator& t) const		{Q_assert(mOwner && mOwner==t.mOwner);		return (mIndex!=t.mIndex);}
+		bool	operator==(const const_iterator& t) const		{Q_assert(mOwner && mOwner==t.mOwner);		return (mIndex==t.mIndex);}
+		bool	operator!=(const iterator& t) const				{Q_assert(mOwner && mOwner==t.mOwner);		return (mIndex!=t.mIndex);}
+		bool	operator==(const iterator& t) const				{Q_assert(mOwner && mOwner==t.mOwner);		return (mIndex==t.mIndex);}
 
 		// Dereference Operators
 		//----------------------
-		const TTValue&		operator* () const				{assert(mOwner && mOwner->is_used_index(mIndex));	return (mOwner->mData[mIndex]);}
-		const TTValue*		operator->() const				{assert(mOwner && mOwner->is_used_index(mIndex));	return (&mOwner->mData[mIndex]);}
+		const TTValue&		operator* () const				{Q_assert(mOwner && mOwner->is_used_index(mIndex));	return (mOwner->mData[mIndex]);}
+		const TTValue*		operator->() const				{Q_assert(mOwner && mOwner->is_used_index(mIndex));	return (&mOwner->mData[mIndex]);}
 
 		// Handle & Index Access
 		//-----------------------
-		int		index() const					{assert(mOwner && mOwner->is_used_index(mIndex));	return mIndex;}
+		int		index() const					{Q_assert(mOwner && mOwner->is_used_index(mIndex));	return mIndex;}
 
 		// Inc Operator
 		//-------------
 		const_iterator operator++(int)	 // postfix
 		{
-			assert(mIndex>=0&&mIndex<CAPACITY);						// this typically means you did end()++
-			assert(mOwner && mOwner->is_used_index(mIndex));
+			Q_assert(mIndex>=0&&mIndex<CAPACITY);						// this typically means you did end()++
+			Q_assert(mOwner && mOwner->is_used_index(mIndex));
 
 			const_iterator ret(*this);
 			mIndex = mOwner->mUsed.next_bit(mIndex+1);
@@ -381,8 +381,8 @@ public:
 		//-------------
 		const_iterator operator++()	 // prefix
 		{
-			assert(mIndex>=0&&mIndex<CAPACITY);						// this typically means you did end()++
-			assert(mOwner && mOwner->is_used_index(mIndex));
+			Q_assert(mIndex>=0&&mIndex<CAPACITY);						// this typically means you did end()++
+			Q_assert(mOwner && mOwner->is_used_index(mIndex));
 			mIndex = mOwner->mUsed.next_bit(mIndex+1);
 			return *this;
 		}
@@ -403,7 +403,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	iterator	at_index(int index)
 	{
-		assert(mUsed[index]);  // disallow iterators to non alloced things
+		Q_assert(mUsed[index]);  // disallow iterators to non alloced things
 		return iterator(this, index);
 	}
 
@@ -429,7 +429,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	const_iterator	at_index(int index) const
 	{
-		assert(mUsed[index]);  // disallow iterators to non alloced things
+		Q_assert(mUsed[index]);  // disallow iterators to non alloced things
 		return iterator(this, index);
 	}
 

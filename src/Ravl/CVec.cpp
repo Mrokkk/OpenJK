@@ -396,7 +396,7 @@ void	CVec4::ToDegrees()
 ////////////////////////////////////////////////////////////////////////////////////////
 void	CVec4::FromStr(const char *s)
 {
-//	assert(s && s[0]);
+//	Q_assert(s && s[0]);
 	sscanf(s, "(%f %f %f %f)", &v[0], &v[1], &v[2], &v[3]);
 }
 
@@ -405,7 +405,7 @@ void	CVec4::FromStr(const char *s)
 ////////////////////////////////////////////////////////////////////////////////////////
 void	CVec4::ToStr(char* s) const
 {
-//	assert(s);
+//	Q_assert(s);
 	sprintf(s, "(%3.3f %3.3f %3.3f %3.3f)", v[0], v[1], v[2], v[3]);
 }
 
@@ -971,7 +971,7 @@ void	CVec3::ToDegrees()
 ////////////////////////////////////////////////////////////////////////////////////////
 void	CVec3::FromStr(const char *s)
 {
-	assert(s && s[0]);
+	Q_assert(s && s[0]);
 	sscanf(s, "(%f %f %f)", &v[0], &v[1], &v[2]);
 }
 
@@ -980,7 +980,7 @@ void	CVec3::FromStr(const char *s)
 ////////////////////////////////////////////////////////////////////////////////////////
 void	CVec3::ToStr(char* s) const
 {
-	assert(s);
+	Q_assert(s);
 	sprintf(s, "(%3.3f %3.3f %3.3f)", v[0], v[1], v[2]);
 }
 

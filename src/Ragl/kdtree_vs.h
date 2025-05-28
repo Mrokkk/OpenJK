@@ -166,7 +166,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	bool	find(const T& data)
 	{
-		assert(mRoot!=NULL_NODE); // If You Hit This Assert, You Are Asking For Data On An Empty Tree
+		Q_assert(mRoot!=NULL_NODE); // If You Hit This Assert, You Are Asking For Data On An Empty Tree
 
 		int		node = find_index(data, mRoot, 0, true, true);
 
@@ -332,7 +332,7 @@ private:
     ////////////////////////////////////////////////////////////////////////////////////
 	void		tree_search(range_query& query, int curNode, int curDimension, range_bounds bounds)
 	{
-		assert(curNode<SIZE);
+		Q_assert(curNode<SIZE);
 
 		// Is This Node In The Query Range?  If So, Report It
 		//----------------------------------------------------
@@ -452,7 +452,7 @@ private:
     ////////////////////////////////////////////////////////////////////////////////////
 	void		tree_search_report_sub_tree(range_query& query, int curNode)
 	{
-		assert(curNode<SIZE);
+		Q_assert(curNode<SIZE);
 
 		if (mPool[curNode].mLeft!=NULL_NODE)
 		{

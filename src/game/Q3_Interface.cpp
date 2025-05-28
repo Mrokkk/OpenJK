@@ -821,7 +821,7 @@ static void Q3_SetStatusText(const char *StatusTextEnum)
 		statusTextIndex = statusTextID;
 		break;
 	default:
-		assert(0);
+		Q_assert(0);
 		break;
 	}
 }

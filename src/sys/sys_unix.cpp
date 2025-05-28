@@ -644,12 +644,7 @@ void Sys_AnsiColorPrint( const char *msg )
 #include <backtrace.h>
 #include <cxxabi.h>
 
-#define _COLOR_GREEN	"\e[32m"
-#define _COLOR_YELLOW	"\e[33m"
-#define _COLOR_BLUE		"\e[34m"
-#define _COLOR_RESET	"\e[0m"
-
-static void Sys_BacktraceErrorCallback(void *data, const char *message, int error)
+static void BacktraceErrorCallback(void *data, const char *message, int error)
 {
 	if (error == -1)
 	{
@@ -660,9 +655,9 @@ static void Sys_BacktraceErrorCallback(void *data, const char *message, int erro
 	Com_Printf(S_COLOR_RED "Backtrace error %d: %s\n", error, message);
 }
 
-static int Sys_BacktraceCallback(void *data, uintptr_t pc, const char *pathname, int lineNumber, const char *function)
+static int BacktraceCallback(void *data, uintptr_t pc, const char *pathname, int lineNumber, const char *function)
 {
-	static int index = 0;
+	auto index = reinterpret_cast<int*>(data);
 	if (pathname != NULL || function != NULL)
 	{
 		int status;
@@ -680,8 +675,8 @@ static int Sys_BacktraceCallback(void *data, uintptr_t pc, const char *pathname,
 			function = "??";
 		}
 
-		Com_Printf("#%u " _COLOR_BLUE "%p " _COLOR_RESET "in " _COLOR_YELLOW "%s " _COLOR_RESET "at " _COLOR_GREEN"%s" _COLOR_RESET ":%d\n",
-			index,
+		Com_Printf("#%u " S_COLOR_BLUE "%p " S_COLOR_WHITE "in " S_COLOR_YELLOW "%s " S_COLOR_WHITE "at " S_COLOR_GREEN "%s" S_COLOR_WHITE ":%d\n",
+			*index,
 			(void*)pc,
 			function,
 			pathname,
@@ -689,27 +684,36 @@ static int Sys_BacktraceCallback(void *data, uintptr_t pc, const char *pathname,
 	}
 	else
 	{
-		Com_Printf("#%u " _COLOR_BLUE "%p " _COLOR_RESET "in ??\n", index, (void*)pc);
+		Com_Printf("#%u " S_COLOR_BLUE "%p " S_COLOR_WHITE "in ??\n", *index, (void*)pc);
 	}
-	index++;
+	(*index)++;
 	return 0;
 }
 
-void Sys_BacktracePrint(void)
+#endif
+
+static backtrace_state *backtraceState;
+
+void Sys_StacktraceInit(void)
 {
-	Com_Printf("Backtrace:\n");
-	auto state = backtrace_create_state(NULL, 0, Sys_BacktraceErrorCallback, NULL);
-	backtrace_full(state, 1, Sys_BacktraceCallback, Sys_BacktraceErrorCallback, NULL);
+#ifdef OPENJO_STACKTRACE
+	backtraceState = backtrace_create_state(NULL, 0, BacktraceErrorCallback, NULL);
+#endif
 }
 
+void Sys_StacktraceDump(void)
+{
+#ifdef OPENJO_STACKTRACE
+	Com_Printf("Backtrace:\n");
+	int index = 0;
+	backtrace_full(backtraceState, 1, BacktraceCallback, BacktraceErrorCallback, static_cast<void*>(&index));
 #endif
+}
 
 void Sys_CrashHandle(int signum)
 {
 	Com_Printf(S_COLOR_RED "SIG%s received\n", sigabbrev_np(signum));
-#if OPENJO_STACKTRACE
-	Sys_BacktracePrint();
-#endif
+	Sys_StacktraceDump();
 	signal(signum, SIG_DFL); // Restore default signal handling so that core dump can be collected
 
 #ifndef DEDICATED

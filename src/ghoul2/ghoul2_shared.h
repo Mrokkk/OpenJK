@@ -485,27 +485,27 @@ class CGhoul2Info_v
 
 	void Alloc()
 	{
-		assert(!mItem); //already alloced
+		Q_assert(!mItem); //already alloced
 		mItem=InfoArray().New();
-		assert(!Array().size());
+		Q_assert(!Array().size());
 	}
 	void Free()
 	{
 		if (mItem)
 		{
-			assert(InfoArray().IsValid(mItem));
+			Q_assert(InfoArray().IsValid(mItem));
 			InfoArray().Delete(mItem);
 			mItem=0;
 		}
 	}
 	std::vector<CGhoul2Info> &Array()
 	{
-		assert(InfoArray().IsValid(mItem));
+		Q_assert(InfoArray().IsValid(mItem));
 		return InfoArray().Get(mItem);
 	}
 	const std::vector<CGhoul2Info> &Array() const
 	{
-		assert(InfoArray().IsValid(mItem));
+		Q_assert(InfoArray().IsValid(mItem));
 		return InfoArray().Get(mItem);
 	}
 public:
@@ -540,19 +540,19 @@ public:
 	}
 	CGhoul2Info &operator[](int idx)
 	{
-		assert(mItem);
-		assert(idx>=0&&idx<size());
+		Q_assert(mItem);
+		Q_assert(idx>=0&&idx<size());
 		return Array()[idx];
 	}
 	const CGhoul2Info &operator[](int idx) const
 	{
-		assert(mItem);
-		assert(idx>=0&&idx<size());
+		Q_assert(mItem);
+		Q_assert(idx>=0&&idx<size());
 		return Array()[idx];
 	}
 	void resize(int num)
 	{
-		assert(num>=0);
+		Q_assert(num>=0);
 		if (num)
 		{
 			if (!mItem)

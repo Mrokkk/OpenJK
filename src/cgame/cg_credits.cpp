@@ -251,7 +251,7 @@ void CG_Credits_Init( const char *psStripReference, vec4_t *pv4Color )
 	//ensure we found a match
 	if (!iStrLen)
 	{
-		assert(0);	// should never get here now, but wtf?
+		Q_assert(0);	// should never get here now, but wtf?
 		cgi_Z_Free(psMallocText);
 #ifndef FINAL_BUILD
 		Com_Printf("WARNING: CG_Credits_Init(): invalid text key :'%s'\n", psStripReference);

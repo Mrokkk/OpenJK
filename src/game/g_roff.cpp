@@ -612,7 +612,7 @@ void G_Roff( gentity_t *ent )
 
 	// Lock me to a 20hz update rate
 	ent->next_roff_time = level.time + roff->mFrameTime;
-	assert( roff->mFrameTime >= 50 );//HAS to be at least 50
+	Q_assert( roff->mFrameTime >= 50 );//HAS to be at least 50
 }
 
 

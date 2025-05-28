@@ -245,7 +245,7 @@ CSequence *CSequencer::AddSequence( void )
 {
 	CSequence	*sequence = m_owner->GetSequence();
 
-	assert( sequence );
+	Q_assert( sequence );
 	if ( sequence == NULL )
 		return NULL;
 
@@ -265,7 +265,7 @@ CSequence *CSequencer::AddSequence( CSequence *parent, CSequence *returnSeq, int
 {
 	CSequence	*sequence = m_owner->GetSequence();
 
-	assert( sequence );
+	Q_assert( sequence );
 	if ( sequence == NULL )
 		return NULL;
 
@@ -412,7 +412,7 @@ int CSequencer::ParseRun( CBlock *block )
 
 	m_curSequence = m_curSequence->GetReturn();
 
-	assert( m_curSequence );
+	Q_assert( m_curSequence );
 
 	block->Write( TK_FLOAT, (float) new_sequence->GetID() );
 	PushCommand( block, PUSH_FRONT );
@@ -435,7 +435,7 @@ int CSequencer::ParseIf( CBlock *block, bstream_t *bstream )
 	//Create the container sequence
 	sequence = AddSequence( m_curSequence, m_curSequence, SQ_CONDITIONAL );
 
-	assert( sequence );
+	Q_assert( sequence );
 	if ( sequence == NULL )
 	{
 		m_ie->I_DPrintf( WL_ERROR, "ParseIf: failed to allocate container sequence" );
@@ -480,7 +480,7 @@ int CSequencer::ParseElse( CBlock *block, bstream_t *bstream )
 	//Create the container sequence
 	sequence = AddSequence( m_curSequence, m_curSequence, SQ_CONDITIONAL );
 
-	assert( sequence );
+	Q_assert( sequence );
 	if ( sequence == NULL )
 	{
 		m_ie->I_DPrintf( WL_ERROR, "ParseIf: failed to allocate container sequence" );
@@ -529,7 +529,7 @@ int CSequencer::ParseLoop( CBlock *block, bstream_t *bstream )
 	//Set the parent
 	sequence = AddSequence( m_curSequence, m_curSequence, ( SQ_LOOP | SQ_RETAIN ) );
 
-	assert( sequence );
+	Q_assert( sequence );
 	if ( sequence == NULL )
 	{
 		m_ie->I_DPrintf( WL_ERROR, "ParseLoop : failed to allocate container sequence" );
@@ -1008,7 +1008,7 @@ void CSequencer::CheckRun( CBlock **command )
 		m_curSequence = GetSequence( id );
 
 		//TODO: Emit warning
-		assert( m_curSequence );
+		Q_assert( m_curSequence );
 		if ( m_curSequence == NULL )
 		{
 			m_ie->I_DPrintf( WL_ERROR, "Unable to find 'run' sequence!\n" );
@@ -1430,7 +1430,7 @@ void CSequencer::CheckIf( CBlock **command )
 			successSeq = GetSequence( successID );
 
 			//TODO: Emit warning
-			assert( successSeq );
+			Q_assert( successSeq );
 			if ( successSeq == NULL )
 			{
 				m_ie->I_DPrintf( WL_ERROR, "Unable to find conditional success sequence!\n" );
@@ -1465,7 +1465,7 @@ void CSequencer::CheckIf( CBlock **command )
 			failureSeq = GetSequence( failureID );
 
 			//TODO: Emit warning
-			assert( failureSeq );
+			Q_assert( failureSeq );
 			if ( failureSeq == NULL )
 			{
 				m_ie->I_DPrintf( WL_ERROR, "Unable to find conditional failure sequence!\n" );
@@ -1515,7 +1515,7 @@ void CSequencer::CheckIf( CBlock **command )
 
 	if ( ( block->GetBlockID() == ID_BLOCK_END ) && ( m_curSequence->HasFlag( SQ_CONDITIONAL ) ) )
 	{
-		assert( m_curSequence->GetReturn() );
+		Q_assert( m_curSequence->GetReturn() );
 		if ( m_curSequence->GetReturn() == NULL )
 		{
 			*command = NULL;
@@ -1593,7 +1593,7 @@ void CSequencer::CheckLoop( CBlock **command )
 		CSequence *loop = GetSequence( loopID );
 
 		//TODO: Emit warning
-		assert( loop );
+		Q_assert( loop );
 		if ( loop == NULL )
 		{
 			m_ie->I_DPrintf( WL_ERROR, "Unable to find 'loop' sequence!\n" );
@@ -1601,7 +1601,7 @@ void CSequencer::CheckLoop( CBlock **command )
 			return;
 		}
 
-		assert( loop->GetParent() );
+		Q_assert( loop->GetParent() );
 		if ( loop->GetParent() == NULL )
 		{
 			*command = NULL;
@@ -1652,7 +1652,7 @@ void CSequencer::CheckLoop( CBlock **command )
 		}
 		else
 		{
-			assert( m_curSequence->GetReturn() );
+			Q_assert( m_curSequence->GetReturn() );
 			if ( m_curSequence->GetReturn() == NULL )
 			{
 				*command = NULL;
@@ -1916,7 +1916,7 @@ void CSequencer::CheckDo( CBlock **command )
 		CSequence	*sequence = GetTaskSequence( group );
 
 		//TODO: Emit warning
-		assert( group );
+		Q_assert( group );
 		if ( group == NULL )
 		{
 			//TODO: Give name/number of entity trying to execute, too
@@ -1926,7 +1926,7 @@ void CSequencer::CheckDo( CBlock **command )
 		}
 
 		//TODO: Emit warning
-		assert( sequence );
+		Q_assert( sequence );
 		if ( sequence == NULL )
 		{
 			//TODO: Give name/number of entity trying to execute, too
@@ -2087,7 +2087,7 @@ int CSequencer::Callback( CTaskManager *taskManager, CBlock *block, int returnCo
 
 	//FIXME: This could be more descriptive
 	m_ie->I_DPrintf( WL_ERROR,  "command could not be called back\n" );
-	assert(0);
+	Q_assert(0);
 
 	return SEQ_FAILED;
 }
@@ -2183,7 +2183,7 @@ Pushes a commands onto the current sequence
 int CSequencer::PushCommand( CBlock *command, int flag )
 {
 	//Make sure everything is ok
-	assert( m_curSequence );
+	Q_assert( m_curSequence );
 	if ( m_curSequence == NULL )
 		return SEQ_FAILED;
 
@@ -2205,7 +2205,7 @@ Pops a command off the current sequence
 CBlock *CSequencer::PopCommand( int flag )
 {
 	//Make sure everything is ok
-	assert( m_curSequence );
+	Q_assert( m_curSequence );
 	if ( m_curSequence == NULL )
 		return NULL;
 
@@ -2237,7 +2237,7 @@ int CSequencer::RemoveSequence( CSequence *sequence )
 		temp = sequence->GetChild( i );
 
 		//TODO: Emit warning
-		assert( temp );
+		Q_assert( temp );
 		if ( temp == NULL )
 		{
 			m_ie->I_DPrintf( WL_WARNING, "Unable to find child sequence on RemoveSequence call!\n" );
@@ -2300,7 +2300,7 @@ inline CSequence *CSequencer::ReturnSequence( CSequence *sequence )
 {
 	while ( sequence->GetReturn() )
 	{
-		assert(sequence != sequence->GetReturn() );
+		Q_assert(sequence != sequence->GetReturn() );
 		if ( sequence == sequence->GetReturn() )
 			return NULL;
 
@@ -2439,7 +2439,7 @@ int	CSequencer::Load( void )
 
 		seq = m_owner->GetSequence( seqID );
 
-		assert( seq );
+		Q_assert( seq );
 
 		STL_INSERT( m_sequences, seq );
 		m_sequenceMap[ seqID ] = seq;
@@ -2471,11 +2471,11 @@ int	CSequencer::Load( void )
 
 		taskGroup = m_taskManager->GetTaskGroup( taskID );
 
-		assert( taskGroup );
+		Q_assert( taskGroup );
 
 		seq = m_owner->GetSequence( seqID );
 
-		assert( seq );
+		Q_assert( seq );
 
 		//Associate the values
 		m_taskSequences[ taskGroup ] = seq;

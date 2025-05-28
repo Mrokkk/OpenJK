@@ -615,7 +615,7 @@ void AddSoundEvent( gentity_t *owner, vec3_t position, float radius, alertEventL
 	//			react to enemy alert events in some way?
 
 #ifdef _DEBUG
-	assert( !Q_isnan(position[0]) && !Q_isnan(position[1]) && !Q_isnan(position[2]) );
+	Q_assert( !Q_isnan(position[0]) && !Q_isnan(position[1]) && !Q_isnan(position[2]) );
 #endif
 	VectorCopy( position, level.alertEvents[ level.numAlertEvents ].position );
 
@@ -662,7 +662,7 @@ void AddSightEvent( gentity_t *owner, vec3_t position, float radius, alertEventL
 	//			react to enemy alert events in some way?
 
 #ifdef _DEBUG
-	assert( !Q_isnan(position[0]) && !Q_isnan(position[1]) && !Q_isnan(position[2]) );
+	Q_assert( !Q_isnan(position[0]) && !Q_isnan(position[1]) && !Q_isnan(position[2]) );
 #endif
 	VectorCopy( position, level.alertEvents[ level.numAlertEvents ].position );
 
@@ -709,7 +709,7 @@ void ClearPlayerAlertEvents( void )
 		}
 	}
 	//make sure this never drops below zero... if it does, something very very bad happened
-	assert( level.numAlertEvents >= 0 );
+	Q_assert( level.numAlertEvents >= 0 );
 
 	if ( eventClearTime < level.time )
 	{//this is just a 200ms debouncer so things that generate constant alerts (like corpses and missiles) add an alert every 200 ms
@@ -748,7 +748,7 @@ qboolean RemoveOldestAlert( void )
 		}
 	}
 	//make sure this never drops below zero... if it does, something very very bad happened
-	assert( level.numAlertEvents >= 0 );
+	Q_assert( level.numAlertEvents >= 0 );
 	//return true is have room for one now
 	return (qboolean)(level.numAlertEvents < MAX_ALERT_EVENTS);
 }

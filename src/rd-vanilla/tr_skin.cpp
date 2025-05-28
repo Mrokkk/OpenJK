@@ -279,7 +279,7 @@ qhandle_t RE_RegisterIndividualSkin( const char *name , qhandle_t hSkin)
 		return 0;
 	}
 
-	assert (tr.skins[hSkin]);	//should already be setup, but might be an 3part append
+	Q_assert(tr.skins[hSkin]);	//should already be setup, but might be an 3part append
 
 	skin = tr.skins[hSkin];
 
@@ -308,7 +308,7 @@ qhandle_t RE_RegisterIndividualSkin( const char *name , qhandle_t hSkin)
 
 		if ( (unsigned)skin->numSurfaces >= ARRAY_LEN( skin->surfaces ) )
 		{
-			assert( ARRAY_LEN( skin->surfaces ) > (unsigned)skin->numSurfaces );
+			Q_assert( ARRAY_LEN( skin->surfaces ) > (unsigned)skin->numSurfaces );
 			ri.Printf( PRINT_WARNING, "WARNING: RE_RegisterSkin( '%s' ) more than %u surfaces!\n", name, (unsigned int)ARRAY_LEN(skin->surfaces) );
 			break;
 		}

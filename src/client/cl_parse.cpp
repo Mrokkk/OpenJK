@@ -409,7 +409,7 @@ void CL_ParseGamestate( msg_t *msg ) {
 				Com_Printf ("%3i:  CS# %d %s (%d)\n",msg->readcount, i,s,len);
 			}
 		} else if ( cmd == svc_baseline ) {
-			assert(0);
+			Q_assert(0);
 		} else {
 			Com_Error( ERR_DROP, "CL_ParseGamestate: bad command byte" );
 		}

@@ -551,7 +551,7 @@ void *Sys_LoadSPGameDll( const char *name, GetGameAPIProc **GetGameAPI )
 	void	*libHandle = NULL;
 	char	filename[MAX_OSPATH];
 
-	assert( GetGameAPI );
+	Q_assert( GetGameAPI );
 
 	Com_sprintf (filename, sizeof(filename), "%s" ARCH_STRING DLL_EXT, name);
 
@@ -769,6 +769,11 @@ int main ( int argc, char* argv[] )
 
 	Sys_SetBinaryPath( Sys_Dirname( argv[ 0 ] ) );
 	Sys_SetDefaultInstallPath( DEFAULT_BASEDIR );
+
+#ifdef __unix__
+	extern void Sys_StacktraceInit(void);
+	Sys_StacktraceInit();
+#endif
 
 	// Concatenate the command line for passing to Com_Init
 	for( i = 1; i < argc; i++ )

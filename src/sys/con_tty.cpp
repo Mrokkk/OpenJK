@@ -155,7 +155,7 @@ static void CON_Show( void )
 	{
 		int i;
 
-		assert(ttycon_hide>0);
+		Q_assert(ttycon_hide>0);
 		ttycon_hide--;
 		if (ttycon_hide == 0)
 		{
@@ -204,10 +204,10 @@ void Hist_Add(field_t *field)
 	if (!field->cursor)
 		return;
 
-	assert(hist_count <= CON_HISTORY);
-	assert(hist_count >= 0);
-	assert(hist_current >= -1);
-	assert(hist_current <= hist_count);
+	Q_assert(hist_count <= CON_HISTORY);
+	Q_assert(hist_count >= 0);
+	Q_assert(hist_current >= -1);
+	Q_assert(hist_current <= hist_count);
 	// make some room
 	for (i=CON_HISTORY-1; i>0; i--)
 	{
@@ -229,10 +229,10 @@ Hist_Prev
 field_t *Hist_Prev( void )
 {
 	int hist_prev;
-	assert(hist_count <= CON_HISTORY);
-	assert(hist_count >= 0);
-	assert(hist_current >= -1);
-	assert(hist_current <= hist_count);
+	Q_assert(hist_count <= CON_HISTORY);
+	Q_assert(hist_count >= 0);
+	Q_assert(hist_current >= -1);
+	Q_assert(hist_current <= hist_count);
 	hist_prev = hist_current + 1;
 	if (hist_prev >= hist_count)
 	{
@@ -249,10 +249,10 @@ Hist_Next
 */
 field_t *Hist_Next( void )
 {
-	assert(hist_count <= CON_HISTORY);
-	assert(hist_count >= 0);
-	assert(hist_current >= -1);
-	assert(hist_current <= hist_count);
+	Q_assert(hist_count <= CON_HISTORY);
+	Q_assert(hist_count >= 0);
+	Q_assert(hist_current >= -1);
+	Q_assert(hist_current <= hist_count);
 	if (hist_current >= 0)
 	{
 		hist_current--;

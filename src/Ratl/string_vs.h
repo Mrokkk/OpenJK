@@ -95,10 +95,10 @@ public:
 	~string_vs()
 	{
 		//if you hit the below asserts, the end of the string was overwritten
-		assert(mData[CAPACITY]=='e');
-		assert(mData[CAPACITY+1]=='n');
-		assert(mData[CAPACITY+2]=='d');
-		assert(mData[CAPACITY+3]==0);
+		Q_assert(mData[CAPACITY]=='e');
+		Q_assert(mData[CAPACITY+1]=='n');
+		Q_assert(mData[CAPACITY+2]=='d');
+		Q_assert(mData[CAPACITY+3]==0);
 	}
 #endif
     ////////////////////////////////////////////////////////////////////////////////////
@@ -106,7 +106,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	string_vs(const string_vs<CAPACITY> &o)
 	{
-		assert(str::len(o.mData)<CAPACITY);
+		Q_assert(str::len(o.mData)<CAPACITY);
 		str::ncpy(mData, o.mData, CAPACITY);		// Safe String Copy
 		mData[CAPACITY-1] = 0;					// Make Sure We Have A Null Terminated Str
 		FillTerminator();
@@ -117,7 +117,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	string_vs(const char *s)
 	{
-		assert(str::len(s)<CAPACITY);
+		Q_assert(str::len(s)<CAPACITY);
 		str::ncpy(mData, s, CAPACITY);		// Safe String Copy
 		mData[CAPACITY-1] = 0;					// Make Sure We Have A Null Terminated Str
 		FillTerminator();
@@ -129,7 +129,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	string_vs& operator=(const char *s)
 	{
-		assert(str::len(s)<CAPACITY);
+		Q_assert(str::len(s)<CAPACITY);
 		str::ncpy(mData, s, CAPACITY);			// Safe String Copy
 		mData[CAPACITY-1] = 0;					// Make Sure We Have A Null Terminated Str
 		FillTerminator();
@@ -182,7 +182,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	int				length() const
 	{
-		assert(str::len(mData)<CAPACITY-1);
+		Q_assert(str::len(mData)<CAPACITY-1);
 		return str::len(mData);
 	}
 
@@ -191,7 +191,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	char			operator[](int index)
 	{
-		assert(index<CAPACITY);
+		Q_assert(index<CAPACITY);
 		return mData[index];
 	}
 
@@ -254,7 +254,7 @@ public:
 		}
 		else
 		{
-			assert(!"string_vs overflow\n");
+			Q_assert(!"string_vs overflow\n");
 		}
 	}
 
@@ -269,7 +269,7 @@ public:
 		}
 		else
 		{
-			assert(!"string_vs overflow\n");
+			Q_assert(!"string_vs overflow\n");
 		}
 	}
 
@@ -337,7 +337,7 @@ public:
 		//----------------------
 		const char*	operator*()
 		{
-			assert(mLoc);
+			Q_assert(mLoc);
 			return mLoc;
 		}
 
@@ -345,7 +345,7 @@ public:
 		//--------------------
 		void		operator++(int)
 		{
-			assert(mLoc && mGap[0]);
+			Q_assert(mLoc && mGap[0]);
 			mLoc = str::tok(NULL, mGap);
 		}
 

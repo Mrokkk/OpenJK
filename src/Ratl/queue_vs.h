@@ -81,7 +81,7 @@ private:
 
 	int push_low()
 	{
-		assert(size()<CAPACITY);
+		Q_assert(size()<CAPACITY);
 
 		// Add It
 		//--------
@@ -173,7 +173,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	void			pop()
 	{
-		assert(size()>0);
+		Q_assert(size()>0);
 
 		mData.destruct(mPop);
 		// Update Pop Location
@@ -189,13 +189,13 @@ public:
 
 	TTValue & top()
 	{
-		assert(size()>0);
+		Q_assert(size()>0);
 		return mData[mPop];
 	}
 
 	const TTValue & top() const
 	{
-		assert(size()>0);
+		Q_assert(size()>0);
 		return mData[mPop];
 	}
 	template<class CAST_TO>

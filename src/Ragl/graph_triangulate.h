@@ -180,7 +180,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	void	insertion_hull()
 	{
-		assert(mGraph.size_nodes()>3);		// We Need More Than 3 Points To Triangulate
+		Q_assert(mGraph.size_nodes()>3);		// We Need More Than 3 Points To Triangulate
 
 		// STEP ONE: Sort all points along the x axis in increasing order
 		//----------------------------------------------------------------
@@ -381,34 +381,34 @@ private:
 
 		void		flip_face(int OldFace, int NewFace)
 		{
-			assert(mRight!=mLeft);
-			assert(mLeft!=NewFace && mRight!=NewFace);
+			Q_assert(mRight!=mLeft);
+			Q_assert(mLeft!=NewFace && mRight!=NewFace);
 			if (mLeft==OldFace)
 			{
 				mLeft=NewFace;
 			}
 			else
 			{
-				assert(mRight==OldFace);
+				Q_assert(mRight==OldFace);
 				mRight = NewFace;
 			}
-			assert(mRight!=mLeft);
+			Q_assert(mRight!=mLeft);
 		}
 		void	verify(int PtA, int PtB, int Edge)
 		{
-			assert(PtA==mA || PtA==mB);
-			assert(PtB==mA || PtB==mB);
-			assert(mRight==Edge || mLeft==Edge);
-			assert(mRight!=mLeft);
-			assert(mA!=mB);
+			Q_assert(PtA==mA || PtA==mB);
+			Q_assert(PtB==mA || PtB==mB);
+			Q_assert(mRight==Edge || mLeft==Edge);
+			Q_assert(mRight!=mLeft);
+			Q_assert(mA!=mB);
 		}
 		void	verify(int PtA, int PtB, int PtC, int Edge)
 		{
-			assert((PtC==mA && (PtA==mB || PtB==mB)) || (PtC==mB && (PtA==mA || PtB==mA)));
+			Q_assert((PtC==mA && (PtA==mB || PtB==mB)) || (PtC==mB && (PtA==mA || PtB==mA)));
 
-			assert(mRight==Edge || mLeft==Edge);
-			assert(mRight!=mLeft);
-			assert(mA!=mB);
+			Q_assert(mRight==Edge || mLeft==Edge);
+			Q_assert(mRight!=mLeft);
+			Q_assert(mA!=mB);
 		}
 	};
 
@@ -446,7 +446,7 @@ private:
 			{
 				return mB;
 			}
-			assert(mC!=A && mC!=B);
+			Q_assert(mC!=A && mC!=B);
 			return mC;
 		}
 
@@ -460,7 +460,7 @@ private:
 			{
 				return mBottom;
 			}
-			assert(edge==mBottom);	// If you hit this assert, then the edge is not in this face
+			Q_assert(edge==mBottom);	// If you hit this assert, then the edge is not in this face
 			return mLeft;
 		}
 		int&		relative_right(int edge)
@@ -473,7 +473,7 @@ private:
 			{
 				return mLeft;
 			}
-			assert(edge==mBottom);	// If you hit this assert, then the edge is not in this face
+			Q_assert(edge==mBottom);	// If you hit this assert, then the edge is not in this face
 			return mRight;
 		}
 	};
@@ -542,7 +542,7 @@ private:
     ////////////////////////////////////////////////////////////////////////////////////
 	int		add_edge(int A, int B, int Face=0, bool OnHull=true)
 	{
-		assert(A!=B );
+		Q_assert(A!=B );
 
 		int	nEdge = mLinks.get(mGraph.node_index(A), mGraph.node_index(B));
 
@@ -553,7 +553,7 @@ private:
 			nEdge= mEdges.alloc();
 
 			mHull.insert_after(mHullIter, nEdge);
-			assert(mHullIter!=mHull.end());
+			Q_assert(mHullIter!=mHull.end());
 
 			mEdges[nEdge].mA		= A;
 			mEdges[nEdge].mB		= B;
@@ -572,7 +572,7 @@ private:
 		//--------------------------------------------------------------------------
 		else if (mEdges[nEdge].mOnHull)
 		{
-			assert(mEdges[nEdge].mHullLoc!=mHull.end());
+			Q_assert(mEdges[nEdge].mHullLoc!=mHull.end());
 
 			if (mHullIter==mEdges[nEdge].mHullLoc)
 			{
@@ -638,9 +638,9 @@ private:
 		// WITH MORE THAN 2 COLINEAR POINTS ON THE SAME FACE.  INSERT HULL WILL FAIL IN THIS
 		// FACE.  INSERT HULL WILL FAIL IN THIS SITUATION
 
-		assert(mGraph.get_node(C).LRTest(mGraph.get_node(A), mGraph.get_node(B))==Side_Right);
-		assert(mGraph.get_node(A).LRTest(mGraph.get_node(B), mGraph.get_node(C))==Side_Right);
-		assert(mGraph.get_node(B).LRTest(mGraph.get_node(C), mGraph.get_node(A))==Side_Right);
+		Q_assert(mGraph.get_node(C).LRTest(mGraph.get_node(A), mGraph.get_node(B))==Side_Right);
+		Q_assert(mGraph.get_node(A).LRTest(mGraph.get_node(B), mGraph.get_node(C))==Side_Right);
+		Q_assert(mGraph.get_node(B).LRTest(mGraph.get_node(C), mGraph.get_node(A))==Side_Right);
 		//====================================================================================
 
 		mFaces[nFace].mA		= A;
@@ -760,11 +760,11 @@ private:
 				PtR				= FaceR.opposing_node(PtA, PtB);
 				PtL				= FaceL.opposing_node(PtA, PtB);
 
-				assert(EdgeAt.mRight!=EdgeAt.mLeft);
-				assert(PtA!=PtB);
-				assert(PtR!=PtL);
-				assert(PtA!=PtR && PtA!=PtL);
-				assert(PtB!=PtR && PtB!=PtL);
+				Q_assert(EdgeAt.mRight!=EdgeAt.mLeft);
+				Q_assert(PtA!=PtB);
+				Q_assert(PtR!=PtL);
+				Q_assert(PtA!=PtR && PtA!=PtL);
+				Q_assert(PtB!=PtR && PtB!=PtL);
 
 				// Is This Edge Invalid For Delaunay?
 				//-------------------------------------
@@ -836,9 +836,9 @@ private:
 					mEdges[FaceL.mBottom].verify(FaceL.mA, FaceL.mB,			EdgeAt.mLeft);
 					#endif
 
-					assert(EdgeAt.mRight!=EdgeAt.mLeft);
-					assert(PtA!=PtB);
-					assert(PtR!=PtL);
+					Q_assert(EdgeAt.mRight!=EdgeAt.mLeft);
+					Q_assert(PtA!=PtB);
+					Q_assert(PtR!=PtL);
 					//========================================================================
 				}
 			}

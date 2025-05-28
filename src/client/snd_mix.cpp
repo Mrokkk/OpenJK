@@ -255,7 +255,7 @@ void ChannelPaint(channel_t *ch, sfx_t *sc, int count, int sampleOffset, int buf
 
 		default:
 
-			assert(0);	// debug aid, ignored in release. FIXME: Should we ERR_DROP here for badness-catch?
+			Q_assert(0);	// debug aid, ignored in release. FIXME: Should we ERR_DROP here for badness-catch?
 			break;
 	}
 }

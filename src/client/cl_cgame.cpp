@@ -948,8 +948,8 @@ Ghoul2 Insert End
 	case CG_SP_GETSTRINGTEXT:
 		const char* text;
 
-		assert(VMA(1));
-//		assert(VMA(2));	// can now pass in NULL to just query the size
+		Q_assert(VMA(1));
+//		Q_assert(VMA(2));	// can now pass in NULL to just query the size
 
 		if (args[0] == CG_SP_GETSTRINGTEXT)
 		{

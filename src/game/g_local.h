@@ -76,11 +76,11 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 //Pointer safety utilities
 #define VALID( a )		( a != NULL )
-#define	VALIDATE( a )	( assert( a ) )
+#define	VALIDATE( a )	( Q_assert( a ) )
 
-#define	VALIDATEV( a )	if ( a == NULL ) {	assert(0);	return;			}
-#define	VALIDATEB( a )	if ( a == NULL ) {	assert(0);	return qfalse;	}
-#define VALIDATEP( a )	if ( a == NULL ) {	assert(0);	return NULL;	}
+#define	VALIDATEV( a )	if ( a == NULL ) {	Q_assert(0);	return;			}
+#define	VALIDATEB( a )	if ( a == NULL ) {	Q_assert(0);	return qfalse;	}
+#define VALIDATEP( a )	if ( a == NULL ) {	Q_assert(0);	return NULL;	}
 
 #define VALIDSTRING( a )	( ( a != NULL ) && ( a[0] != '\0' ) )
 

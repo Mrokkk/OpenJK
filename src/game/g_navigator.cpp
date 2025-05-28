@@ -152,7 +152,7 @@ void CNode::AddEdge( int ID, int cost, int flags )
 
 	m_numEdges++;
 
-	assert( m_numEdges < 9 );//8 is the max
+	Q_assert( m_numEdges < 9 );//8 is the max
 }
 
 /*
@@ -186,7 +186,7 @@ AddRank
 
 void CNode::AddRank( int ID, int rank )
 {
-	assert( m_ranks );
+	Q_assert( m_ranks );
 
 	m_ranks[ ID ] = rank;
 }
@@ -341,7 +341,7 @@ GetRank
 
 int CNode::GetRank( int ID )
 {
-	assert( m_ranks );
+	Q_assert( m_ranks );
 
 	return m_ranks[ ID ];
 }
@@ -796,7 +796,7 @@ void CNavigator::CalculatePath( CNode *node )
 	for ( i = 0; i < node->GetNumEdges(); i++ )
 	{
 		CNode	*nextNode = m_nodes[ node->GetEdge(i) ];
-		assert(nextNode);
+		Q_assert(nextNode);
 
 		checked[ nextNode->GetID() ] = true;
 
@@ -811,7 +811,7 @@ void CNavigator::CalculatePath( CNode *node )
 		test	 = pathList->Pop();
 
 		CNode	*testNode = m_nodes[ (*test).m_first ];
-		assert( testNode );
+		Q_assert( testNode );
 
 		node->AddRank( testNode->GetID(), curRank++ );
 
@@ -819,7 +819,7 @@ void CNavigator::CalculatePath( CNode *node )
 		for ( i = 0; i < testNode->GetNumEdges(); i++ )
 		{
 			CNode	*addNode = m_nodes[ testNode->GetEdge(i) ];
-			assert( addNode );
+			Q_assert( addNode );
 
 			if ( checked[ addNode->GetID() ] )
 				continue;
@@ -1661,8 +1661,8 @@ void CNavigator::ClearCheckedNodes( void )
 
 byte CNavigator::CheckedNode(int wayPoint,int ent)
 {
-	assert(wayPoint>=0&&wayPoint<MAX_STORED_WAYPOINTS);
-	assert(ent>=0&&ent<MAX_GENTITIES);
+	Q_assert(wayPoint>=0&&wayPoint<MAX_STORED_WAYPOINTS);
+	Q_assert(ent>=0&&ent<MAX_GENTITIES);
 	std::map<int,byte>::iterator f=CheckedNodes.find(wayPoint*MAX_GENTITIES+ent);
 	if (f!=CheckedNodes.end())
 	{
@@ -1673,9 +1673,9 @@ byte CNavigator::CheckedNode(int wayPoint,int ent)
 
 void CNavigator::SetCheckedNode(int wayPoint,int ent,byte value)
 {
-	assert(wayPoint>=0&&wayPoint<MAX_STORED_WAYPOINTS);
-	assert(ent>=0&&ent<MAX_GENTITIES);
-	assert(value==CHECKED_FAILED||value==CHECKED_PASSED);
+	Q_assert(wayPoint>=0&&wayPoint<MAX_STORED_WAYPOINTS);
+	Q_assert(ent>=0&&ent<MAX_GENTITIES);
+	Q_assert(value==CHECKED_FAILED||value==CHECKED_PASSED);
 	CheckedNodes[wayPoint*MAX_GENTITIES+ent]=value;
 }
 
@@ -1904,7 +1904,7 @@ void CNavigator::AddFailedEdge( int entID, int startID, int endID )
 	{
 #ifndef FINAL_BUILD
 		gi.Printf( S_COLOR_RED"NAV ERROR: envalid ent %d\n", entID );
-		assert(0&&"invalid entID");
+		Q_assert(0&&"invalid entID");
 #endif
 		return;
 	}
@@ -1914,7 +1914,7 @@ void CNavigator::AddFailedEdge( int entID, int startID, int endID )
 	{
 #ifndef FINAL_BUILD
 		gi.Printf( S_COLOR_RED"NAV ERROR: tried to fail invalid waypoint %d\n", startID );
-		assert(0&&"invalid failed edge");
+		Q_assert(0&&"invalid failed edge");
 #endif
 		return;
 	}
@@ -1924,7 +1924,7 @@ void CNavigator::AddFailedEdge( int entID, int startID, int endID )
 	{
 #ifndef FINAL_BUILD
 		gi.Printf( S_COLOR_RED"NAV ERROR: tried to fail invalid waypoint %d\n", endID );
-		assert(0&&"invalid failed edge");
+		Q_assert(0&&"invalid failed edge");
 #endif
 		return;
 	}
@@ -2427,7 +2427,7 @@ int CNavigator::GetNodeNumEdges( int nodeID )
 
 	CNode	*node = m_nodes[ nodeID ];
 
-	assert( node );
+	Q_assert( node );
 
 	return node->GetNumEdges();
 }
@@ -2445,7 +2445,7 @@ int CNavigator::GetNodeEdge( int nodeID, int edge )
 
 	CNode	*node = m_nodes[ nodeID ];
 
-	assert( node );
+	Q_assert( node );
 
 	return node->GetEdge( edge );
 }

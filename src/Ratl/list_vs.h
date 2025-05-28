@@ -110,7 +110,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	bool		empty() const
 	{
-		assert(mFront!=NULL_NODE || size()==0);
+		Q_assert(mFront!=NULL_NODE || size()==0);
 		return (mFront==NULL_NODE);
 	}
 
@@ -137,7 +137,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	TTValue &			front()
 	{
-		assert(mFront!=NULL_NODE);  // this is empty
+		Q_assert(mFront!=NULL_NODE);  // this is empty
 		return mPool[mFront];
 	}
 
@@ -146,7 +146,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	TTValue &			back()
 	{
-		assert(mBack!=NULL_NODE);
+		Q_assert(mBack!=NULL_NODE);
 		return mPool[mBack];
 	}
 
@@ -155,7 +155,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	const TTValue &			front() const
 	{
-		assert(mFront!=NULL_NODE);  // this is empty
+		Q_assert(mFront!=NULL_NODE);  // this is empty
 		return mPool[mFront];
 	}
 
@@ -164,7 +164,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	const TTValue &			back() const
 	{
-		assert(mBack!=NULL_NODE);
+		Q_assert(mBack!=NULL_NODE);
 		return mPool[mBack];
 	}
 
@@ -216,7 +216,7 @@ public:
 		//----------------------
 		TTValue&			operator* ()	const
 		{
-			assert(mLoc>=0 && mLoc<T::CAPACITY);
+			Q_assert(mLoc>=0 && mLoc<T::CAPACITY);
 			return (mOwner->mPool[mLoc]);
 		}
 
@@ -224,7 +224,7 @@ public:
 		//----------------------
 		TTValue&			value()	const
 		{
-			assert(mLoc>=0 && mLoc<T::CAPACITY);
+			Q_assert(mLoc>=0 && mLoc<T::CAPACITY);
 			return (mOwner->mPool[mLoc]);
 		}
 
@@ -232,7 +232,7 @@ public:
 		//----------------------
 		TTValue*			operator-> ()	const
 		{
-			assert(mLoc>=0 && mLoc<T::CAPACITY);
+			Q_assert(mLoc>=0 && mLoc<T::CAPACITY);
 			return (&mOwner->mPool[mLoc]);
 		}
 
@@ -240,7 +240,7 @@ public:
 		//--------------
 		iterator operator++(int)
 		{
-			assert(mLoc>=0 && mLoc<T::CAPACITY);
+			Q_assert(mLoc>=0 && mLoc<T::CAPACITY);
 			iterator old(*this);
 			mLoc = T::node(mOwner->mPool[mLoc]).mNext;
 			return old;
@@ -250,7 +250,7 @@ public:
 		//--------------
 		iterator operator++()
 		{
-			assert(mLoc>=0 && mLoc<T::CAPACITY);
+			Q_assert(mLoc>=0 && mLoc<T::CAPACITY);
 			mLoc = T::node(mOwner->mPool[mLoc]).mNext;
 			return *this;
 		}
@@ -258,7 +258,7 @@ public:
 		//--------------
 		iterator operator--(int)
 		{
-			assert(mLoc>=0 && mLoc<T::CAPACITY);
+			Q_assert(mLoc>=0 && mLoc<T::CAPACITY);
 			iterator old(*this);
 			mLoc = T::node(mOwner->mPool[mLoc]).mPrev;
 			return old;
@@ -269,7 +269,7 @@ public:
 		//--------------
 		iterator operator--()
 		{
-			assert(mLoc>=0 && mLoc<T::CAPACITY);
+			Q_assert(mLoc>=0 && mLoc<T::CAPACITY);
 			mLoc = T::node(mOwner->mPool[mLoc]).mPrev;
 			return *this;
 		}
@@ -341,7 +341,7 @@ public:
 		//----------------------
 		const TTValue&			operator* ()		const
 		{
-			assert(mLoc>=0 && mLoc<T::CAPACITY);
+			Q_assert(mLoc>=0 && mLoc<T::CAPACITY);
 			return (mOwner->mPool[mLoc]);
 		}
 
@@ -349,7 +349,7 @@ public:
 		//----------------------
 		const TTValue*			operator-> ()		const
 		{
-			assert(mLoc>=0 && mLoc<T::CAPACITY);
+			Q_assert(mLoc>=0 && mLoc<T::CAPACITY);
 			return (&mOwner->mPool[mLoc]);
 		}
 
@@ -357,7 +357,7 @@ public:
 		//----------------------
 		const TTValue&			value()	const
 		{
-			assert(mLoc>=0 && mLoc<T::CAPACITY);
+			Q_assert(mLoc>=0 && mLoc<T::CAPACITY);
 			return (mOwner->mPool[mLoc]);
 		}
 
@@ -365,7 +365,7 @@ public:
 		//--------------
 		const_iterator operator++(int)
 		{
-			assert(mLoc>=0 && mLoc<T::CAPACITY);
+			Q_assert(mLoc>=0 && mLoc<T::CAPACITY);
 			const_iterator old(*this);
 			mLoc = T::node(mOwner->mPool[mLoc]).mNext;
 			return old;
@@ -375,7 +375,7 @@ public:
 		//--------------
 		const_iterator operator++()
 		{
-			assert(mLoc>=0 && mLoc<T::CAPACITY);
+			Q_assert(mLoc>=0 && mLoc<T::CAPACITY);
 			mLoc = T::node(mOwner->mPool[mLoc]).mNext;
 			return *this;
 		}
@@ -383,7 +383,7 @@ public:
 		//--------------
 		const_iterator operator--(int)
 		{
-			assert(mLoc>=0 && mLoc<T::CAPACITY);
+			Q_assert(mLoc>=0 && mLoc<T::CAPACITY);
 			const_iterator old(*this);
 			mLoc = T::node(mOwner->mPool[mLoc]).mPrev;
 			return old;
@@ -394,7 +394,7 @@ public:
 		//--------------
 		const_iterator operator--()
 		{
-			assert(mLoc>=0 && mLoc<T::CAPACITY);
+			Q_assert(mLoc>=0 && mLoc<T::CAPACITY);
 			mLoc = T::node(mOwner->mPool[mLoc]).mPrev;
 			return *this;
 		}
@@ -568,8 +568,8 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	void		erase(iterator& it)
 	{
-		assert(it.mOwner==this);		// Iterators must be mixed up, this is from a different list.
-		assert(it.mLoc!=NULL_NODE);
+		Q_assert(it.mOwner==this);		// Iterators must be mixed up, this is from a different list.
+		Q_assert(it.mLoc!=NULL_NODE);
 
 		int		At				= it.mLoc;
 		int		Prev			= T::node(mPool[At]).mPrev;
@@ -617,7 +617,7 @@ private:
     ////////////////////////////////////////////////////////////////////////////////////
 	void insert_low(const iterator& it,int nNew)
 	{
-		assert(it.mOwner==this);	// Iterators must be mixed up, this is from a different list.
+		Q_assert(it.mOwner==this);	// Iterators must be mixed up, this is from a different list.
 
 		int		Next				= it.mLoc;
 		int		Prev				= NULL_NODE;
@@ -631,7 +631,7 @@ private:
 		}
 
 
-		assert(nNew!=Next && nNew!=Prev);
+		Q_assert(nNew!=Next && nNew!=Prev);
 
 
 		// LINK: (Prev)<-(New)->(Next)
@@ -645,7 +645,7 @@ private:
 		if (Next!=NULL_NODE)
 		{
 			T::node(mPool[Next]).mPrev		= nNew;
-			assert(T::node(mPool[Next]).mPrev!=T::node(mPool[Next]).mNext);
+			Q_assert(T::node(mPool[Next]).mPrev!=T::node(mPool[Next]).mNext);
 		}
 		else
 		{
@@ -658,7 +658,7 @@ private:
 		if (Prev!=NULL_NODE)
 		{
 			T::node(mPool[Prev]).mNext		= nNew;
-			assert(T::node(mPool[Prev]).mPrev!=T::node(mPool[Prev]).mNext);
+			Q_assert(T::node(mPool[Prev]).mPrev!=T::node(mPool[Prev]).mNext);
 		}
 		else
 		{
@@ -672,7 +672,7 @@ private:
     ////////////////////////////////////////////////////////////////////////////////////
 	void insert_low_after(const iterator& it,int nNew)
 	{
-		assert(it.mOwner==this);	// Iterators must be mixed up, this is from a different list.
+		Q_assert(it.mOwner==this);	// Iterators must be mixed up, this is from a different list.
 
 		int		Next				= NULL_NODE;//it.mLoc;
 		int		Prev				= it.mLoc;//NULL_NODE;
@@ -686,7 +686,7 @@ private:
 		}
 
 
-		assert(nNew!=Next && nNew!=Prev);
+		Q_assert(nNew!=Next && nNew!=Prev);
 
 
 		// LINK: (Prev)<-(New)->(Next)
@@ -700,7 +700,7 @@ private:
 		if (Next!=NULL_NODE)
 		{
 			T::node(mPool[Next]).mPrev		= nNew;
-			assert(T::node(mPool[Next]).mPrev!=T::node(mPool[Next]).mNext);
+			Q_assert(T::node(mPool[Next]).mPrev!=T::node(mPool[Next]).mNext);
 		}
 		else
 		{
@@ -713,7 +713,7 @@ private:
 		if (Prev!=NULL_NODE)
 		{
 			T::node(mPool[Prev]).mNext		= nNew;
-			assert(T::node(mPool[Prev]).mPrev!=T::node(mPool[Prev]).mNext);
+			Q_assert(T::node(mPool[Prev]).mPrev!=T::node(mPool[Prev]).mNext);
 		}
 		else
 		{

@@ -146,13 +146,13 @@ namespace Q
 
 		const T& operator[]( size_type index ) const NOEXCEPT
 		{
-			assert( index < _size );
+			Q_assert( index < _size );
 			return data()[ index ];
 		}
 
 		T& operator[]( size_type index ) NOEXCEPT
 		{
-			assert( index < _size );
+			Q_assert( index < _size );
 			return data()[ index ];
 		}
 

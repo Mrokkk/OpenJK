@@ -215,7 +215,7 @@ public:
 	int Error(const char *m,int kind,const char *, int line)
 	{
 		char mess[1000];
-		assert(m);
+		Q_assert(m);
 		std::string full=mName;
 		if (kind==2)
 		{
@@ -223,19 +223,19 @@ public:
 		}
 		else if (kind==1)
 		{
-//			assert(!"G2API Warning");
+//			Q_assert(!"G2API Warning");
 			full+=":WARNING:  ";
 		}
 		else
 		{
-//			assert(!"G2API Error");
+//			Q_assert(!"G2API Error");
 			full+=":ERROR  :  ";
 		}
 		full+=m;
 		sprintf(mess,"  [line %d]",line);
 		full+=mess;
 
-		// assert(0);
+		// Q_assert(0);
 		int ret=0; //place a breakpoint here
 		std::map<std::string,int>::iterator f=mErrors.find(full);
 		if (f==mErrors.end())
@@ -244,7 +244,7 @@ public:
 			mErrors.insert(std::make_pair(full,0));
 			f=mErrors.find(full);
 		}
-		assert(f!=mErrors.end());
+		Q_assert(f!=mErrors.end());
 		(*f).second++;
 		if ((*f).second==1000)
 		{
@@ -307,7 +307,7 @@ void G2_Bolt_Not_Found(const char *boneName,const char *modName)
 
 void G2API_SetTime(int currentTime,int clock)
 {
-	assert(clock>=0&&clock<NUM_G2T_TIME);
+	Q_assert(clock>=0&&clock<NUM_G2T_TIME);
 #if G2_DEBUG_TIME
 	Com_Printf("Set Time: before c%6d  s%6d",G2TimeBases[1],G2TimeBases[0]);
 #endif
@@ -603,7 +603,7 @@ public:
 	{
 		if (mFreeIndecies.empty())
 		{
-			assert(0);
+			Q_assert(0);
 			Com_Error(ERR_FATAL, "Out of ghoul2 info slots");
 
 		}
@@ -618,8 +618,8 @@ public:
 		{
 			return false;
 		}
-		assert(handle>0); //negative handle???
-		assert((handle&G2_INDEX_MASK)>=0&&(handle&G2_INDEX_MASK)<MAX_G2_MODELS); //junk handle
+		Q_assert(handle>0); //negative handle???
+		Q_assert((handle&G2_INDEX_MASK)>=0&&(handle&G2_INDEX_MASK)<MAX_G2_MODELS); //junk handle
 		if (mIds[handle&G2_INDEX_MASK]!=handle) // not a valid handle, could be old
 		{
 			return false;
@@ -632,9 +632,9 @@ public:
 		{
 			return;
 		}
-		assert(handle>0); //null handle
-		assert((handle&G2_INDEX_MASK)>=0&&(handle&G2_INDEX_MASK)<MAX_G2_MODELS); //junk handle
-		assert(mIds[handle&G2_INDEX_MASK]==handle); // not a valid handle, could be old or garbage
+		Q_assert(handle>0); //null handle
+		Q_assert((handle&G2_INDEX_MASK)>=0&&(handle&G2_INDEX_MASK)<MAX_G2_MODELS); //junk handle
+		Q_assert(mIds[handle&G2_INDEX_MASK]==handle); // not a valid handle, could be old or garbage
 		if (mIds[handle&G2_INDEX_MASK]==handle)
 		{
 			DeleteLow(handle&G2_INDEX_MASK);
@@ -642,24 +642,24 @@ public:
 	}
 	std::vector<CGhoul2Info> &Get(int handle)
 	{
-		assert(handle>0); //null handle
-		assert((handle&G2_INDEX_MASK)>=0&&(handle&G2_INDEX_MASK)<MAX_G2_MODELS); //junk handle
-		assert(mIds[handle&G2_INDEX_MASK]==handle); // not a valid handle, could be old or garbage
-		assert (!(handle<=0||(handle&G2_INDEX_MASK)<0||(handle&G2_INDEX_MASK)>=MAX_G2_MODELS||mIds[handle&G2_INDEX_MASK]!=handle));
+		Q_assert(handle>0); //null handle
+		Q_assert((handle&G2_INDEX_MASK)>=0&&(handle&G2_INDEX_MASK)<MAX_G2_MODELS); //junk handle
+		Q_assert(mIds[handle&G2_INDEX_MASK]==handle); // not a valid handle, could be old or garbage
+		Q_assert(!(handle<=0||(handle&G2_INDEX_MASK)<0||(handle&G2_INDEX_MASK)>=MAX_G2_MODELS||mIds[handle&G2_INDEX_MASK]!=handle));
 
 		return mInfos[handle&G2_INDEX_MASK];
 	}
 	const std::vector<CGhoul2Info> &Get(int handle) const
 	{
-		assert(handle>0);
-		assert(mIds[handle&G2_INDEX_MASK]==handle); // not a valid handle, could be old or garbage
+		Q_assert(handle>0);
+		Q_assert(mIds[handle&G2_INDEX_MASK]==handle); // not a valid handle, could be old or garbage
 		return mInfos[handle&G2_INDEX_MASK];
 	}
 
 #if G2API_DEBUG
 	std::vector<CGhoul2Info> &GetDebug(int handle)
 	{
-		assert (!(handle<=0||(handle&G2_INDEX_MASK)<0||(handle&G2_INDEX_MASK)>=MAX_G2_MODELS||mIds[handle&G2_INDEX_MASK]!=handle));
+		Q_assert(!(handle<=0||(handle&G2_INDEX_MASK)<0||(handle&G2_INDEX_MASK)>=MAX_G2_MODELS||mIds[handle&G2_INDEX_MASK]!=handle));
 
 		return mInfos[handle&G2_INDEX_MASK];
 	}
@@ -731,7 +731,7 @@ void RestoreGhoul2InfoArray()
 			singleton->Deserialize ((const char *)data, size);
 		R_Free ((void *)data);
 #ifdef _DEBUG
-		assert (read == size);
+		Q_assert(read == size);
 #endif
 	}
 }
@@ -745,7 +745,7 @@ void SaveGhoul2InfoArray()
 #endif // _DEBUG
 		singleton->Serialize ((char *)data);
 #ifdef _DEBUG
-	assert (written == size);
+	Q_assert(written == size);
 #endif // _DEBUG
 	if ( !ri.PD_Store (PERSISTENT_G2DATA, data, size) )
 	{
@@ -777,7 +777,7 @@ int G2API_InitGhoul2Model(CGhoul2Info_v &ghoul2, const char *fileName, int, qhan
 
 	if (!fileName||!fileName[0])
 	{
-		assert(fileName[0]);
+		Q_assert(fileName[0]);
 		return -1;
 	}
 
@@ -792,7 +792,7 @@ int G2API_InitGhoul2Model(CGhoul2Info_v &ghoul2, const char *fileName, int, qhan
 	}
 	if (model==ghoul2.size())
 	{
-		assert(model < 8);	//arb, just catching run-away models
+		Q_assert(model < 8);	//arb, just catching run-away models
 		CGhoul2Info info;
 		Q_strncpyz(info.mFileName, fileName, sizeof(info.mFileName));
 		info.mModelindex = 0;
@@ -935,7 +935,7 @@ qboolean G2API_RemoveGhoul2Model(CGhoul2Info_v &ghlInfo, const int modelIndex)
 		// if we hit this assert then we are trying to delete a ghoul2 model on a ghoul2 instance that
 		// one way or another is already gone.
 		G2ERROR(0,"Remove Nonexistant Model");
-		assert(0 && "remove non existing model");
+		Q_assert(0 && "remove non existing model");
 		return qfalse;
 	}
 
@@ -1441,8 +1441,8 @@ void G2API_AnimateG2Models(CGhoul2Info_v &ghoul2, int AcurrentTime,CRagDollUpdat
 #ifdef _DEBUG
 //	Com_Printf("Rag trace time: %i (%i STARTSOLID, %i TOTAL)\n", ragTraceTime, ragSSCount, ragTraceCount);
 
-//	assert(ragTraceTime < 15);
-	//assert(ragTraceCount < 600);
+//	Q_assert(ragTraceTime < 15);
+	//Q_assert(ragTraceCount < 600);
 #endif
 }
 //rww - RAGDOLL_END
@@ -1453,7 +1453,7 @@ int G2_Find_Bone_Rag(CGhoul2Info *ghlInfo, boneInfo_v &blist, const char *boneNa
 
 static inline boneInfo_t *G2_GetRagBoneConveniently(CGhoul2Info_v &ghoul2, const char *boneName)
 {
-	assert(ghoul2.size());
+	Q_assert(ghoul2.size());
 	CGhoul2Info *ghlInfo = &ghoul2[0];
 
 	if (!(ghlInfo->mFlags & GHOUL2_RAG_STARTED))
@@ -1571,7 +1571,7 @@ qboolean G2API_RagEffectorKick(CGhoul2Info_v &ghoul2, const char *boneName, vec3
 
 qboolean G2API_RagForceSolve(CGhoul2Info_v &ghoul2, qboolean force)
 {
-	assert(ghoul2.size());
+	Q_assert(ghoul2.size());
 	CGhoul2Info *ghlInfo = &ghoul2[0];
 
 	if (!(ghlInfo->mFlags & GHOUL2_RAG_STARTED))
@@ -1647,7 +1647,7 @@ qboolean G2API_AttachG2Model(CGhoul2Info *ghlInfo, CGhoul2Info *ghlInfoTo, int t
 	{
 		G2ERROR(toBoltIndex>=0&&toBoltIndex<(int)ghlInfoTo->mBltlist.size(),"Invalid Bolt Index");
 		G2ERROR(ghlInfoTo->mBltlist.size()>0,"Empty Bolt List");
-		assert( toBoltIndex >= 0 );
+		Q_assert( toBoltIndex >= 0 );
 		if ( toBoltIndex >= 0 && ghlInfoTo->mBltlist.size())
 		{
 			// make sure we have a model to attach, a model to attach to, and a bolt on that model
@@ -1765,7 +1765,7 @@ qboolean G2API_GetBoltMatrix(CGhoul2Info_v &ghoul2, const int modelIndex, const 
 				{
 					for ( int j = 0; j < 4; j++ )
 					{
-						assert( !Q_isnan(matrix->matrix[i][j]));
+						Q_assert( !Q_isnan(matrix->matrix[i][j]));
 					}
 				}
 #endif// _DEBUG
@@ -1997,7 +1997,7 @@ void G2API_GiveMeVectorFromMatrix(mdxaBone_t &boltMatrix, Eorientations flags, v
 void G2API_CopyGhoul2Instance(CGhoul2Info_v &ghoul2From, CGhoul2Info_v &ghoul2To, int modelIndex)
 {
 	//Ensiform: I'm commenting this out because modelIndex appears unused and legitimately set in gamecode
-	//assert(modelIndex==-1); // copy individual bolted parts is not used in jk2 and I didn't want to deal with it
+	//Q_assert(modelIndex==-1); // copy individual bolted parts is not used in jk2 and I didn't want to deal with it
 							// if ya want it, we will add it back correctly
 
 	G2ERROR(ghoul2From.IsValid(),"Invalid ghlInfo");
@@ -2015,7 +2015,7 @@ void G2API_CopyGhoul2Instance(CGhoul2Info_v &ghoul2From, CGhoul2Info_v &ghoul2To
 			if ( ghoul2To[model].mGoreSetTag )
 			{
 				CGoreSet* gore = FindGoreSet ( ghoul2To[model].mGoreSetTag );
-				assert(gore);
+				Q_assert(gore);
 				if (gore)
 				{
 					gore->mRefCount++;
@@ -2042,7 +2042,7 @@ char *G2API_GetSurfaceName(CGhoul2Info *ghlInfo, int surfNumber)
 		surf = (mdxmSurface_t *)G2_FindSurface(ghlInfo->currentModel, surfNumber, 0);
 		if (surf)
 		{
-			assert(G2_MODEL_OK(ghlInfo));
+			Q_assert(G2_MODEL_OK(ghlInfo));
 			mdxmHierarchyOffsets_t	*surfIndexes = (mdxmHierarchyOffsets_t *)((byte *)ghlInfo->currentModel->mdxm + sizeof(mdxmHeader_t));
 			surfInfo = (mdxmSurfHierarchy_t *)((byte *)surfIndexes + surfIndexes->offsets[surf->thisSurfaceIndex]);
 			return surfInfo->name;
@@ -2069,7 +2069,7 @@ char *G2API_GetGLAName(CGhoul2Info *ghlInfo)
 {
 	if (G2_SetupModelPointers(ghlInfo))
 	{
-		assert(G2_MODEL_OK(ghlInfo));
+		Q_assert(G2_MODEL_OK(ghlInfo));
 		return (char*)ghlInfo->aHeader->name;
 		//return ghlInfo->currentModel->mdxm->animName;
 	}
@@ -2147,7 +2147,7 @@ void G2API_AddSkinGore(CGhoul2Info_v &ghoul2,SSkinGoreData &gore)
 {
 	if (VectorLength(gore.rayDirection)<.1f)
 	{
-		assert(0); // can't add gore without a shot direction
+		Q_assert(0); // can't add gore without a shot direction
 		return;
 	}
 

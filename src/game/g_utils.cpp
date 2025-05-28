@@ -987,7 +987,7 @@ void G_AddEvent( gentity_t *ent, int event, int eventParm ) {
 			}
 			else
 			{
-				assert( eventParm < 256 );
+				Q_assert( eventParm < 256 );
 			}
 		}
 		AddEventToPlayerstate( event, eventParm, &ent->client->ps );

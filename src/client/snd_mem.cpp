@@ -814,7 +814,7 @@ static qboolean S_LoadSound_Actual( sfx_t *sfx )
 
 						if (iResultBytes!= iRawPCMDataSize){
 							Com_Printf(S_COLOR_YELLOW"**** MP3 %s final unpack size %d different to previous value %d\n",sLoadName,iResultBytes,iRawPCMDataSize);
-							//assert (iResultBytes == iRawPCMDataSize);
+							//Q_assert(iResultBytes == iRawPCMDataSize);
 						}
 
 

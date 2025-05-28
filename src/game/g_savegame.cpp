@@ -161,7 +161,7 @@ static std::list<sstring_t> strList;
 //
 int GetStringNum(const char *psString)
 {
-	assert( psString != (char *)0xcdcdcdcd );
+	Q_assert( psString != (char *)0xcdcdcdcd );
 
 	// NULL ptrs I'll write out as a strlen of -1...
 	//
@@ -182,7 +182,7 @@ char *GetStringPtr(int iStrlen, char *psOriginal/*may be NULL*/)
 
 		memset(sString,0, sizeof(sString));
 
-		assert(iStrlen+1<=(int)sizeof(sString));
+		Q_assert(iStrlen+1<=(int)sizeof(sString));
 
 		ojk::SavedGameHelper saved_game(
 			::gi.saved_game);
@@ -211,7 +211,7 @@ char *GetStringPtr(int iStrlen, char *psOriginal/*may be NULL*/)
 //
 intptr_t GetGEntityNum(gentity_t* ent)
 {
-	assert( ent != (gentity_t *) 0xcdcdcdcd);
+	Q_assert( ent != (gentity_t *) 0xcdcdcdcd);
 
 	if (ent == NULL)
 	{
@@ -237,14 +237,14 @@ gentity_t *GetGEntityPtr(intptr_t iEntNum)
 	{
 		return NULL;
 	}
-	assert(iEntNum >= 0);
-	assert(iEntNum < MAX_GENTITIES);
+	Q_assert(iEntNum >= 0);
+	Q_assert(iEntNum < MAX_GENTITIES);
 	return (g_entities + iEntNum);
 }
 
 static intptr_t GetGroupNumber(AIGroupInfo_t *pGroup)
 {
-	assert( pGroup != (AIGroupInfo_t *) 0xcdcdcdcd);
+	Q_assert( pGroup != (AIGroupInfo_t *) 0xcdcdcdcd);
 
 	if (pGroup == NULL)
 	{
@@ -265,8 +265,8 @@ static AIGroupInfo_t *GetGroupPtr(intptr_t iGroupNum)
 	{
 		return NULL;
 	}
-	assert(iGroupNum >= 0);
-	assert( iGroupNum < (int)ARRAY_LEN( level.groups ) );
+	Q_assert(iGroupNum >= 0);
+	Q_assert( iGroupNum < (int)ARRAY_LEN( level.groups ) );
 	return (level.groups + iGroupNum);
 }
 
@@ -277,7 +277,7 @@ static AIGroupInfo_t *GetGroupPtr(intptr_t iGroupNum)
 //
 intptr_t GetGClientNum(gclient_t *c)
 {
-	assert(c != (gclient_t *)0xcdcdcdcd);
+	Q_assert(c != (gclient_t *)0xcdcdcdcd);
 
 	if (c == NULL)
 	{
@@ -298,8 +298,8 @@ gclient_t *GetGClientPtr(intptr_t c)
 		return (gclient_t *) -2;	// preserve this value so that I know to load in one of Mike's private NPC clients later
 	}
 
-	assert(c >= 0);
-	assert(c < level.maxclients);
+	Q_assert(c >= 0);
+	Q_assert(c < level.maxclients);
 	return (level.clients + c);
 }
 //
@@ -312,7 +312,7 @@ gclient_t *GetGClientPtr(intptr_t c)
 //
 int GetGItemNum (gitem_t *pItem)
 {
-	assert(pItem != (gitem_t*) 0xcdcdcdcd);
+	Q_assert(pItem != (gitem_t*) 0xcdcdcdcd);
 
 	if (pItem == NULL)
 	{
@@ -329,8 +329,8 @@ gitem_t *GetGItemPtr(int iItem)
 		return NULL;
 	}
 
-	assert(iItem >= 0);
-	assert(iItem < bg_numItems);
+	Q_assert(iItem >= 0);
+	Q_assert(iItem < bg_numItems);
 	return &bg_itemlist[iItem];
 }
 //
@@ -465,7 +465,7 @@ static void EnumerateFields(
 	{
 		for (auto pField = pFields; pField->psName; ++pField)
 		{
-			assert(pField->iOffset < sizeof(T));
+			Q_assert(pField->iOffset < sizeof(T));
 			::EnumerateField(pField, pbData);
 		}
 	}
@@ -837,7 +837,7 @@ static void ReadGEntities(qboolean qbAutosave)
 			{
 				// original didn't have one (hmmm...), so make a new one...
 				//
-				//assert(0);	// I want to know about this, though not in release
+				//Q_assert(0);	// I want to know about this, though not in release
 				pEnt->NPC = (gNPC_t *) G_Alloc(sizeof(*pEnt->NPC));
 			}
 
@@ -994,7 +994,7 @@ void WriteLevel(qboolean qbAutosave)
 	{
 		// write out one client - us!
 		//
-		assert(level.maxclients == 1);	// I'll need to know if this changes, otherwise I'll need to change the way ReadGame works
+		Q_assert(level.maxclients == 1);	// I'll need to know if this changes, otherwise I'll need to change the way ReadGame works
 		gclient_t client = level.clients[0];
 		EnumerateFields(savefields_gClient, &client, INT_ID('G','C','L','I'));
 		WriteLevelLocals();	// level_locals_t level
@@ -1056,7 +1056,7 @@ void ReadLevel(qboolean qbAutosave, qboolean qbLoadTransition)
 	{
 		if (!qbAutosave )//always load the client unless it's an autosave
 		{
-			assert(level.maxclients == 1);	// I'll need to know if this changes, otherwise I'll need to change the way things work
+			Q_assert(level.maxclients == 1);	// I'll need to know if this changes, otherwise I'll need to change the way things work
 
 			gclient_t GClient;
 			EvaluateFields(savefields_gClient, &GClient, &level.clients[0], INT_ID('G','C','L','I'));

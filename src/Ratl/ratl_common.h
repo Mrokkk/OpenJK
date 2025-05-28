@@ -268,14 +268,14 @@ class	compile_assert
 #ifdef _DEBUG
 	int	junk[(1 - (2 * !condition))];		// Look At Where This Was Being Compiled
 public:
-	compile_assert()
+	compile_Q_assert()
 	{
-		assert(condition);
+		Q_assert(condition);
 		junk[0]=FoolTheOptimizer++;
 	}
 	int operator()()
 	{
-		assert(condition);
+		Q_assert(condition);
 		FoolTheOptimizer++;
 		return junk[0];
 	}
@@ -364,17 +364,17 @@ public:
 
 	void set_bit(const int i)
 	{
-		assert(i>=0 && i < SIZE);
+		Q_assert(i>=0 && i < SIZE);
 		mV[i>>BITS_SHIFT] |=  (1<<(i&BITS_AND));
 	}
 	void clear_bit(const int i)
 	{
-		assert(i>=0 && i < SIZE);
+		Q_assert(i>=0 && i < SIZE);
 		mV[i>>BITS_SHIFT] &= ~(1<<(i&BITS_AND));
 	}
 	void mark_bit(const int i, bool set)
 	{
-		assert(i>=0 && i < SIZE);
+		Q_assert(i>=0 && i < SIZE);
 		if (set)
 		{
 			mV[i>>BITS_SHIFT] |=  (1<<(i&BITS_AND));
@@ -386,12 +386,12 @@ public:
 	}
 	bool operator[](const int i) const
 	{
-		assert(i>=0 && i < SIZE);
+		Q_assert(i>=0 && i < SIZE);
 		return (mV[i>>BITS_SHIFT] & (1<<(i&BITS_AND)))!=0;
 	}
 	int	next_bit(int start=0,bool onBit=true) const
 	{
-		assert(start>=0&&start<=SIZE);  //we have to accept start==size for the way the loops are done
+		Q_assert(start>=0&&start<=SIZE);  //we have to accept start==size for the way the loops are done
 		if (start>=SIZE)
 		{
 			return SIZE;			// Did Not Find
@@ -497,7 +497,7 @@ public:
 	}
 	int	next_bit(int start=0,bool onBit=true) const
 	{
-		assert(onBit); ///I didn't want to add the sz template arg, you could though
+		Q_assert(onBit); ///I didn't want to add the sz template arg, you could though
 		return start;
 	}
 };
@@ -698,12 +698,12 @@ namespace storage
 		static CAST_TO *verify_alloc(CAST_TO *p)
 		{
 #ifdef _DEBUG
-			assert(p);
-			assert(dynamic_cast<const T *>(p));
+			Q_assert(p);
+			Q_assert(dynamic_cast<const T *>(p));
 			T *ptr=p; // if this doesn't compile, you are trying to alloc something that is not derived from base
-			assert(dynamic_cast<const CAST_TO *>(ptr));
+			Q_assert(dynamic_cast<const CAST_TO *>(ptr));
 			compile_assert<sizeof(CAST_TO)<=MAX_CLASS_SIZE>();
-			assert(sizeof(CAST_TO)<=MAX_CLASS_SIZE);
+			Q_assert(sizeof(CAST_TO)<=MAX_CLASS_SIZE);
 #endif
 			return p;
 		}
@@ -972,12 +972,12 @@ namespace storage
 		static CAST_TO *verify_alloc(CAST_TO *p)
 		{
 #ifdef _DEBUG
-			assert(p);
-			assert(dynamic_cast<const T *>(p));
+			Q_assert(p);
+			Q_assert(dynamic_cast<const T *>(p));
 			T *ptr=p; // if this doesn't compile, you are trying to alloc something that is not derived from base
-			assert(dynamic_cast<const CAST_TO *>(ptr));
+			Q_assert(dynamic_cast<const CAST_TO *>(ptr));
 			compile_assert<sizeof(CAST_TO)<=MAX_CLASS_SIZE>();
-			assert(sizeof(CAST_TO)<=MAX_CLASS_SIZE);
+			Q_assert(sizeof(CAST_TO)<=MAX_CLASS_SIZE);
 #endif
 			return p;
 		}
@@ -1039,8 +1039,8 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////
 	TTValue&			operator[](int index)
 	{
-		assert(index>=0 && index<SIZE);
-		assert(mConstructed[index]);
+		Q_assert(index>=0 && index<SIZE);
+		Q_assert(mConstructed[index]);
 		return T::ref(mArray+index);
 	}
 
@@ -1049,8 +1049,8 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////
 	const TTValue&	operator[](int index) const
 	{
-		assert(index>=0 && index<SIZE);
-		assert(mConstructed[index]);
+		Q_assert(index>=0 && index<SIZE);
+		Q_assert(mConstructed[index]);
 		return T::ref(mArray+index);
 	}
 
@@ -1058,18 +1058,18 @@ public:
 	{
 		if (T::NEEDS_CONSTRUCT)
 		{
-			assert(!mConstructed[i]);
+			Q_assert(!mConstructed[i]);
 			T::construct(mArray+i);
 			mConstructed.set_bit(i);
 		}
 	}
 	void construct(int i, const TTValue &v)
 	{
-		assert(i>=0 && i<SIZE);
+		Q_assert(i>=0 && i<SIZE);
 		T::construct(mArray+i,v);
 		if (T::NEEDS_CONSTRUCT)
 		{
-			assert(!mConstructed[i]);
+			Q_assert(!mConstructed[i]);
 			mConstructed.set_bit(i);
 		}
 	}
@@ -1088,28 +1088,28 @@ public:
 	}
 	void swap(int i,int j)
 	{
-		assert(i>=0 && i<SIZE);
-		assert(j>=0 && j<SIZE);
-		assert(i!=j);
-		assert(mConstructed[i]);
-		assert(mConstructed[j]);
+		Q_assert(i>=0 && i<SIZE);
+		Q_assert(j>=0 && j<SIZE);
+		Q_assert(i!=j);
+		Q_assert(mConstructed[i]);
+		Q_assert(mConstructed[j]);
 		T::swap(mArray+i,mArray+j);
 	}
 
 	TRatlNew	*alloc_raw(int i)
 	{
-		assert(i>=0 && i<SIZE);
+		Q_assert(i>=0 && i<SIZE);
 		if (T::NEEDS_CONSTRUCT)
 		{
-			assert(!mConstructed[i]);
+			Q_assert(!mConstructed[i]);
 			mConstructed.set_bit(i);
 		}
 		return T::raw(mArray+i);
 	}
 	void	destruct(int i)
 	{
-		assert(i>=0 && i<SIZE);
-		assert(mConstructed[i]);
+		Q_assert(i>=0 && i<SIZE);
+		Q_assert(mConstructed[i]);
 		if (T::NEEDS_CONSTRUCT)
 		{
 			T::destruct(mArray+i);
@@ -1119,15 +1119,15 @@ public:
 	int pointer_to_index(const TTValue *me) const
 	{
 		int index=T::pointer_to_index(me,mArray);
-		assert(index>=0 && index<SIZE);
-		assert(mConstructed[index]);
+		Q_assert(index>=0 && index<SIZE);
+		Q_assert(mConstructed[index]);
 		return index;
 	}
 	int pointer_to_index(const TRatlNew *me) const
 	{
 		int index=T::pointer_to_index(me,mArray);
-		assert(index>=0 && index<SIZE);
-		assert(mConstructed[index]);
+		Q_assert(index>=0 && index<SIZE);
+		Q_assert(mConstructed[index]);
 		return index;
 	}
 	typename T::TValue *raw_array()

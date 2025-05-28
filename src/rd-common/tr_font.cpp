@@ -815,7 +815,7 @@ const glyphInfo_t *CFontInfo::GetLetter(const unsigned int uiLetter, int *piShad
 
 				if (iTexturePageIndex > m_iAsianPagesLoaded)
 				{
-					assert(0);				// should never happen
+					Q_assert(0);				// should never happen
 					iTexturePageIndex = 0;
 				}
 
@@ -885,7 +885,7 @@ int CFontInfo::GetCollapsedAsianCode(ulong uiLetter) const
 			case eKorean:		iCollapsedAsianCode = Korean_CollapseKSC5601HangulCode( uiLetter );	break;
 			case eTaiwanese:	iCollapsedAsianCode = Taiwanese_CollapseBig5Code( uiLetter );		break;
 			case eJapanese:		iCollapsedAsianCode = Japanese_CollapseShiftJISCode( uiLetter );	break;
-			default:			assert(0);	/* unhandled asian language */							break;
+			default:			Q_assert(0);	/* unhandled asian language */							break;
 		}
 	}
 
@@ -1026,7 +1026,7 @@ void RE_Font_DrawString(int ox, int oy, const char *psText, const float *rgba, c
 	const glyphInfo_t	*pLetter;
 	qhandle_t			hShader;
 
-	assert (psText);
+	Q_assert(psText);
 
 	if(iFontHandle & STYLE_BLINK)
 	{
@@ -1309,7 +1309,7 @@ void R_ReloadFonts_f(void)
 		{
 #ifdef _DEBUG
 			int iNewFontHandle = RE_RegisterFont( vstrFonts[font].c_str() );
-			assert( (unsigned)iNewFontHandle == font+1 );
+			Q_assert( (unsigned)iNewFontHandle == font+1 );
 #else
 			RE_RegisterFont( vstrFonts[font].c_str() );
 #endif

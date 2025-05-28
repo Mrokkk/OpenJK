@@ -233,7 +233,7 @@ void CL_FreeReliableCommands( void )
 	for ( int i = 0 ; i < MAX_RELIABLE_COMMANDS ; i++ ) {
 		if ( clc.reliableCommands[i] ) {
 			Z_Free( clc.reliableCommands[i] );
-		 	clc.reliableCommands[i] = NULL;
+			clc.reliableCommands[i] = NULL;
 		}
 	}
 }
@@ -1137,13 +1137,13 @@ void CL_InitRef( void ) {
 	rit.Malloc=CL_Malloc;
 	RIT(Z_MemSize);
 	RIT(Z_MorphMallocTag);
-
 	RIT(Hunk_ClearToMark);
+	RIT(Sys_StacktraceDump);
 
-    rit.WIN_Init = WIN_Init;
+	rit.WIN_Init = WIN_Init;
 	rit.WIN_SetGamma = WIN_SetGamma;
-    rit.WIN_Shutdown = WIN_Shutdown;
-    rit.WIN_Present = WIN_Present;
+	rit.WIN_Shutdown = WIN_Shutdown;
+	rit.WIN_Present = WIN_Present;
 	rit.GL_GetProcAddress = WIN_GL_GetProcAddress;
 	rit.GL_ExtensionSupported = WIN_GL_ExtensionSupported;
 
@@ -1347,3 +1347,4 @@ void CL_Shutdown( void ) {
 	Com_Printf( "-----------------------\n" );
 }
 
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

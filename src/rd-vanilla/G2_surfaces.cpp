@@ -61,13 +61,13 @@ public:
 		{
 			return;
 		}
-		assert(index>=0&&index<512);
+		Q_assert(index>=0&&index<512);
 		mOverride[index]=mCurrentTouch;
 		mAt[index]=pos;
 	}
 	int Test(int index)
 	{
-		assert(index>=0&&index<512);
+		Q_assert(index>=0&&index<512);
 		if (mOverride[index]!=mCurrentTouch)
 		{
 			return -1;
@@ -123,12 +123,12 @@ const surfaceInfo_t *G2_FindOverrideSurface(int surfaceNum,const surfaceInfo_v &
 			}
 		}
 		// didn't find it.
-		assert(i==surfaceList.size()); // our quickoverride is not working right
+		Q_assert(i==surfaceList.size()); // our quickoverride is not working right
 #endif
 		return NULL;
 	}
-	assert(idx>=0&&idx<(int)surfaceList.size());
-	assert(surfaceList[idx].surface == surfaceNum);
+	Q_assert(idx>=0&&idx<(int)surfaceList.size());
+	Q_assert(surfaceList[idx].surface == surfaceNum);
 	return &surfaceList[idx];
 }
 
@@ -136,8 +136,8 @@ const surfaceInfo_t *G2_FindOverrideSurface(int surfaceNum,const surfaceInfo_v &
 // given a surface name, lets see if it's legal in the model
 int G2_IsSurfaceLegal(const model_s *mod_m, const char *surfaceName, uint32_t *flags)
 {
-	assert(mod_m);
-	assert(mod_m->mdxm);
+	Q_assert(mod_m);
+	Q_assert(mod_m->mdxm);
 	// damn include file dependancies
 	mdxmSurfHierarchy_t	*surf;
 	surf = (mdxmSurfHierarchy_t *) ( (byte *)mod_m->mdxm + mod_m->mdxm->ofsSurfHierarchy );
@@ -173,7 +173,7 @@ const mdxmSurface_t *G2_FindSurface(CGhoul2Info *ghlInfo, surfaceInfo_v &slist, 
 {
 	int						i = 0;
 	// find the model we want
-	assert(G2_MODEL_OK(ghlInfo));
+	Q_assert(G2_MODEL_OK(ghlInfo));
 
 	const mdxmHierarchyOffsets_t *surfIndexes = (mdxmHierarchyOffsets_t *)((byte *)ghlInfo->currentModel->mdxm + sizeof(mdxmHeader_t));
 
@@ -253,8 +253,8 @@ qboolean G2_SetSurfaceOnOff (CGhoul2Info *ghlInfo, const char *surfaceName, cons
 
 void G2_FindRecursiveSurface(const model_t *currentModel, int surfaceNum, surfaceInfo_v &rootList, int *activeSurfaces)
 {
-	assert(currentModel);
-	assert(currentModel->mdxm);
+	Q_assert(currentModel);
+	Q_assert(currentModel->mdxm);
 	int							i;
  	const mdxmSurface_t			*surface = (mdxmSurface_t *)G2_FindSurface(currentModel, surfaceNum, 0);
 	const mdxmHierarchyOffsets_t	*surfIndexes = (mdxmHierarchyOffsets_t *)((byte *)currentModel->mdxm + sizeof(mdxmHeader_t));
@@ -297,9 +297,9 @@ qboolean G2_SetRootSurface( CGhoul2Info_v &ghoul2, const int modelIndex, const c
 {
 	int					surf;
 	uint32_t			flags;
-	assert(modelIndex>=0&&modelIndex<ghoul2.size());
-	assert(ghoul2[modelIndex].currentModel);
-	assert(ghoul2[modelIndex].currentModel->mdxm);
+	Q_assert(modelIndex>=0&&modelIndex<ghoul2.size());
+	Q_assert(ghoul2[modelIndex].currentModel);
+	Q_assert(ghoul2[modelIndex].currentModel->mdxm);
  	// first find if we already have this surface in the list
 	surf = G2_IsSurfaceLegal(ghoul2[modelIndex].currentModel, surfaceName, &flags);
 	if (surf != -1)
@@ -307,7 +307,7 @@ qboolean G2_SetRootSurface( CGhoul2Info_v &ghoul2, const int modelIndex, const c
 		ghoul2[modelIndex].mSurfaceRoot = surf;
 		return qtrue;
 	}
-	assert(0);
+	Q_assert(0);
 	return qfalse;
 }
 
@@ -347,15 +347,15 @@ qboolean G2_RemoveSurface(surfaceInfo_v &slist, const int index)
 		slist[index].surface = -1;
 		return qtrue;
 	}
-	assert(0);
+	Q_assert(0);
 	return qfalse;
 }
 
 
 int G2_GetParentSurface(CGhoul2Info *ghlInfo, const int index)
 {
-	assert(ghlInfo->currentModel);
-	assert(ghlInfo->currentModel->mdxm);
+	Q_assert(ghlInfo->currentModel);
+	Q_assert(ghlInfo->currentModel->mdxm);
 	const mdxmHierarchyOffsets_t	*surfIndexes = (mdxmHierarchyOffsets_t *)((byte *)ghlInfo->currentModel->mdxm + sizeof(mdxmHeader_t));
 
 	// walk each surface and see if this index is listed in it's children
@@ -369,7 +369,7 @@ int G2_GetParentSurface(CGhoul2Info *ghlInfo, const int index)
 int G2_GetSurfaceIndex(CGhoul2Info *ghlInfo, const char *surfaceName)
 {
 	uint32_t			flags;
-	assert(ghlInfo->currentModel);
+	Q_assert(ghlInfo->currentModel);
 	return G2_IsSurfaceLegal(ghlInfo->currentModel, surfaceName, &flags);
 }
 
@@ -377,8 +377,8 @@ int G2_IsSurfaceRendered(CGhoul2Info *ghlInfo, const char *surfaceName, surfaceI
 {
 	uint32_t				flags = 0u;//, surfFlags = 0;
 	int						surfIndex = 0;
-	assert(ghlInfo->currentModel);
-	assert(ghlInfo->currentModel->mdxm);
+	Q_assert(ghlInfo->currentModel);
+	Q_assert(ghlInfo->currentModel->mdxm);
 	if (!ghlInfo->currentModel->mdxm)
 	{
 		return -1;

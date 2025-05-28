@@ -268,7 +268,7 @@ void G_ReflectMissile( gentity_t *ent, gentity_t *missile, vec3_t forward )
 	VectorNormalize( bounce_dir );
 	VectorScale( bounce_dir, speed, missile->s.pos.trDelta );
 #ifdef _DEBUG
-		assert( !Q_isnan(missile->s.pos.trDelta[0])&&!Q_isnan(missile->s.pos.trDelta[1])&&!Q_isnan(missile->s.pos.trDelta[2]));
+		Q_assert( !Q_isnan(missile->s.pos.trDelta[0])&&!Q_isnan(missile->s.pos.trDelta[1])&&!Q_isnan(missile->s.pos.trDelta[2]));
 #endif// _DEBUG
 	missile->s.pos.trTime = level.time - 10;		// move a bit on the very first frame
 	VectorCopy( missile->currentOrigin, missile->s.pos.trBase );
@@ -568,7 +568,7 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace, int hitLoc=HL_NONE )
 	other = &g_entities[trace->entityNum];
 	if ( other == ent )
 	{
-		assert(0&&"missile hit itself!!!");
+		Q_assert(0&&"missile hit itself!!!");
 		return;
 	}
 	if ( trace->plane.normal[0] == 0.0f &&

@@ -3828,14 +3828,14 @@ static qboolean Jedi_Jump( vec3_t dest, int goalEntNum )
 
 		z = (sqrt(apexHeight + z) - sqrt(apexHeight));
 
-		assert(z >= 0);
+		Q_assert(z >= 0);
 
 //		gi.Printf("apex is %4.2f percent from p1: ", (xy-z)*0.5/xy*100.0f);
 
 		xy -= z;
 		xy *= 0.5;
 
-		assert(xy > 0);
+		Q_assert(xy > 0);
 
 		VectorMA( p1, xy, dir, apex );
 		apex[2] += apexHeight;

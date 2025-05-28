@@ -1376,7 +1376,7 @@ static void CG_RegisterGraphics( void ) {
 	CG_LoadingString("map brushes");
 	// register the inline models
 	cgs.numInlineModels = cgi_CM_NumInlineModels();
-	assert( cgs.numInlineModels < (int)ARRAY_LEN( cgs.inlineDrawModel ) );
+	Q_assert( cgs.numInlineModels < (int)ARRAY_LEN( cgs.inlineDrawModel ) );
 	for ( i = 1 ; i < cgs.numInlineModels ; i++ ) {
 		char	name[10];
 		vec3_t			mins, maxs;
@@ -3245,8 +3245,8 @@ qboolean ForcePower_Valid(int index)
 {
 	gentity_t	*player = &g_entities[0];
 
-	assert (MAX_SHOWPOWERS == ( sizeof(showPowers)/sizeof(showPowers[0]) ));
-	assert (index < MAX_SHOWPOWERS );	//is this a valid index?
+	Q_assert(MAX_SHOWPOWERS == ( sizeof(showPowers)/sizeof(showPowers[0]) ));
+	Q_assert(index < MAX_SHOWPOWERS );	//is this a valid index?
 	if (player->client->ps.forcePowersKnown & (1 << showPowers[index]) &&
 		player->client->ps.forcePowerLevel[showPowers[index]])	// Does he have the force power?
 	{
@@ -3505,7 +3505,7 @@ qboolean ForcePowerDataPad_Valid(int index)
 {
 	gentity_t	*player = &g_entities[0];
 
-	assert (index < MAX_DPSHOWPOWERS);
+	Q_assert(index < MAX_DPSHOWPOWERS);
 	if (player->client->ps.forcePowersKnown & (1 << showDataPadPowers[index]) &&
 		player->client->ps.forcePowerLevel[showDataPadPowers[index]])	// Does he have the force power?
 	{

@@ -120,7 +120,7 @@ void *CMapPoolLow::Alloc()
 	{
 		// None free, so alloc another block.
 		CMapBlock *block=new CMapBlock(mLastBlockNum+1,mFreeList);
-		assert(block);
+		Q_assert(block);
 		mMapBlocks.push_back(block);
 		mLastBlockNum++;
 		node=(void *)mFreeList[mFreeList.size()-1];
@@ -129,11 +129,11 @@ void *CMapPoolLow::Alloc()
 
 	// Validate we aren't somehow grabbing something that is already in use
 	// and also that the end marker is intact.
-	assert(((SMapNode *)node)->mTag==MAPNODE_FREE);
-	assert((((SMapNode *)node)->mMapBlockNum)>=0);
-	assert((((SMapNode *)node)->mMapBlockNum)<256);
-	assert((((SMapNode *)node)->mMapBlockNum)<=mLastBlockNum);
-	assert(mMapBlocks[((SMapNode *)node)->mMapBlockNum]->bOwnsNode(node));
+	Q_assert(((SMapNode *)node)->mTag==MAPNODE_FREE);
+	Q_assert((((SMapNode *)node)->mMapBlockNum)>=0);
+	Q_assert((((SMapNode *)node)->mMapBlockNum)<256);
+	Q_assert((((SMapNode *)node)->mMapBlockNum)<=mLastBlockNum);
+	Q_assert(mMapBlocks[((SMapNode *)node)->mMapBlockNum]->bOwnsNode(node));
 
 	// Ok, mark the node as in use.
 	((SMapNode *)node)->mTag=MAPNODE_INUSE;
@@ -145,11 +145,11 @@ void CMapPoolLow::Free(void *p)
 {
 	// Validate that someone isn't trying to double free this node and also
 	// that the end marker is intact.
-	assert(((SMapNode *)p)->mTag==MAPNODE_INUSE);
-	assert((((SMapNode *)p)->mMapBlockNum)>=0);
-	assert((((SMapNode *)p)->mMapBlockNum)<256);
-	assert((((SMapNode *)p)->mMapBlockNum)<=mLastBlockNum);
-	assert(mMapBlocks[((SMapNode *)p)->mMapBlockNum]->bOwnsNode(p));
+	Q_assert(((SMapNode *)p)->mTag==MAPNODE_INUSE);
+	Q_assert((((SMapNode *)p)->mMapBlockNum)>=0);
+	Q_assert((((SMapNode *)p)->mMapBlockNum)<256);
+	Q_assert((((SMapNode *)p)->mMapBlockNum)<=mLastBlockNum);
+	Q_assert(mMapBlocks[((SMapNode *)p)->mMapBlockNum]->bOwnsNode(p));
 
 	// Ok, mark the the node as free.
 	((SMapNode *)p)->mTag=MAPNODE_FREE;
@@ -223,14 +223,14 @@ public:
 	}
 	void Add(int hash,int value)
 	{
-		assert(hash>=0&&hash<MAX_HASH);
-		assert(value); // 0 is the empty marker
+		Q_assert(hash>=0&&hash<MAX_HASH);
+		Q_assert(value); // 0 is the empty marker
 		int i=hash;
 		while (mHashes[i])
 		{
-			assert(mHashes[i]!=value); //please don't insert things twice
+			Q_assert(mHashes[i]!=value); //please don't insert things twice
 			i=(i+1)&(MAX_HASH-1);
-			assert(i!=hash); //hash table is full?
+			Q_assert(i!=hash); //hash table is full?
 		}
 		mHashes[i]=value;
 	}
@@ -242,10 +242,10 @@ public:
 	}
 	int FindNext()
 	{
-		assert(mFindPtr>=0&&mFindPtr<MAX_HASH);
+		Q_assert(mFindPtr>=0&&mFindPtr<MAX_HASH);
 		int val=mHashes[mFindPtr];
 		mFindPtr=(mFindPtr+1)&(MAX_HASH-1);
-		assert(mFindPtr!=mFindPtrStart); //hash table full?
+		Q_assert(mFindPtr!=mFindPtrStart); //hash table full?
 		return val;
 	}
 	void TouchMem()
@@ -288,7 +288,7 @@ public:
 		sizeBytes++;
 
 		// Is it WAAAY to big? If so we complain loudly.
-		assert(sizeBytes<=BLOCK_SIZE);
+		Q_assert(sizeBytes<=BLOCK_SIZE);
 
 		// If we don't have space in the current block, return failure.
 		if(sizeBytes>(BLOCK_SIZE-mBytesUsed))
@@ -339,7 +339,7 @@ public:
 	char *Alloc(int sizeBytes,int &id)
 	{
 		// Can't alloc more than MAX_HSTRINGS.
-		assert(mNextStringId<MAX_HSTRINGS);
+		Q_assert(mNextStringId<MAX_HSTRINGS);
 		char *raw=0;
 		if (mLastBlockNum>=0)
 		{
@@ -355,7 +355,7 @@ public:
 			raw=mBlockVec[mLastBlockNum]->Alloc(sizeBytes);
 		}
 		// Should never really happen!!
-		assert(raw);
+		Q_assert(raw);
 
 		id=mNextStringId;
 		gCharPtrs[mNextStringId]=raw;
@@ -431,7 +431,7 @@ public:
 		OutputDebugString(mess);
 #endif
 		// if this fails it means the string storage is CORRUPTED, let someone know
-		assert(TheDebugPool()==ThePool());
+		Q_assert(TheDebugPool()==ThePool());
 	}
 };
 
@@ -473,7 +473,7 @@ void hstring::Init(const char *str)
 	int id=HashHelper().FindFirst(hash);
 	while (id)
 	{
-		assert(id>0&&id<ThePool().mNextStringId);
+		Q_assert(id>0&&id<ThePool().mNextStringId);
 		if (!strcmp(str,gCharPtrs[id]))
 		{
 			mId=id;
@@ -487,7 +487,7 @@ void hstring::Init(const char *str)
 #ifdef _DEBUG
 	int test;
 	raw=TheDebugPool().Alloc(strlen(str),test);
-	assert(test==mId);
+	Q_assert(test==mId);
 	strcpy(raw,str);
 #endif
 
@@ -499,7 +499,7 @@ const char *hstring::c_str(void) const
 	{
 		return("");
 	}
-	assert(mId>0&&mId<ThePool().mNextStringId);
+	Q_assert(mId>0&&mId<ThePool().mNextStringId);
 	return(gCharPtrs[mId]);
 }
 
@@ -509,7 +509,7 @@ string hstring::str(void) const
 	{
 		return(string());
 	}
-	assert(mId>0&&mId<ThePool().mNextStringId);
+	Q_assert(mId>0&&mId<ThePool().mNextStringId);
 	return string(gCharPtrs[mId]);
 }
 

@@ -376,7 +376,7 @@ void G_SetEnemy( gentity_t *self, gentity_t *enemy )
 #ifdef _DEBUG
 	if ( self->s.number )
 	{
-		assert( enemy != self );
+		Q_assert( enemy != self );
 	}
 #endif// _DEBUG
 
@@ -1949,7 +1949,7 @@ gentity_t *NPC_CheckEnemy( qboolean findNew, qboolean tooFarOk, qboolean setEnem
 	{
 		if(NPC->enemy->client->playerTeam)
 		{
-//			assert( NPC->client->playerTeam != NPC->enemy->client->playerTeam);
+//			Q_assert( NPC->client->playerTeam != NPC->enemy->client->playerTeam);
 			if( NPC->client->playerTeam != NPC->enemy->client->playerTeam )
 			{
 				NPC->client->enemyTeam = NPC->enemy->client->playerTeam;

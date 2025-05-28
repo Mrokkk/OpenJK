@@ -500,7 +500,7 @@ void CG_ScrollText( const char *str, int iPixelWidth )
 	//ensure we found a match
 	if (!i)
 	{
-		assert(0);	// should never get here now, but wtf?
+		Q_assert(0);	// should never get here now, but wtf?
 		cgi_Z_Free(psText);
 #ifndef FINAL_BUILD
 		Com_Printf("WARNING: CG_ScrollText given invalid text key :'%s'\n",str);
@@ -557,7 +557,7 @@ void CG_ScrollText( const char *str, int iPixelWidth )
 			//
 			cg.printText[i][ strlen(cg.printText[i])-1 ] = '\0';	// kill the CR
 			i++;
-			assert (i < (int)ARRAY_LEN( cg.printText ) );
+			Q_assert(i < (int)ARRAY_LEN( cg.printText ) );
 			if (i >= (int)ARRAY_LEN( cg.printText ) )
 			{
 				break;
@@ -585,7 +585,7 @@ void CG_ScrollText( const char *str, int iPixelWidth )
 			cg.printText[i][ psBestLineBreakSrcPos - holds ] = '\0';
 			holds = s = psBestLineBreakSrcPos;
 			i++;
-			assert( i < (int)ARRAY_LEN( cg.printText ) );
+			Q_assert( i < (int)ARRAY_LEN( cg.printText ) );
 			cg.scrollTextLines++;
 		}
 	}

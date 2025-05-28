@@ -175,7 +175,7 @@ void TIMER_Save( void )
 		if ( !ent->inuse && numTimers)
 		{
 //			Com_Printf( "WARNING: ent with timers not inuse\n" );
-			assert(numTimers);
+			Q_assert(numTimers);
 			TIMER_Clear( j );
 			numTimers = 0;
 		}
@@ -186,7 +186,7 @@ void TIMER_Save( void )
 			numTimers);
 
 		gtimer_t *p = g_timers[j];
-		assert ((numTimers && p) || (!numTimers && !p));
+		Q_assert((numTimers && p) || (!numTimers && !p));
 
 		while(p)
 		{
@@ -194,7 +194,7 @@ void TIMER_Save( void )
 			const int	length = strlen(timerID) + 1;
 			const int	time = p->time - level.time;	//convert this back to delta so we can use SET after loading
 
-			assert( length < 1024 );//This will cause problems when loading the timer if longer
+			Q_assert( length < 1024 );//This will cause problems when loading the timer if longer
 
 			//Write out the string size and data
 			saved_game.write_chunk<int32_t>(
@@ -248,14 +248,14 @@ void TIMER_Load( void )
 			int		length = 0, time = 0;
 			char	tempBuffer[1024];	// Still ugly. Setting ourselves up for 007 AUF all over again. =)
 
-			assert (sizeof(g_timers[0]->time) == sizeof(time) );//make sure we're reading the same size as we wrote
+			Q_assert(sizeof(g_timers[0]->time) == sizeof(time) );//make sure we're reading the same size as we wrote
 
 			saved_game.read_chunk<int32_t>(
 				INT_ID('T', 'S', 'L', 'N'),
 				length);
 
 			if ( length >= 1024 ) {
-				assert( 0 );
+				Q_assert( 0 );
 				continue;
 			}
 
@@ -283,7 +283,7 @@ void TIMER_Load( void )
 
 static gtimer_t *TIMER_GetNew(int num, const char *identifier)
 {
-	assert(num < ENTITYNUM_MAX_NORMAL);//don't want timers on NONE or the WORLD
+	Q_assert(num < ENTITYNUM_MAX_NORMAL);//don't want timers on NONE or the WORLD
 	gtimer_t *p = g_timers[num];
 
 	// Search for an existing timer with this name
@@ -300,7 +300,7 @@ static gtimer_t *TIMER_GetNew(int num, const char *identifier)
 	// No existing timer with this name was found, so grab one from the free list
 	if (!g_timerFreeList)
 	{//oh no, none free!
-		assert(g_timerFreeList);
+		Q_assert(g_timerFreeList);
 		return NULL;
 	}
 
@@ -339,7 +339,7 @@ TIMER_Set
 
 void TIMER_Set( gentity_t *ent, const char *identifier, int duration )
 {
-	assert(ent->inuse);
+	Q_assert(ent->inuse);
 	gtimer_t *timer = TIMER_GetNew(ent->s.number, identifier);
 
 	if (timer)

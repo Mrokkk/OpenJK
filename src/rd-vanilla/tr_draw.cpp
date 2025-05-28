@@ -252,7 +252,7 @@ static byte *RE_ReSample(byte *pbLoadedPic,			int iLoadedWidth,	int iLoadedHeigh
 					{
 						byte *pbSrc = pbLoadedPic + 4 * ( ((int)yy * iLoadedWidth) + (int)xx );
 
-						assert(pbSrc < pbLoadedPic + (iLoadedWidth * iLoadedHeight * 4) );
+						Q_assert(pbSrc < pbLoadedPic + (iLoadedWidth * iLoadedHeight * 4) );
 
 						r += pbSrc[0];
 						g += pbSrc[1];
@@ -260,7 +260,7 @@ static byte *RE_ReSample(byte *pbLoadedPic,			int iLoadedWidth,	int iLoadedHeigh
 					}
 				}
 
-				assert(pbDst < pbReSampleBuffer + (*piWidth * *piHeight * 4));
+				Q_assert(pbDst < pbReSampleBuffer + (*piWidth * *piHeight * 4));
 
 				pbDst[0] = r / iTotPixelsPerDownSample;
 				pbDst[1] = g / iTotPixelsPerDownSample;
@@ -721,7 +721,7 @@ qboolean RE_ProcessDissolve(void)
 
 				default:
 				{
-					assert(0);
+					Q_assert(0);
 					iDissolvePercentage = 101;	// force a dissolve-kill
 					break;
 				}

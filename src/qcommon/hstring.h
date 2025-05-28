@@ -152,13 +152,13 @@ public:
 	// allocate but don't initialize num elements of type T
 	pointer allocate (size_type num, const void* = 0)
 	{
-		assert(sizeof(T)<=(MAP_NODE_SIZE-2)); // to big for this pool
-		assert(num==1); //allocator not design for this
+		Q_assert(sizeof(T)<=(MAP_NODE_SIZE-2)); // to big for this pool
+		Q_assert(num==1); //allocator not design for this
 		return (T*)mPool.Alloc();
 	}
 	void *_Charalloc(size_type size)
 	{
-		assert(size<=(MAP_NODE_SIZE-2)); // to big for this pool
+		Q_assert(size<=(MAP_NODE_SIZE-2)); // to big for this pool
 		return mPool.Alloc();
 	}
 
@@ -180,7 +180,7 @@ public:
 	template<class U>
 	void deallocate (U *p, size_type num)
 	{
-		assert(num==1); //allocator not design for this
+		Q_assert(num==1); //allocator not design for this
 		mPool.Free(p);
 	}
 };

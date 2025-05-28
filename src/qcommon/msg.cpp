@@ -189,7 +189,7 @@ int MSG_ReadBits( msg_t *msg, int bits ) {
 	while ( valueBits < bits ) {
 		if ( msg->bit == 0 ) {
 			msg->readcount++;
-			assert (msg->readcount <= msg->cursize);
+			Q_assert(msg->readcount <= msg->cursize);
 		}
 		get = 8 - msg->bit;
 		if ( get > (bits - valueBits) ) {
@@ -735,7 +735,7 @@ void MSG_WriteDeltaEntity( msg_t *msg, struct entityState_s *from, struct entity
 	// if this assert fails, someone added a field to the entityState_t
 	// struct without updating the message fields
 	blah = sizeof( *from );
-	assert( numFields + 1 == blah/4);
+	Q_assert( numFields + 1 == blah/4);
 
 	c = msg->cursize;
 
@@ -816,7 +816,7 @@ void MSG_WriteEntity( msg_t *msg, struct entityState_s *to, int removeNum)
 		MSG_WriteBits(msg, to->number, GENTITYNUM_BITS);
 		MSG_WriteBits(msg, 0, 1); //not removed
 	}
-	assert(( to - svs.snapshotEntities ) >= 0 && ( to - svs.snapshotEntities ) < 512);
+	Q_assert(( to - svs.snapshotEntities ) >= 0 && ( to - svs.snapshotEntities ) < 512);
 	MSG_WriteLong(msg, to - svs.snapshotEntities);
 }
 
@@ -832,7 +832,7 @@ void MSG_ReadEntity( msg_t *msg, entityState_t *to)
 	//No remove, read data
 	int index;
 	index = MSG_ReadLong(msg);
-	assert(index >= 0 && index < svs.numSnapshotEntities);
+	Q_assert(index >= 0 && index < svs.numSnapshotEntities);
 	*to = svs.snapshotEntities[index];
 }
 

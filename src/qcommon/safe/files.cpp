@@ -27,8 +27,8 @@ namespace FS
 		: _buffer( buffer )
 		, _size( size )
 	{
-		assert( buffer != nullptr || size == 0 );
-		assert( size >= 0 );
+		Q_assert( buffer != nullptr || size == 0 );
+		Q_assert( size >= 0 );
 	}
 
 	FileBuffer::~FileBuffer() NOEXCEPT
@@ -75,7 +75,7 @@ namespace FS
 		: _begin( files )
 		, _end( files + numFiles )
 	{
-		assert( numFiles >= 0 );
+		Q_assert( numFiles >= 0 );
 	}
 
 	FileList::~FileList() NOEXCEPT

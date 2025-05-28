@@ -156,6 +156,8 @@ qboolean Sys_LowPhysicalMemory();
 
 void Sys_SetProcessorAffinity( void );
 
+extern "C" void Sys_StacktraceDump(void);
+
 typedef enum graphicsApi_e
 {
 	GRAPHICS_API_GENERIC,

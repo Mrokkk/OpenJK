@@ -803,7 +803,7 @@ void G_ParseField( const char *key, const char *value, gentity_t *ent ) {
 			case F_VECTOR:
 			{
 				int _iFieldsRead = sscanf (value, "%f %f %f", &vec[0], &vec[1], &vec[2]);
-				assert(_iFieldsRead==3);
+				Q_assert(_iFieldsRead==3);
 				if (_iFieldsRead!=3)
 				{
 #ifndef FINAL_BUILD
@@ -818,7 +818,7 @@ void G_ParseField( const char *key, const char *value, gentity_t *ent ) {
 			case F_VECTOR4:
 			{
 				int _iFieldsRead =  sscanf (value, "%f %f %f %f", &vec4[0], &vec4[1], &vec4[2], &vec4[3]);
-				assert(_iFieldsRead==4);
+				Q_assert(_iFieldsRead==4);
 				if (_iFieldsRead!=4)
 				{
 #ifndef FINAL_BUILD

@@ -396,7 +396,7 @@ qboolean	BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *ps 
 		return qtrue;
 
 	default:
-		assert( !"BG_CanItemBeGrabbed: invalid item" );
+		Q_assert( !"BG_CanItemBeGrabbed: invalid item" );
 		break;
 	}
 

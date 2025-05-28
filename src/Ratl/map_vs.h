@@ -468,7 +468,7 @@ private:
 			}
 			else
 			{
-				assert(T::node(mPool[at_parent]).right()==at); // better be my parents right child then
+				Q_assert(T::node(mPool[at_parent]).right()==at); // better be my parents right child then
 				link_right(at_parent,successor);
 			}
 		}
@@ -513,7 +513,7 @@ private:
 		int	t;
 		if (left)
 		{
-			assert(T::node(mPool[at]).right()!=tree_node::NULL_NODE);
+			Q_assert(T::node(mPool[at]).right()!=tree_node::NULL_NODE);
 
 			t					= T::node(mPool[at]).right();
 			link_right(at,T::node(mPool[t]).left()); // T::node(mPool[at]).set_right(T::node(mPool[t]).left());
@@ -522,7 +522,7 @@ private:
 		}
 		else
 		{
-			assert(T::node(mPool[at]).left()!=tree_node::NULL_NODE);
+			Q_assert(T::node(mPool[at]).left()!=tree_node::NULL_NODE);
 
 			t					= T::node(mPool[at]).left();
 			link_left(at,T::node(mPool[t]).right()); // T::node(mPool[at]).set_left(T::node(mPool[t]).right());
@@ -664,7 +664,7 @@ protected:
     ////////////////////////////////////////////////////////////////////////////////////
 	int			next(int at) const
 	{
-		assert(at!=tree_node::NULL_NODE);
+		Q_assert(at!=tree_node::NULL_NODE);
 		const TTValue&	kAt = mPool[at];
 		const tree_node&	nAt = T::node(kAt);
 		if (nAt.right()!=tree_node::NULL_NODE)
@@ -689,7 +689,7 @@ protected:
     ////////////////////////////////////////////////////////////////////////////////////
 	int			previous(int at) const
 	{
-		assert(at!=tree_node::NULL_NODE);
+		Q_assert(at!=tree_node::NULL_NODE);
 		const TTValue&	kAt = mPool[at];
 		const tree_node&		nAt = T::node(mPool[at]);
 		if (kAt.left()!=tree_node::NULL_NODE)
@@ -761,7 +761,7 @@ public:
 	{
 
 		//fixme handle duplicates more sensibly?
-		assert(!full());
+		Q_assert(!full());
 		mLastAdd = mPool.alloc(key);			// Grab A New One
 		T::node(mPool[mLastAdd]).init();	// Initialize Our Data And Color
 	}
@@ -771,7 +771,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	TTValue & alloc_key()
 	{
-		assert(!full());
+		Q_assert(!full());
 		mLastAdd = mPool.alloc();			// Grab A New One
 		T::node(mPool[mLastAdd]).init();	// Initialize Our Data And Color
 		return mPool[mLastAdd];
@@ -782,7 +782,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	TRatlNew *alloc_key_raw()
 	{
-		assert(!full());
+		Q_assert(!full());
 		TRatlNew *ret=mPool.alloc_raw();			// Grab A New One
 		mLastAdd = mPool.pointer_to_index(ret);
 		T::node(mPool[mLastAdd]).init();	// Initialize Our Data And Color
@@ -796,18 +796,18 @@ public:
 
 	void insert_alloced_key()
 	{
-		assert(mLastAdd>=0&&mLastAdd<CAPACITY);
-		assert(!IS_MULTI || find_index(mPool[mLastAdd])!=tree_node::NULL_NODE); //fixme handle duplicates more sensibly?
+		Q_assert(mLastAdd>=0&&mLastAdd<CAPACITY);
+		Q_assert(!IS_MULTI || find_index(mPool[mLastAdd])!=tree_node::NULL_NODE); //fixme handle duplicates more sensibly?
 
 		insert_internal(mPool[mLastAdd],mRoot);
-		assert(mRoot!=tree_node::NULL_NODE);
+		Q_assert(mRoot!=tree_node::NULL_NODE);
 		T::node(mPool[mRoot]).set_red(false);
 		T::node(mPool[mRoot]).set_parent(tree_node::NULL_NODE);
 	}
 
 	int index_of_alloced_key() const
 	{
-		assert(mLastAdd>=0&&mLastAdd<CAPACITY);
+		Q_assert(mLastAdd>=0&&mLastAdd<CAPACITY);
 		return mLastAdd;
 	}
     ////////////////////////////////////////////////////////////////////////////////////
@@ -815,8 +815,8 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	void erase_index(int i)
 	{
-		assert(i>=0&&i<CAPACITY);
-		assert(mRoot!=tree_node::NULL_NODE);
+		Q_assert(i>=0&&i<CAPACITY);
+		Q_assert(mRoot!=tree_node::NULL_NODE);
 
 		//fixme this is lame to have to look by key to erase
 		erase_internal(mPool[i],mRoot);
@@ -835,7 +835,7 @@ public:
 	}
 	const TTValue &index_to_key(int i) const
 	{
-		assert(i>=0&&i<CAPACITY);
+		Q_assert(i>=0&&i<CAPACITY);
 		return mPool[i];
 	}
 
@@ -864,7 +864,7 @@ public:
 	void insert(const TTValue &key)
 	{
 
-		assert(!IS_MULTI || find_index(key)==tree_node::NULL_NODE); //fixme handle duplicates more sensibly?
+		Q_assert(!IS_MULTI || find_index(key)==tree_node::NULL_NODE); //fixme handle duplicates more sensibly?
 
 		alloc_key(key);
 		tree_base<T, IS_MULTI>::insert_alloced_key();
@@ -945,13 +945,13 @@ public:
 
 		iterator	operator++()		//prefix
 		{
-			assert(mOwner);
+			Q_assert(mOwner);
 			mLoc=mOwner->next(mLoc);
 			return *this;
 		}
 		iterator	operator++(int)		//postfix
 		{
-			assert(mOwner);
+			Q_assert(mOwner);
 			iterator old(*this);
 			mLoc=mOwner->next(mLoc);
 			return old;
@@ -959,13 +959,13 @@ public:
 
 		iterator	operator--()		//prefix
 		{
-			assert(mOwner);
+			Q_assert(mOwner);
 			mLoc=mOwner->previous(mLoc);
 			return *this;
 		}
 		iterator	operator--(int)		//postfix
 		{
-			assert(mOwner);
+			Q_assert(mOwner);
 			iterator old(*this);
 			mLoc=mOwner->previous(mLoc);
 			return old;
@@ -976,14 +976,14 @@ public:
 
 		const TTValue &	operator*() const
 		{
-			assert(mOwner);
-			assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
+			Q_assert(mOwner);
+			Q_assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
 			return mOwner->index_to_key(mLoc);
 		}
 		const TTValue *	operator->() const
 		{
-			assert(mOwner);
-			assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
+			Q_assert(mOwner);
+			Q_assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
 			return &mOwner->index_to_key(mLoc);
 		}
 	};
@@ -1025,13 +1025,13 @@ public:
 
 		const_iterator	operator++()		//prefix
 		{
-			assert(mOwner);
+			Q_assert(mOwner);
 			mLoc=mOwner->next(mLoc);
 			return *this;
 		}
 		const_iterator	operator++(int)		//postfix
 		{
-			assert(mOwner);
+			Q_assert(mOwner);
 			const_iterator old(*this);
 			mLoc=mOwner->next(mLoc);
 			return old;
@@ -1039,13 +1039,13 @@ public:
 
 		const_iterator	operator--()		//prefix
 		{
-			assert(mOwner);
+			Q_assert(mOwner);
 			mLoc=mOwner->previous(mLoc);
 			return *this;
 		}
 		const_iterator	operator--(int)		//postfix
 		{
-			assert(mOwner);
+			Q_assert(mOwner);
 			const_iterator old(*this);
 			mLoc=mOwner->previous(mLoc);
 			return old;
@@ -1058,14 +1058,14 @@ public:
 
 		const TTValue &	operator*() const
 		{
-			assert(mOwner);
-			assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
+			Q_assert(mOwner);
+			Q_assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
 			return mOwner->index_to_key(mLoc);
 		}
 		const TTValue *	operator->() const
 		{
-			assert(mOwner);
-			assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
+			Q_assert(mOwner);
+			Q_assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
 			return &mOwner->index_to_key(mLoc);
 		}
 	};
@@ -1140,7 +1140,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	void		erase(const iterator &it)
 	{
-		assert(it.mOwner==this && it.mLoc>=0&&it.mLoc<CAPACITY);
+		Q_assert(it.mOwner==this && it.mLoc>=0&&it.mLoc<CAPACITY);
 		erase_index(it.mLoc);
 	}
 
@@ -1230,11 +1230,11 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	void insert(const TKTValue &key,const TVTValue &value)
 	{
-		assert(!IS_MULTI || (tree_base<K,IS_MULTI>::find_index(key)==tree_node::NULL_NODE)); //fixme handle duplicates more sensibly?
+		Q_assert(!IS_MULTI || (tree_base<K,IS_MULTI>::find_index(key)==tree_node::NULL_NODE)); //fixme handle duplicates more sensibly?
 
 		tree_base<K,IS_MULTI>::alloc_key(key);
 		tree_base<K,IS_MULTI>::insert_alloced_key();
-		assert(check_validity());
+		Q_assert(check_validity());
 		mValues.construct(tree_base<K,IS_MULTI>::index_of_alloced_key(),value);
 	}
 
@@ -1244,13 +1244,13 @@ public:
 	TVTValue &insert(const TKTValue &key)
 	{
 
-		assert(!IS_MULTI || (tree_base<K,IS_MULTI>::find_index(key)==tree_node::NULL_NODE)); //fixme handle duplicates more sensibly?
+		Q_assert(!IS_MULTI || (tree_base<K,IS_MULTI>::find_index(key)==tree_node::NULL_NODE)); //fixme handle duplicates more sensibly?
 
 		tree_base<K,IS_MULTI>::alloc_key(key);
 		tree_base<K,IS_MULTI>::insert_alloced_key();
 
 		int idx=tree_base<K,IS_MULTI>::index_of_alloced_key();
-		assert(check_validity());
+		Q_assert(check_validity());
 		mValues.construct(idx);
 		return mValues[idx];
 	}
@@ -1260,11 +1260,11 @@ public:
 	TRatlNew *insert_raw(const TKTValue &key)
 	{
 
-		assert(!IS_MULTI || (tree_base<K,IS_MULTI>::find_index(key)==tree_node::NULL_NODE)); //fixme handle duplicates more sensibly?
+		Q_assert(!IS_MULTI || (tree_base<K,IS_MULTI>::find_index(key)==tree_node::NULL_NODE)); //fixme handle duplicates more sensibly?
 
 		tree_base<K,IS_MULTI>::alloc_key(key);
 		tree_base<K,IS_MULTI>::insert_alloced_key();
-		assert(check_validity());
+		Q_assert(check_validity());
 		return mValues.alloc_raw(tree_base<K,IS_MULTI>::index_of_alloced_key());
 	}
 
@@ -1341,13 +1341,13 @@ public:
 
 		iterator	operator++()		//prefix
 		{
-			assert(mOwner);
+			Q_assert(mOwner);
 			mLoc=mOwner->next(mLoc);
 			return *this;
 		}
 		iterator	operator++(int)		//postfix
 		{
-			assert(mOwner);
+			Q_assert(mOwner);
 			iterator old(*this);
 			mLoc=mOwner->next(mLoc);
 			return old;
@@ -1355,13 +1355,13 @@ public:
 
 		iterator	operator--()		//prefix
 		{
-			assert(mOwner);
+			Q_assert(mOwner);
 			mLoc=mOwner->previous(mLoc);
 			return *this;
 		}
 		iterator	operator--(int)		//postfix
 		{
-			assert(mOwner);
+			Q_assert(mOwner);
 			iterator old(*this);
 			mLoc=mOwner->previous(mLoc);
 			return old;
@@ -1372,26 +1372,26 @@ public:
 
 		TVTValue &	operator*() const
 		{
-			assert(mOwner);
-			assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
+			Q_assert(mOwner);
+			Q_assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
 			return mOwner->mValues[mLoc];
 		}
 		const TKTValue &	key() const
 		{
-			assert(mOwner);
-			assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
+			Q_assert(mOwner);
+			Q_assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
 			return mOwner->index_to_key(mLoc);
 		}
 		TVTValue &	value() const
 		{
-			assert(mOwner);
-			assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
+			Q_assert(mOwner);
+			Q_assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
 			return mOwner->mValues[mLoc];
 		}
 		TVTValue *	operator->() const
 		{
-			assert(mOwner);
-			assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
+			Q_assert(mOwner);
+			Q_assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
 			return &mOwner->mValues[mLoc];
 		}
 	};
@@ -1432,13 +1432,13 @@ public:
 
 		const_iterator	operator++()		//prefix
 		{
-			assert(mOwner);
+			Q_assert(mOwner);
 			mLoc=mOwner->next(mLoc);
 			return *this;
 		}
 		const_iterator	operator++(int)		//postfix
 		{
-			assert(mOwner);
+			Q_assert(mOwner);
 			const_iterator old(*this);
 			mLoc=mOwner->next(mLoc);
 			return old;
@@ -1446,13 +1446,13 @@ public:
 
 		const_iterator	operator--()		//prefix
 		{
-			assert(mOwner);
+			Q_assert(mOwner);
 			mLoc=mOwner->previous(mLoc);
 			return *this;
 		}
 		const_iterator	operator--(int)		//postfix
 		{
-			assert(mOwner);
+			Q_assert(mOwner);
 			const_iterator old(*this);
 			mLoc=mOwner->previous(mLoc);
 			return old;
@@ -1465,26 +1465,26 @@ public:
 
 		const TVTValue &	operator*() const
 		{
-			assert(mOwner);
-			assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
+			Q_assert(mOwner);
+			Q_assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
 			return mOwner->mValues[mLoc];
 		}
 		const TKTValue &	key() const
 		{
-			assert(mOwner);
-			assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
+			Q_assert(mOwner);
+			Q_assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
 			return mOwner->index_to_key(mLoc);
 		}
 		const TVTValue &	value() const
 		{
-			assert(mOwner);
-			assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
+			Q_assert(mOwner);
+			Q_assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
 			return mOwner->mValues[mLoc];
 		}
 		const TVTValue *	operator->() const
 		{
-			assert(mOwner);
-			assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
+			Q_assert(mOwner);
+			Q_assert(mLoc>=0&&mLoc<CAPACITY); // deferencing end()?
 			return &mOwner->mValues[mLoc];
 		}
 	};
@@ -1559,7 +1559,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	void		erase(const iterator &it)
 	{
-		assert(it.mOwner==this && it.mLoc>=0&&it.mLoc<CAPACITY);
+		Q_assert(it.mOwner==this && it.mLoc>=0&&it.mLoc<CAPACITY);
 		erase_index(it.mLoc);
 		mValues.destruct(it.mLoc);
 	}
@@ -1573,7 +1573,7 @@ private:
 		{
 			cnt++;
 		}
-//		assert(cnt==size());
+//		Q_assert(cnt==size());
 		return cnt==size();
 #else
 		return true;

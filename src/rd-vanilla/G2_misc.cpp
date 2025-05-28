@@ -396,10 +396,10 @@ int G2_DecideTraceLod(CGhoul2Info &ghoul2, int useLod)
    	{
    		returnLod =  ghoul2.mLodBias;
    	}
-	assert(G2_MODEL_OK(&ghoul2));
+	Q_assert(G2_MODEL_OK(&ghoul2));
 
-	assert(ghoul2.currentModel);
-	assert(ghoul2.currentModel->mdxm);
+	Q_assert(ghoul2.currentModel);
+	Q_assert(ghoul2.currentModel->mdxm);
 	//what about r_lodBias?
 
 	// now ensure that we haven't selected a lod that doesn't exist for this model
@@ -427,7 +427,7 @@ void R_TransformEachSurface( const mdxmSurface_t *surface, vec3_t scale, CMiniHe
 	TransformedVertsArray[surface->thisSurfaceIndex] = (intptr_t)TransformedVerts;
 	if (!TransformedVerts)
 	{
-		assert(TransformedVerts);
+		Q_assert(TransformedVerts);
 		Com_Error(ERR_DROP, "Ran out of transform space for Ghoul2 Models. Adjust G2_MINIHEAP_SIZE in sv_init.cpp.\n");
 	}
 
@@ -527,8 +527,8 @@ void G2_TransformSurfaces(int surfaceNum, surfaceInfo_v &rootSList,
 					CBoneCache *boneCache, const model_t *currentModel, int lod, vec3_t scale, CMiniHeap *G2VertSpace, intptr_t *TransformedVertArray, bool secondTimeAround)
 {
 	int	i;
-	assert(currentModel);
-	assert(currentModel->mdxm);
+	Q_assert(currentModel);
+	Q_assert(currentModel->mdxm);
 	// back track and get the surfinfo struct for this surface
 	const mdxmSurface_t			*surface = (mdxmSurface_t *)G2_FindSurface(currentModel, surfaceNum, lod);
 	const mdxmHierarchyOffsets_t	*surfIndexes = (mdxmHierarchyOffsets_t *)((byte *)currentModel->mdxm + sizeof(mdxmHeader_t));
@@ -610,8 +610,8 @@ void G2_TransformModel(CGhoul2Info_v &ghoul2, const int frameNum, vec3_t scale, 
 		{
 			continue;
 		}
-		assert(g.mBoneCache);
-		assert(G2_MODEL_OK(&g));
+		Q_assert(g.mBoneCache);
+		Q_assert(G2_MODEL_OK(&g));
 		// stop us building this model more than once per frame
 		g.mMeshFrameNum = frameNum;
 
@@ -620,7 +620,7 @@ void G2_TransformModel(CGhoul2Info_v &ghoul2, const int frameNum, vec3_t scale, 
 		if (ApplyGore)
 		{
 			lod=useLod;
-			assert(g.currentModel);
+			Q_assert(g.currentModel);
 			if (lod>=g.currentModel->numLods)
 			{
 				g.mTransformedVertsArray = 0;
@@ -846,8 +846,8 @@ static void G2_GorePolys( const mdxmSurface_t *surface, CTraceSurface &TS, const
 	}
 
 	// Give me a shot direction not a bunch of zeros :) -Gil
-	assert(DotProduct(basis1,basis1)>.0001f);
-	assert(DotProduct(basis2,basis2)>.0001f);
+	Q_assert(DotProduct(basis1,basis1)>.0001f);
+	Q_assert(DotProduct(basis2,basis2)>.0001f);
 
 	VectorNormalize(basis1);
 	VectorNormalize(basis2);
@@ -865,7 +865,7 @@ static void G2_GorePolys( const mdxmSurface_t *surface, CTraceSurface &TS, const
 	float *verts = (float *)TS.TransformedVertsArray[surface->thisSurfaceIndex];
 	int numVerts = surface->numVerts;
 	int flags=63;
-	assert(numVerts<MAX_GORE_VERTS);
+	Q_assert(numVerts<MAX_GORE_VERTS);
 	for ( j = 0; j < numVerts; j++ )
 	{
 		int pos=j*5;
@@ -921,9 +921,9 @@ static void G2_GorePolys( const mdxmSurface_t *surface, CTraceSurface &TS, const
 	GoreTouch++;
 	for ( j = 0; j < numTris; j++ )
 	{
-		assert(tris[j].indexes[0]>=0&&tris[j].indexes[0]<numVerts);
-		assert(tris[j].indexes[1]>=0&&tris[j].indexes[1]<numVerts);
-		assert(tris[j].indexes[2]>=0&&tris[j].indexes[2]<numVerts);
+		Q_assert(tris[j].indexes[0]>=0&&tris[j].indexes[0]<numVerts);
+		Q_assert(tris[j].indexes[1]>=0&&tris[j].indexes[1]<numVerts);
+		Q_assert(tris[j].indexes[2]>=0&&tris[j].indexes[2]<numVerts);
 		flags=63&
 			GoreVerts[tris[j].indexes[0]].flags&
 			GoreVerts[tris[j].indexes[1]].flags&
@@ -959,7 +959,7 @@ static void G2_GorePolys( const mdxmSurface_t *surface, CTraceSurface &TS, const
 
 		int k;
 
-		assert(newNumTris*3+3<MAX_GORE_INDECIES);
+		Q_assert(newNumTris*3+3<MAX_GORE_INDECIES);
 		for (k=0;k<3;k++)
 		{
 			if (GoreVerts[tris[j].indexes[k]].touch==GoreTouch)
@@ -997,7 +997,7 @@ static void G2_GorePolys( const mdxmSurface_t *surface, CTraceSurface &TS, const
 			goreSet=NewGoreSet();
 			TS.ghoul2info->mGoreSetTag=goreSet->mMyGoreSetTag;
 		}
-		assert(goreSet);
+		Q_assert(goreSet);
 		SGoreSurface add;
 		add.shader=TS.goreShader;
 		add.mDeleteTime=0;
@@ -1019,7 +1019,7 @@ static void G2_GorePolys( const mdxmSurface_t *surface, CTraceSurface &TS, const
 			add.mGoreGrowEndTime = G2API_GetTime(0) + TS.gore->growDuration;
 		}
 
-		assert(TS.gore->growDuration != 0);
+		Q_assert(TS.gore->growDuration != 0);
 		add.mGoreGrowFactor = ( 1.0f - TS.gore->goreScaleStartFraction) / (float)(TS.gore->growDuration);	//curscale = (curtime-mGoreGrowStartTime)*mGoreGrowFactor;
 		add.mGoreGrowOffset = TS.gore->goreScaleStartFraction;
 
@@ -1033,7 +1033,7 @@ static void G2_GorePolys( const mdxmSurface_t *surface, CTraceSurface &TS, const
 	GoreTextureCoordinates *gore=FindGoreRecord(newTag);
 	if (gore)
 	{
-		assert(sizeof(float)==sizeof(int));
+		Q_assert(sizeof(float)==sizeof(int));
 		// data block format:
 		unsigned int size=
 			sizeof(int)+ // num verts
@@ -1065,7 +1065,7 @@ static void G2_GorePolys( const mdxmSurface_t *surface, CTraceSurface &TS, const
 		data=(int *)fdata;
 		memcpy(data,GoreIndecies,sizeof(int)*newNumTris*3);
 		data+=newNumTris*3;
-		assert((data-(int *)gore->tex[TS.lod])*sizeof(int)==size);
+		Q_assert((data-(int *)gore->tex[TS.lod])*sizeof(int)==size);
 		fdata = (float *)data;
 		// build the entity to gore matrix
 		VectorCopy(saxis,fdata+0);
@@ -1086,7 +1086,7 @@ static void G2_GorePolys( const mdxmSurface_t *surface, CTraceSurface &TS, const
 		Inverse_Matrix((mdxaBone_t *)fdata,(mdxaBone_t *)(fdata+12));  // dest 2nd arg
 		data+=24;
 
-//		assert((data - (int *)gore->tex[TS.lod]) * sizeof(int) == size);
+//		Q_assert((data - (int *)gore->tex[TS.lod]) * sizeof(int) == size);
 	}
 }
 #else
@@ -1150,7 +1150,7 @@ static bool G2_TracePolys(const mdxmSurface_t *surface, const mdxmSurfHierarchy_
 
 					VectorSubtract(hitPoint, TS.rayStart, distVect);
 					newCol.mDistance = VectorLength(distVect);
-					assert( !Q_isnan(newCol.mDistance) );
+					Q_assert( !Q_isnan(newCol.mDistance) );
 
 					// put the hit point back into world space
 					TransformAndTranslatePoint(hitPoint, newCol.mCollisionPosition, &worldMatrix);
@@ -1227,7 +1227,7 @@ static bool G2_TracePolys(const mdxmSurface_t *surface, const mdxmSurfHierarchy_
 			}
 			if (i == MAX_G2_COLLISIONS)
 			{
-				//assert(i!=MAX_G2_COLLISIONS);		// run out of collision record space - will probalbly never happen
+				//Q_assert(i!=MAX_G2_COLLISIONS);		// run out of collision record space - will probalbly never happen
 				TS.hitOne = true;	//force stop recursion
 				return true;	// return true to avoid wasting further time, but no hit will result without a record
 			}
@@ -1268,8 +1268,8 @@ static bool G2_RadiusTracePolys(
 
 	CrossProduct(v3RayDir,basis1,basis2);
 	// Give me a shot direction not a bunch of zeros :) -Gil
-//	assert(DotProduct(basis1,basis1)>.0001f);
-//	assert(DotProduct(basis2,basis2)>.0001f);
+//	Q_assert(DotProduct(basis1,basis1)>.0001f);
+//	Q_assert(DotProduct(basis2,basis2)>.0001f);
 
 	VectorNormalize(basis1);
 	VectorNormalize(basis2);
@@ -1344,9 +1344,9 @@ static bool G2_RadiusTracePolys(
 
 	for ( j = 0; j < numTris; j++ )
 	{
-		assert(tris[j].indexes[0]>=0&&tris[j].indexes[0]<numVerts);
-		assert(tris[j].indexes[1]>=0&&tris[j].indexes[1]<numVerts);
-		assert(tris[j].indexes[2]>=0&&tris[j].indexes[2]<numVerts);
+		Q_assert(tris[j].indexes[0]>=0&&tris[j].indexes[0]<numVerts);
+		Q_assert(tris[j].indexes[1]>=0&&tris[j].indexes[1]<numVerts);
+		Q_assert(tris[j].indexes[2]>=0&&tris[j].indexes[2]<numVerts);
 		flags=63&
 			GoreVerts[tris[j].indexes[0]].flags&
 			GoreVerts[tris[j].indexes[1]].flags&
@@ -1433,7 +1433,7 @@ static bool G2_RadiusTracePolys(
 
 					VectorSubtract(hitPoint, TS.rayStart, distVect);
 					newCol.mDistance = VectorLength(distVect);
-					assert( !Q_isnan(newCol.mDistance) );
+					Q_assert( !Q_isnan(newCol.mDistance) );
 
 					// put the hit point back into world space
 					TransformAndTranslatePoint(hitPoint, newCol.mCollisionPosition, &worldMatrix);
@@ -1444,7 +1444,7 @@ static bool G2_RadiusTracePolys(
 			}
 			if (i==MAX_G2_COLLISIONS)
 			{
-				//assert(i!=MAX_G2_COLLISIONS);		// run out of collision record space - happens OFTEN
+				//Q_assert(i!=MAX_G2_COLLISIONS);		// run out of collision record space - happens OFTEN
 				TS.hitOne = true;	//force stop recursion
 				return true;	// return true to avoid wasting further time, but no hit will result without a record
 			}
@@ -1460,8 +1460,8 @@ static void G2_TraceSurfaces(CTraceSurface &TS)
 {
 	int	i;
 	// back track and get the surfinfo struct for this surface
-	assert(TS.currentModel);
-	assert(TS.currentModel->mdxm);
+	Q_assert(TS.currentModel);
+	Q_assert(TS.currentModel->mdxm);
 	const mdxmSurface_t		*surface = (mdxmSurface_t *)G2_FindSurface(TS.currentModel, TS.surfaceNum, TS.lod);
 	const mdxmHierarchyOffsets_t	*surfIndexes = (mdxmHierarchyOffsets_t *)((byte *)TS.currentModel->mdxm + sizeof(mdxmHeader_t));
 	const mdxmSurfHierarchy_t		*surfInfo = (mdxmSurfHierarchy_t *)((byte *)surfIndexes + surfIndexes->offsets[surface->thisSurfaceIndex]);
@@ -1581,7 +1581,7 @@ void G2_TraceModels(CGhoul2Info_v &ghoul2, vec3_t rayStart, vec3_t rayEnd, CColl
 		{
 			continue;
 		}
-		assert(G2_MODEL_OK(&ghoul2[i]));
+		Q_assert(G2_MODEL_OK(&ghoul2[i]));
 		// do we really want to collide with this object?
 		if (g.mFlags & GHOUL2_NOCOLLIDE)
 		{
@@ -1713,15 +1713,15 @@ void G2_GenerateWorldMatrix(const vec3_t angles, const vec3_t origin)
 // go away and determine what the pointer for a specific surface definition within the model definition is
 void *G2_FindSurface(const model_s *mod, int index, int lod)
 {
-	assert(mod);
-	assert(mod->mdxm);
+	Q_assert(mod);
+	Q_assert(mod->mdxm);
 
 	// point at first lod list
 	byte	*current = (byte*)((intptr_t)mod->mdxm + (intptr_t)mod->mdxm->ofsLODs);
 	int i;
 
 	//walk the lods
-	assert(lod>=0&&lod<mod->mdxm->numLODs);
+	Q_assert(lod>=0&&lod<mod->mdxm->numLODs);
 	for (i=0; i<lod; i++)
 	{
 		mdxmLOD_t *lodData = (mdxmLOD_t *)current;
@@ -1733,7 +1733,7 @@ void *G2_FindSurface(const model_s *mod, int index, int lod)
 
 	mdxmLODSurfOffset_t *indexes = (mdxmLODSurfOffset_t *)current;
 	// we are now looking at the offset array
-	assert(index>=0&&index<mod->mdxm->numSurfaces);
+	Q_assert(index>=0&&index<mod->mdxm->numSurfaces);
 	current += indexes->offsets[index];
 
 	return (void *)current;

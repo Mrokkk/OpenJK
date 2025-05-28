@@ -785,7 +785,7 @@ image_t *R_Images_GetNextIteration(void)
 //
 static void R_Images_DeleteImageContents( image_t *pImage )
 {
-	assert(pImage);	// should never be called with NULL
+	Q_assert(pImage);	// should never be called with NULL
 	if (pImage)
 	{
 		qglDeleteTextures( 1, &pImage->texnum );
@@ -843,7 +843,7 @@ void R_Images_DeleteImage(image_t *pImage)
 	}
 	else
 	{
-		assert(0);
+		Q_assert(0);
 	}
 }
 

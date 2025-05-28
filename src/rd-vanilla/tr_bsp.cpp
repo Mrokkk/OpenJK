@@ -751,7 +751,7 @@ static	void R_LoadSubmodels( lump_t *l, world_t &worldData, int index  ) {
 
 		model = R_AllocModel();
 
-		assert( model != NULL );			// this should never happen
+		Q_assert( model != NULL );			// this should never happen
 		if ( model == NULL ) {
 			ri.Error(ERR_DROP, "R_LoadSubmodels: R_AllocModel() failed");
 		}
@@ -1087,7 +1087,7 @@ static	void R_LoadFogs( lump_t *l, lump_t *brushesLump, lump_t *sidesLump, world
 		// get information from the shader for fog parameters
 		shader = R_FindShader( fogs->shader, lightmaps, stylesDefault, qtrue );
 
-		assert(shader->fogParms);
+		Q_assert(shader->fogParms);
 		if (!shader->fogParms)
 		{//bad shader!!
 			out->parms.color[0] = 1.0f;
@@ -1370,7 +1370,7 @@ void RE_LoadWorldMap_Actual( const char *name, world_t &worldData, int index ) {
 		{
 			// this should never happen (ie renderer loading a different map than the server), but just in case...
 			//
-	//		assert(0);
+	//		Q_assert(0);
 	//		R_Free(gpvCachedMapDiskImage);
 	//			   gpvCachedMapDiskImage = NULL;
 			//rww - this is a valid possibility now because of sub-bsp loading.\

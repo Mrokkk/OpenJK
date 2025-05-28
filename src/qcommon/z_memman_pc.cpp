@@ -470,8 +470,8 @@ static int Zone_FreeBlock(zoneHeader_t *pMemory)
 
 		// Sanity checks...
 		//
-		assert(pMemory->pPrev->pNext == pMemory);
-		assert(!pMemory->pNext || (pMemory->pNext->pPrev == pMemory));
+		Q_assert(pMemory->pPrev->pNext == pMemory);
+		Q_assert(!pMemory->pNext || (pMemory->pNext->pPrev == pMemory));
 
 		// Unlink and free...
 		//
@@ -913,8 +913,8 @@ void Com_ShutdownZoneMemory(void)
 		Com_Printf("Automatically freeing %d blocks making up %d bytes\n", TheZone.Stats.iCount, TheZone.Stats.iCurrent);
 		Z_TagFree(TAG_ALL);
 
-		//assert(!TheZone.Stats.iCount);	// These aren't really problematic per se, it's just warning us that we're freeing extra
-		//assert(!TheZone.Stats.iCurrent);  // memory that is in the zone manager (but not actively tracked..) so if anything, zone_*
+		//Q_assert(!TheZone.Stats.iCount);	// These aren't really problematic per se, it's just warning us that we're freeing extra
+		//Q_assert(!TheZone.Stats.iCurrent);  // memory that is in the zone manager (but not actively tracked..) so if anything, zone_*
 											// commands will just simply be wrong in displaying bytes, but in my tests, it's only off
 											// by like 10 bytes / 1 block, which isn't a real problem --eez
 		if(TheZone.Stats.iCount < 0) {

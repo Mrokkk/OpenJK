@@ -558,7 +558,7 @@ qboolean MP3Stream_GetSamples( channel_t *ch, int startingSampleNum, int count, 
 //		Com_Printf(S_COLOR_YELLOW"No decode needed\n");
 //	}
 
-	assert(startingSampleNum >= ch->iMP3SlidingDecodeWindowPos);
+	Q_assert(startingSampleNum >= ch->iMP3SlidingDecodeWindowPos);
 	memcpy( buf, ch->MP3SlidingDecodeBuffer + (startingSampleNum-ch->iMP3SlidingDecodeWindowPos), count);
 
 //	OutputDebugString("OK\n\n");

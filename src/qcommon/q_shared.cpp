@@ -153,7 +153,7 @@ void COM_EndParseSession( void )
 {
 	parseDataCount--;
 #ifdef _DEBUG
-	assert (parseDataCount >= -1 && "COM_EndParseSession: called without a starting COM_BeginParseSession.\n");
+	Q_assert(parseDataCount >= -1 && "COM_EndParseSession: called without a starting COM_BeginParseSession.\n");
 #endif
 }
 

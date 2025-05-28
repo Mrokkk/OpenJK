@@ -118,7 +118,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	TTValue &		push()
 	{
-		assert(!full());
+		Q_assert(!full());
 		mData.construct(mSize);
 		mSize++;
 		return mData[mSize-1];
@@ -129,7 +129,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	void push(const TTValue& v)
 	{
-		assert(!full());
+		Q_assert(!full());
 		mData.construct(mSize,v);
 		mSize++;
 	}
@@ -139,7 +139,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	TRatlNew *push_raw()
 	{
-		assert(!full());
+		Q_assert(!full());
 		mSize++;
 		return mData.alloc_raw(mSize-1);
 	}
@@ -148,20 +148,20 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	void			pop()
 	{
-		assert(!empty());
+		Q_assert(!empty());
 		mSize--;
 		mData.destruct(mSize);
 	}
 
 	TTValue & top()
 	{
-		assert(!empty());
+		Q_assert(!empty());
 		return mData[mSize-1];
 	}
 
 	const TTValue & top() const
 	{
-		assert(!empty());
+		Q_assert(!empty());
 		return mData[mSize-1];
 	}
 	template<class CAST_TO>

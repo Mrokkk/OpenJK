@@ -499,7 +499,7 @@ void NET_SendLoopPacket (netsrc_t sock, int length, const void *data, netadr_t t
 		freeSpace = loop->get - loop->send;
 	}
 
-	assert(freeSpace > length);
+	Q_assert(freeSpace > length);
 #endif // _DEBUG
 
 	//Get write position.  Wrap around if too close to end.

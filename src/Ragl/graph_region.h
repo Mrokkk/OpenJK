@@ -169,7 +169,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	int		reserve()
 	{
-		assert(mRegionCount < (MAXREGIONS-1));
+		Q_assert(mRegionCount < (MAXREGIONS-1));
 		if (mRegionCount >= (MAXREGIONS-1) )
 		{//stop adding points, we're full, you MUST increase MAXREGIONS for this to work
 			return NULL_REGION;
@@ -210,7 +210,7 @@ public:
 			CurNodeIndex = i.index();
 			if (mRegions[CurNodeIndex] == NULL_REGION)
 			{
-				assert(mRegionCount < (MAXREGIONS-1));
+				Q_assert(mRegionCount < (MAXREGIONS-1));
 				if (mRegionCount >= (MAXREGIONS-1) )
 				{//stop adding points, we're full, you MUST increase MAXREGIONS for this to work
 					return false;
@@ -263,7 +263,7 @@ public:
 							{
 								if (mEdges.full())
 								{
-									assert("graph_region: Too Many Region Edges"==0);
+									Q_assert("graph_region: Too Many Region Edges"==0);
 									Success = false;
 								}
 								else
@@ -356,7 +356,7 @@ private:
 				{
 					// Scan Through This Region Edge List Of Graph Edges For Any Valid One
 					//---------------------------------------------------------------------
-					assert(mEdges[CurRegionEdge].size()>0);
+					Q_assert(mEdges[CurRegionEdge].size()>0);
 					for (int j=0; j<mEdges[CurRegionEdge].size(); j++)
 					{
 						if (user.is_valid(

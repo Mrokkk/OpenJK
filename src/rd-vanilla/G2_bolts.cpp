@@ -75,10 +75,10 @@ int G2_Find_Bolt_Surface_Num(boltInfo_v &bltlist, const int surfaceNum, const in
 //// Public Bolt Routines
 int G2_Add_Bolt_Surf_Num(CGhoul2Info *ghlInfo, boltInfo_v &bltlist, surfaceInfo_v &slist, const int surfNum)
 {
-	assert(ghlInfo&&ghlInfo->mValid);
+	Q_assert(ghlInfo&&ghlInfo->mValid);
 	boltInfo_t			tempBolt;
 
-	assert(surfNum>=0&&surfNum<(int)slist.size());
+	Q_assert(surfNum>=0&&surfNum<(int)slist.size());
 	// ensure surface num is valid
 	if (surfNum >= (int)slist.size())
 	{
@@ -125,14 +125,14 @@ int G2_Add_Bolt_Surf_Num(CGhoul2Info *ghlInfo, boltInfo_v &bltlist, surfaceInfo_
 void G2_Bolt_Not_Found(const char *boneName,const char *modName);
 int G2_Add_Bolt(CGhoul2Info *ghlInfo, boltInfo_v &bltlist, surfaceInfo_v &slist, const char *boneName)
 {
-	assert(ghlInfo&&ghlInfo->mValid);
+	Q_assert(ghlInfo&&ghlInfo->mValid);
 	int					surfNum = -1;
 	mdxaSkel_t			*skel;
 	mdxaSkelOffsets_t	*offsets;
 	boltInfo_t			tempBolt;
 	uint32_t			flags;
 
-	assert(G2_MODEL_OK(ghlInfo));
+	Q_assert(G2_MODEL_OK(ghlInfo));
 
 	// first up, we'll search for that which this bolt names in all the surfaces
 	surfNum = G2_IsSurfaceLegal(ghlInfo->currentModel, boneName, &flags);
@@ -195,7 +195,7 @@ int G2_Add_Bolt(CGhoul2Info *ghlInfo, boltInfo_v &bltlist, surfaceInfo_v &slist,
 	if (x == ghlInfo->aHeader->numBones)
 	{
 		// didn't find it? Error
-		//assert(0&&x == mod_a->mdxa->numBones);
+		//Q_assert(0&&x == mod_a->mdxa->numBones);
 #if _DEBUG
 		G2_Bolt_Not_Found(boneName,ghlInfo->mFileName);
 #endif
@@ -241,7 +241,7 @@ int G2_Add_Bolt(CGhoul2Info *ghlInfo, boltInfo_v &bltlist, surfaceInfo_v &slist,
 // Given a model handle, and a bone name, we want to remove this bone from the bone override list
 qboolean G2_Remove_Bolt (boltInfo_v &bltlist, int index)
 {
-	assert(index>=0&&index<(int)bltlist.size());
+	Q_assert(index>=0&&index<(int)bltlist.size());
 	// did we find it?
 	if (index != -1)
 	{

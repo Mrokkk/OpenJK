@@ -994,7 +994,7 @@ qboolean JK2SP_Register(const char *inPackage, unsigned char Registration)
 	std::map<std::string, cStringPackageSingle *>::iterator	i;
 
 
-	assert(JK2SP_ListByName.size() == JK2SP_ListByID.size());
+	Q_assert(JK2SP_ListByName.size() == JK2SP_ListByID.size());
 
 	Q_strncpyz(Package, inPackage, MAX_QPATH);
 	Q_strupr(Package);
@@ -1050,7 +1050,7 @@ void JK2SP_Unload(unsigned char Registration)
 	std::map<std::string, cStringPackageSingle *>::iterator	i, next;
 	std::map<byte, cStringPackageSingle *>::iterator		id;
 
-	assert(JK2SP_ListByName.size() == JK2SP_ListByID.size());
+	Q_assert(JK2SP_ListByName.size() == JK2SP_ListByID.size());
 
 	for(i = JK2SP_ListByName.begin(); i != JK2SP_ListByName.end(); i = next)
 	{
@@ -1149,7 +1149,7 @@ const char *JK2SP_GetReferenceText(unsigned short ID, const char *&psPackageName
 	i = JK2SP_ListByID.find(SP_GET_PACKAGE(ID));
 	if (i == JK2SP_ListByID.end())
 	{
-		assert(0);
+		Q_assert(0);
 		return NULL;
 	}
 
@@ -1160,7 +1160,7 @@ const char *JK2SP_GetReferenceText(unsigned short ID, const char *&psPackageName
 
 	if (!string)
 	{
-		assert(0);
+		Q_assert(0);
 		return NULL;
 	}
 

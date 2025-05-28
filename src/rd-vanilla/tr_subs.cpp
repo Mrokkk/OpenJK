@@ -97,3 +97,10 @@ void R_MorphMallocTag( void *pvBuffer, memtag_t eDesiredTag ) {
 void *R_Hunk_Alloc( int iSize, qboolean bZeroit ) {
 	return ri.Malloc( iSize, TAG_HUNKALLOC, bZeroit, 4 );
 }
+
+extern "C" void Sys_StacktraceDump(void)
+{
+	ri.Sys_StacktraceDump();
+}
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

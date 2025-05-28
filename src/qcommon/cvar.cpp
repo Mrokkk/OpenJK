@@ -1312,7 +1312,7 @@ updates an interpreted modules' version of a cvar
 */
 void	Cvar_Update( vmCvar_t *vmCvar ) {
 	cvar_t	*cv = NULL;
-	assert(vmCvar);
+	Q_assert(vmCvar);
 
 	if ( (unsigned)vmCvar->handle >= (unsigned)cvar_numIndexes ) {
 		Com_Error( ERR_DROP, "Cvar_Update: handle %u out of range", (unsigned)vmCvar->handle );

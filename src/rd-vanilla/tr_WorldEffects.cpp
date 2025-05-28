@@ -129,7 +129,7 @@ inline	void	SnapFloatToGrid(float& f, int GridSize)
 
 	f = (int)(f);
 
-	assert(((int)(f)%(int)(GridSize)) == 0);
+	Q_assert(((int)(f)%(int)(GridSize)) == 0);
 }
 
 inline	void	SnapVectorToGrid(CVec3& Vec, int GridSize)
@@ -613,7 +613,7 @@ public:
 		}
 		else
 		{
-			assert("MaxWeatherZones Hit!"==0);
+			Q_assert("MaxWeatherZones Hit!"==0);
 		}
 	}
 
@@ -775,7 +775,7 @@ public:
 									}
 									else if (SWeatherZone::mMarkedOutside!=curPosOutside)
 									{
-										assert(0);
+										Q_assert(0);
 										Com_Error (ERR_DROP, "Weather Effect: Both Indoor and Outdoor brushs encountered in map.\n" );
 										return;
 									}
@@ -1028,8 +1028,8 @@ public:
 	void	Initialize(int count, const char* texturePath, int VertexCount=4)
 	{
 		Reset();
-		assert(mParticleCount==0 && mParticles==0);
-		assert(mImage==0);
+		Q_assert(mParticleCount==0 && mParticles==0);
+		Q_assert(mImage==0);
 
 		// Create The Image
 		//------------------
@@ -1838,7 +1838,7 @@ void R_WorldEffectCommand(const char *command)
 		// Read Mins
 		if (!WE_ParseVector(&command, 3, nWind.mRBounds.mMins.v))
 		{
-			assert("Wind Zone: Unable To Parse Mins Vector!"==0);
+			Q_assert("Wind Zone: Unable To Parse Mins Vector!"==0);
 			mWindZones.pop_back();
 			COM_EndParseSession();
 			return;
@@ -1847,7 +1847,7 @@ void R_WorldEffectCommand(const char *command)
 		// Read Maxs
 		if (!WE_ParseVector(&command, 3, nWind.mRBounds.mMaxs.v))
 		{
-			assert("Wind Zone: Unable To Parse Maxs Vector!"==0);
+			Q_assert("Wind Zone: Unable To Parse Maxs Vector!"==0);
 			mWindZones.pop_back();
 			COM_EndParseSession();
 			return;

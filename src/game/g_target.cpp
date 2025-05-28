@@ -1083,7 +1083,7 @@ void target_secret_use(gentity_t *self, gentity_t *other, gentity_t *activator)
 		G_Sound( self, self->noise_index );
 	}
 	gi.SendServerCommand( 0, "cp @INGAME_SECRET_AREA" );
-	assert(client->sess.missionStats.totalSecrets);
+	Q_assert(client->sess.missionStats.totalSecrets);
 }
 
 /*QUAKED target_secret (1 0 1) (-4 -4 -4) (4 4 4)

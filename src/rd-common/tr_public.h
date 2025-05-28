@@ -123,6 +123,7 @@ typedef struct {
 	qboolean			*(*gbUsingCachedMapDataRightNow)	( void );
 	qboolean			*(*gbAlreadyDoingLoad)				( void );
 	int					(*com_frameTime)					( void );
+	void				(*Sys_StacktraceDump)				( void );
 
 } refimport_t;
 
@@ -377,3 +378,5 @@ typedef struct {
 // returned.
 
 typedef	refexport_t* (QDECL *GetRefAPI_t) (int apiVersion, refimport_t *rimp);
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

@@ -266,7 +266,7 @@ void G_CreateG2AttachedWeaponModel( gentity_t *ent, const char *psWeaponModel )
 {
 	if (!psWeaponModel)
 	{
-		assert (psWeaponModel);
+		Q_assert(psWeaponModel);
 		return;
 	}
 	if ( ent && ent->client && ent->client->NPC_class == CLASS_GALAKMECH )

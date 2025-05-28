@@ -124,7 +124,7 @@ private:
 		{
 			return;
 		}
-		assert(a>=0 && b>=0 && a<CAPACITY && b<CAPACITY);
+		Q_assert(a>=0 && b>=0 && a<CAPACITY && b<CAPACITY);
 		mData.swap(a,b);
 	}
 
@@ -214,7 +214,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	const TTValue &		top() const
 	{
-		assert(mPush>0);		// Don't Try To Look At This If There Is Nothing In Here
+		Q_assert(mPush>0);		// Don't Try To Look At This If There Is Nothing In Here
 		return mData[0];
 	}
 
@@ -224,7 +224,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	void			push(const TTValue& nValue)
 	{
-		assert(size()<CAPACITY);
+		Q_assert(size()<CAPACITY);
 
 		// Add It
 		//--------
@@ -235,7 +235,7 @@ public:
 		reheapify_upward(mPush);
 
 		mPush++;
-		assert(valid());
+		Q_assert(valid());
 	}
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -243,7 +243,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	TTValue&	alloc()
 	{
-		assert(size()<CAPACITY);
+		Q_assert(size()<CAPACITY);
 
 		// Add It
 		//--------
@@ -257,7 +257,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	TRatlNew *	alloc_raw()
 	{
-		assert(size()<CAPACITY);
+		Q_assert(size()<CAPACITY);
 
 		return mData.alloc_raw(mPush);
 	}
@@ -267,13 +267,13 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	void			push_alloced()
 	{
-		assert(size()<CAPACITY);
+		Q_assert(size()<CAPACITY);
 		// Fix Possible Heap Inconsistancies
 		//-----------------------------------
 		reheapify_upward(mPush);
 
 		mPush++;
-		assert(valid());
+		Q_assert(valid());
 	}
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -281,7 +281,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	void			pop()
 	{
-		assert(size()>0);
+		Q_assert(size()>0);
 
 		mPush--;
 
@@ -293,7 +293,7 @@ public:
 		// Fix Possible Heap Inconsistancies
 		//-----------------------------------
 		reheapify_downward(0);
-		assert(valid());
+		Q_assert(valid());
 	}
 
 

@@ -414,7 +414,7 @@ void CG_InterpolatePlayerState( qboolean grabAngles ) {
 	{
 //		if (cg.frametime<150)
 //		{
-		assert(pent);
+		Q_assert(pent);
 		vec3_t	p1,p2,vel;
 		float lerpTime;
 

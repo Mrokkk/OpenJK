@@ -71,7 +71,7 @@ int ICARUS_GetScript( const char *name, char **buf )
 		if ( ei == ICARUS_BufferList.end() )
 		{
 			//NOTENOTE: This is an internal error in STL if this happens...
-			assert(0);
+			Q_assert(0);
 			return 0;
 		}
 	}
@@ -199,7 +199,7 @@ FIXME: shouldn't ICARUS handle this internally?
 */
 void ICARUS_FreeEnt( gentity_t *ent )
 {
-	assert( iICARUS );
+	Q_assert( iICARUS );
 
 	//Make sure the ent is valid
 	if ( ent->sequencer == NULL )
@@ -591,9 +591,9 @@ void Q3_TaskIDClear( int *taskID );
 void ICARUS_InitEnt( gentity_t *ent )
 {
 	//Make sure this is a fresh ent
-	assert( iICARUS );
-	assert( ent->taskManager == NULL );
-	assert( ent->sequencer == NULL );
+	Q_assert( iICARUS );
+	Q_assert( ent->taskManager == NULL );
+	Q_assert( ent->sequencer == NULL );
 
 	if ( ent->sequencer != NULL )
 		return;

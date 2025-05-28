@@ -49,7 +49,7 @@ Coordinates are 640*480 virtual values
 void SCR_DrawNamedPic( float x, float y, float width, float height, const char *picname ) {
 	qhandle_t	hShader;
 
-	assert( width != 0 );
+	Q_assert( width != 0 );
 
 	hShader = re.RegisterShader( picname );
 	re.DrawStretchPic( x, y, width, height, 0, 0, 1, 1, hShader, 1, 1 );

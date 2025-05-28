@@ -46,7 +46,7 @@ namespace std
 		case Q::Ordering::GT:
 			return stream << "GT";
 		default:
-			assert( false );
+			Q_assert( false );
 			return stream;
 		}
 	}

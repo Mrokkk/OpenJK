@@ -1879,7 +1879,7 @@ void S_AddLoopingSound( int entityNum, const vec3_t origin, const vec3_t velocit
 		return;
 	}
 	if ( numLoopSounds >= MAX_LOOP_SOUNDS ) {
-		//assert(numLoopSounds<MAX_LOOP_SOUNDS);
+		//Q_assert(numLoopSounds<MAX_LOOP_SOUNDS);
 #ifndef FINAL_BUILD
 		Com_Printf( "S_AddLoopingSound: MAX_LOOP_SOUNDS\n");
 #endif
@@ -1899,7 +1899,7 @@ void S_AddLoopingSound( int entityNum, const vec3_t origin, const vec3_t velocit
 	if ( !sfx->iSoundLengthInSamples ) {
 		Com_Error( ERR_DROP, "%s has length 0", sfx->sSoundName );
 	}
-	assert(!sfx->pMP3StreamHeader);
+	Q_assert(!sfx->pMP3StreamHeader);
 	VectorCopy( origin, loopSounds[numLoopSounds].origin );
 //	VectorCopy( velocity, loopSounds[numLoopSounds].velocity );
 	loopSounds[numLoopSounds].sfx = sfx;
@@ -1948,7 +1948,7 @@ void S_AddAmbientLoopingSound( const vec3_t origin, unsigned char volume, sfxHan
 	}
 	VectorCopy( origin, loopSounds[numLoopSounds].origin );
 	loopSounds[numLoopSounds].sfx = sfx;
-	assert(!sfx->pMP3StreamHeader);
+	Q_assert(!sfx->pMP3StreamHeader);
 
 	//TODO: Calculate the distance falloff
 	loopSounds[numLoopSounds].volume = volume;
@@ -2329,7 +2329,7 @@ static int S_CheckAmplitude(channel_t	*ch, const int s_oldpaintedtime )
 {
 	// now, is this a cycle - or have we just started a new sample - where we should update the backup table, and write this value
 	// into the new table? or should we just take the value FROM the back up table and feed it out.
-	assert( ch->startSample != START_SAMPLE_IMMEDIATE );
+	Q_assert( ch->startSample != START_SAMPLE_IMMEDIATE );
 	if ( ch->startSample == s_oldpaintedtime || (next_amplitude < s_soundtime) )//(ch->startSample == START_SAMPLE_IMMEDIATE)//!s_entityWavVol_back[ch->entnum]
 	{
 		int	sample;
@@ -2386,7 +2386,7 @@ static int S_CheckAmplitude(channel_t	*ch, const int s_oldpaintedtime )
 
 					default:
 					{
-						assert(0);
+						Q_assert(0);
 						sample = 0;
 					}
 					break;
@@ -2443,7 +2443,7 @@ static int S_CheckAmplitude(channel_t	*ch, const int s_oldpaintedtime )
 		return (sample);
 	}
 	// no, just get last value calculated from backup table
-	assert( s_entityWavVol_back[ch->entnum] );
+	Q_assert( s_entityWavVol_back[ch->entnum] );
 	return (s_entityWavVol_back[ ch->entnum]);
 }
 
@@ -4013,7 +4013,7 @@ static byte *MP3MusicStream_ReadFromDisk(MusicInfo_t *pMusicInfo, int iReadOffse
 {
 	if (iReadOffset < pMusicInfo->iMP3MusicStream_DiskWindowPos)
 	{
-		assert(0);											// should never happen
+		Q_assert(0);											// should never happen
 		return pMusicInfo->byMP3MusicStream_DiskBuffer;		// ...but return something safe anyway
 	}
 
@@ -4399,7 +4399,7 @@ static void S_HandleDynamicMusicStateChange( void )
 
 						default:	// trying to transition from some state I wasn't aware you could transition from (shouldn't happen), so ignore
 						{
-							assert(0);
+							Q_assert(0);
 							S_SwitchDynamicTracks( eMusic_StateActual, eBGRNDTRACK_SILENCE, qfalse );	// qboolean bNewTrackStartsFullVolume
 						}
 						break;
@@ -4434,7 +4434,8 @@ static void S_HandleDynamicMusicStateChange( void )
 						break;
 
 						default:		// some unhandled type switching to silence
-							assert(0);	// fall through since boss case just does silence->switch anyway
+							Q_assert(0);	// fall through since boss case just does silence->switch anyway
+							[[fallthrough]];
 
 						case eBGRNDTRACK_BOSS:	// boss->silence
 						{
@@ -4485,7 +4486,7 @@ static void S_HandleDynamicMusicStateChange( void )
 				}
 				break;
 
-				default: assert(0); break;	// unknown new mode request, so just ignore it
+				default: Q_assert(0); break;	// unknown new mode request, so just ignore it
 			}
 		}
 	}
@@ -5611,7 +5612,7 @@ static bool LoadEALFile(char *szEALFilename)
 								{
 									if ((lEnvID >= 0) && (lEnvID < s_lNumEnvironments))
 									{
-										assert(s_lpEnvTable[lEnvID].ulNumApertures < 64);
+										Q_assert(s_lpEnvTable[lEnvID].ulNumApertures < 64);
 										if (!s_lpEnvTable[lEnvID].bUsed)
 										{
 											s_lpEnvTable[lEnvID].bUsed = true;
@@ -5696,7 +5697,7 @@ static bool LoadEALFile(char *szEALFilename)
 												s_lpEnvTable[lEnvID].Aperture[s_lpEnvTable[lEnvID].ulNumApertures].vPos2[2]) / 2;
 
 											s_lpEnvTable[lEnvID].ulNumApertures++;
-											assert(s_lpEnvTable[lEnvID].ulNumApertures < 64);
+											Q_assert(s_lpEnvTable[lEnvID].ulNumApertures < 64);
 										}
 										else
 										{
@@ -5950,7 +5951,7 @@ static void UpdateEAXListener()
 					}
 				}
 
-				assert(s_FXSlotInfo[i].lEnvID < s_lNumEnvironments && s_FXSlotInfo[i].lEnvID >= 0);
+				Q_assert(s_FXSlotInfo[i].lEnvID < s_lNumEnvironments && s_FXSlotInfo[i].lEnvID >= 0);
 				if (s_FXSlotInfo[i].lEnvID < s_lNumEnvironments && s_FXSlotInfo[i].lEnvID >= 0)
 				{
 					s_lpEnvTable[s_FXSlotInfo[i].lEnvID].lFXSlotID = -1;
@@ -6041,7 +6042,7 @@ static void UpdateEAXListener()
 								}
 							}
 
-							assert(ReverbData[j].lEnvID < s_lNumEnvironments && ReverbData[j].lEnvID >= 0);
+							Q_assert(ReverbData[j].lEnvID < s_lNumEnvironments && ReverbData[j].lEnvID >= 0);
 							if (ReverbData[j].lEnvID < s_lNumEnvironments && ReverbData[j].lEnvID >= 0)
 							{
 								s_FXSlotInfo[i].lEnvID = ReverbData[j].lEnvID;

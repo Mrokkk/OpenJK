@@ -139,7 +139,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	const TTValue&	operator[](int handle) const
 	{
-		assert(is_used(handle));		//typically this is a stale handle (already been freed)
+		Q_assert(is_used(handle));		//typically this is a stale handle (already been freed)
 		return pool_root<T>::value_at_index(handle&mMASK_HANDLE_TO_INDEX);
 	}
 
@@ -148,7 +148,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	TTValue&			operator[](int i)
 	{
-		assert(is_used(i));		//typically this is a stale handle (already been freed)
+		Q_assert(is_used(i));		//typically this is a stale handle (already been freed)
 		return pool_root<T>::value_at_index(i&mMASK_HANDLE_TO_INDEX);
 	}
 
@@ -166,8 +166,8 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	void swap(int i,int j)
 	{
-		assert(is_used(i));		//typically this is a stale handle (already been freed)
-		assert(is_used(j));		//typically this is a stale handle (already been freed)
+		Q_assert(is_used(i));		//typically this is a stale handle (already been freed)
+		Q_assert(is_used(j));		//typically this is a stale handle (already been freed)
 		swap_index(handle_to_index(i),handle_to_index(j));
 	}
 
@@ -202,7 +202,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	void		free(int handle)
 	{
-		assert(is_used(handle));
+		Q_assert(is_used(handle));
 		free_index(handle&mMASK_HANDLE_TO_INDEX);
 	}
 
@@ -219,7 +219,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	int			handle_to_index(int handle) const
 	{
-		assert(is_used(handle));
+		Q_assert(is_used(handle));
 		return (handle&mMASK_HANDLE_TO_INDEX);
 	}
 
@@ -228,7 +228,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	int			index_to_handle(int index) const
 	{
-		assert(index>=0 && index<CAPACITY && pool_root<T>::is_used_index(index)); //disallowing this on stale handles
+		Q_assert(index>=0 && index<CAPACITY && pool_root<T>::is_used_index(index)); //disallowing this on stale handles
 		return (mHandles[index]);
 	}
 
@@ -252,7 +252,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
     typename pool_root<T>::iterator	at(int handle)
 	{
-		assert(is_used(handle));
+		Q_assert(is_used(handle));
 		return pool_root<T>::at_index(handle&mMASK_HANDLE_TO_INDEX);
 	}
 
@@ -261,7 +261,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
     typename pool_root<T>::const_iterator	at(int handle) const
 	{
-		assert(is_used(handle));
+		Q_assert(is_used(handle));
 		return pool_root<T>::at_index(handle&mMASK_HANDLE_TO_INDEX);
 	}
 };

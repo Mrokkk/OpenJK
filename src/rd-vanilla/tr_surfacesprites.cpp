@@ -297,7 +297,7 @@ static void R_SurfaceSpriteFrameUpdate(void)
 	{// Make sure not to get infinitly small number here
 		curWindPointForce = r_windPointForce->value - (ratio * (r_windPointForce->value - curWindPointForce));
 	}
-	assert(!Q_isnan(curWindPointForce));
+	Q_assert(!Q_isnan(curWindPointForce));
 	if (curWindPointForce < 0.01)
 	{
 		curWindPointActive = qfalse;
@@ -574,7 +574,7 @@ static void RB_DrawVerticalSurfaceSprites( shaderStage_t *stage, shaderCommands_
 	float cutdist=stage->ss->fadeMax*rangescalefactor, cutdist2=cutdist*cutdist;
 	float fadedist=stage->ss->fadeDist*rangescalefactor, fadedist2=fadedist*fadedist;
 
-	assert(cutdist2 != fadedist2);
+	Q_assert(cutdist2 != fadedist2);
 	float inv_fadediff = 1.0/(cutdist2-fadedist2);
 
 	// The faderange is the fraction amount it takes for these sprites to fade out, assuming an ideal fade range of 250
@@ -950,7 +950,7 @@ static void RB_DrawOrientedSurfaceSprites( shaderStage_t *stage, shaderCommands_
 	float cutdist=stage->ss->fadeMax*rangescalefactor, cutdist2=cutdist*cutdist;
 	float fadedist=stage->ss->fadeDist*rangescalefactor, fadedist2=fadedist*fadedist;
 
-	assert(cutdist2 != fadedist2);
+	Q_assert(cutdist2 != fadedist2);
 	float inv_fadediff = 1.0/(cutdist2-fadedist2);
 
 	// The faderange is the fraction amount it takes for these sprites to fade out, assuming an ideal fade range of 250
@@ -1228,7 +1228,7 @@ static void RB_DrawEffectSurfaceSprites( shaderStage_t *stage, shaderCommands_t 
 	float fxalpha = stage->ss->fxAlphaEnd - stage->ss->fxAlphaStart;
 	qboolean fadeinout=qfalse;
 
-	assert(cutdist2 != fadedist2);
+	Q_assert(cutdist2 != fadedist2);
 	float inv_fadediff = 1.0/(cutdist2-fadedist2);
 
 	// The faderange is the fraction amount it takes for these sprites to fade out, assuming an ideal fade range of 250

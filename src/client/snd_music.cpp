@@ -602,7 +602,7 @@ static qboolean Music_ParseLeveldata( gsl::czstring psLevelName )
 				{
 					// then this must be "action" music under current rules...
 					//
-					assert( !strcmp(psMusicStateType, Music_BaseStateToString(eBGRNDTRACK_ACTION) ? Music_BaseStateToString(eBGRNDTRACK_ACTION):"") );
+					Q_assert( !strcmp(psMusicStateType, Music_BaseStateToString(eBGRNDTRACK_ACTION) ? Music_BaseStateToString(eBGRNDTRACK_ACTION):"") );
 					//
 					// does this marker exist in the explore piece?
 					//
@@ -728,7 +728,7 @@ const char *Music_GetFileNameForState( MusicState_e eMusicState)
 
 		default:
 			#ifndef FINAL_BUILD
-			assert(0);	// duh....what state are they asking for?
+			Q_assert(0);	// duh....what state are they asking for?
 			Com_Printf( S_COLOR_RED "Music_GetFileNameForState( %d ) unhandled case!\n",eMusicState );
 			#endif
 			break;
@@ -857,8 +857,8 @@ qboolean Music_AllowedToTransition( float			fPlayingTimeElapsed,
 					{
 						case eBGRNDTRACK_EXPLORE:
 						{
-							assert(iExitPoint < iMAX_EXPLORE_TRANSITIONS);	// already been checked, but sanity
-							assert(!ExitPoint.sNextMark.c_str()[0]);		// simple error checking, but harmless if tripped. explore transitions go to silence, hence no entry time for [silence] state after transition
+							Q_assert(iExitPoint < iMAX_EXPLORE_TRANSITIONS);	// already been checked, but sanity
+							Q_assert(!ExitPoint.sNextMark.c_str()[0]);		// simple error checking, but harmless if tripped. explore transitions go to silence, hence no entry time for [silence] state after transition
 
 							eFeedBackTransition = (MusicState_e) (eBGRNDTRACK_EXPLORETRANS0 + iExitPoint);
 						}
@@ -866,7 +866,7 @@ qboolean Music_AllowedToTransition( float			fPlayingTimeElapsed,
 
 						case eBGRNDTRACK_ACTION:
 						{
-							assert(iExitPoint < iMAX_ACTION_TRANSITIONS);	// already been checked, but sanity
+							Q_assert(iExitPoint < iMAX_ACTION_TRANSITIONS);	// already been checked, but sanity
 
 							// if there's an entry marker point defined...
 							//
@@ -891,7 +891,7 @@ qboolean Music_AllowedToTransition( float			fPlayingTimeElapsed,
 									else
 									{
 										#ifndef FINAL_BUILD
-										assert(0);	// sanity, should have been caught elsewhere, but harmless to do this
+										Q_assert(0);	// sanity, should have been caught elsewhere, but harmless to do this
 										Com_Printf( S_COLOR_RED "Music_AllowedToTransition() unable to find entry marker \"%s\" in \"%s\"",ExitPoint.sNextMark.c_str(), MusicFile_Explore.sFileNameBase.c_str());
 										#endif
 										return qfalse;
@@ -900,7 +900,7 @@ qboolean Music_AllowedToTransition( float			fPlayingTimeElapsed,
 								else
 								{
 									#ifndef FINAL_BUILD
-									assert(0);	// sanity, should have been caught elsewhere, but harmless to do this
+									Q_assert(0);	// sanity, should have been caught elsewhere, but harmless to do this
 									Com_Printf( S_COLOR_RED "Music_AllowedToTransition() unable to find %s version of \"%s\"\n",Music_BaseStateToString(eBGRNDTRACK_EXPLORE), pMusicFile->sFileNameBase.c_str());
 									#endif
 									return qfalse;
@@ -917,7 +917,7 @@ qboolean Music_AllowedToTransition( float			fPlayingTimeElapsed,
 						default:
 						{
 							#ifndef FINAL_BUILD
-							assert(0);
+							Q_assert(0);
 							Com_Printf( S_COLOR_RED "Music_AllowedToTransition(): No code to transition from music type %d\n",eMusicState);
 							#endif
 							return qfalse;
@@ -928,7 +928,7 @@ qboolean Music_AllowedToTransition( float			fPlayingTimeElapsed,
 				else
 				{
 					#ifndef FINAL_BUILD
-					assert(0);
+					Q_assert(0);
 					Com_Printf( S_COLOR_RED "Music_AllowedToTransition(): Illegal exit point %d, max = %d (music: \"%s\")\n",iExitPoint, pMusicFile->MusicExitPoints.size()-1, pMusicFile->sFileNameBase.c_str() );
 					#endif
 					return qfalse;

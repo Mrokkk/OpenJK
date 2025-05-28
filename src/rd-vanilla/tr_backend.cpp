@@ -388,7 +388,7 @@ void GL_State( uint32_t stateBits )
 			qglAlphaFunc( GL_GEQUAL, 0.75f );
 			break;
 		default:
-			assert( 0 );
+			Q_assert( 0 );
 			break;
 		}
 	}

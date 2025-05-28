@@ -141,7 +141,7 @@ public:
 	{
 		T *item;
 
-		assert(mHash < TSize);
+		Q_assert(mHash < TSize);
 
 		if(mNext)
 		{

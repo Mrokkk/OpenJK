@@ -173,6 +173,8 @@ typedef struct {
 	void	(*FS_FreeFile)( void *buf );
 	int		(*FS_GetFileList)(  const char *path, const char *extension, char *listbuf, int bufsize );
 
+	void		(*StacktraceDump)(void);
+
 	// Savegame handling
 	//
 	ojk::ISavedGame* saved_game;
@@ -368,11 +370,9 @@ Ghoul2 Insert Start
 	void		(*WE_AddWeatherZone)(vec3_t mins, vec3_t maxs);
 	bool		(*WE_SetTempGlobalFogColor)(vec3_t color);
 
-
 /*
 Ghoul2 Insert End
 */
-
 
 } game_import_t;
 
@@ -436,3 +436,5 @@ typedef struct {
 game_export_t *GetGameApi (game_import_t *import);
 
 #endif//#ifndef __G_PUBLIC_H__
+
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

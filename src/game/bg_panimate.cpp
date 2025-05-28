@@ -1877,7 +1877,7 @@ int PM_LegsAnimForFrame( gentity_t *ent, int legsFrame )
 	}
 
 	//Not in ANY torsoAnim?  SHOULD NEVER HAPPEN
-//	assert(0);
+//	Q_assert(0);
 	return -1;
 }
 
@@ -1950,7 +1950,7 @@ int PM_TorsoAnimForFrame( gentity_t *ent, int torsoFrame )
 	}
 
 	//Not in ANY torsoAnim?  SHOULD NEVER HAPPEN
-//	assert(0);
+//	Q_assert(0);
 	return -1;
 }
 
@@ -2229,7 +2229,7 @@ void PM_SetAnimFinal(int *torsoAnim,int *legsAnim,
 	}
 	if ( anim < 0 || anim >= MAX_ANIMATIONS )
 	{
-		assert( 0&&"anim out of range!!!" );
+		Q_assert( 0&&"anim out of range!!!" );
 #ifndef FINAL_BUILD
 		G_Error( "%s tried to play invalid anim %d", gent->NPC_type, anim );
 #endif
@@ -2355,7 +2355,7 @@ void PM_SetAnimFinal(int *torsoAnim,int *legsAnim,
 						}
 						else
 						{//try to synch it
-//							assert((currentFrame <=endFrame) && (currentFrame>=startFrame));
+//							Q_assert((currentFrame <=endFrame) && (currentFrame>=startFrame));
 							// yes, its the same animation, so work out where we are in the leg anim, and blend us
 #if G2_DEBUG_TIMING
 							Com_Printf("tlegb %d     %d %d %4.2f %4.2f %d\n",
@@ -2598,7 +2598,7 @@ setAnimLegs:
 					&& (((animations[anim].numFrames ) + animations[anim].firstFrame) == endFrame))
 				{//if we're playing this *exact* anim on the torso already and we're not restarting the anim, then match the torso's frame
 					//try to synch it
-//					assert((currentFrame <=endFrame) && (currentFrame>=startFrame));
+//					Q_assert((currentFrame <=endFrame) && (currentFrame>=startFrame));
 					// yes, its the same animation, so work out where we are in the torso anim, and blend us
 #if G2_DEBUG_TIMING
 					Com_Printf("ltrsb %d     %d %d %4.2f %4.2f %d\n",

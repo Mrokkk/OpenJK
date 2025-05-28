@@ -355,7 +355,7 @@ void Con_CheckResize (void)
 	int		charWidth, rowwidth, width;
 	float	scale;
 
-	assert(SMALLCHAR_HEIGHT >= SMALLCHAR_WIDTH);
+	Q_assert(SMALLCHAR_HEIGHT >= SMALLCHAR_WIDTH);
 
 	scale = ((con_scale->value > 0.0f) ? con_scale->value : 1.0f);
 	charWidth = scale * SMALLCHAR_WIDTH;

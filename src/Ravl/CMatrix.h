@@ -142,7 +142,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	CMatrix		   operator* (const CMatrix &t) const
 	{
-	//	assert(this!=&t);				// Don't Multiply With Self
+	//	Q_assert(this!=&t);				// Don't Multiply With Self
 
 		CMatrix		Result;				// The Resulting Matrix
 		int			i,j,k;				// Counters

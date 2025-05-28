@@ -163,7 +163,7 @@ void G_ReadSessionData( gclient_t *client ) {
       /* Get next token: */
       var = strtok( NULL, " " );
 	}
-	assert (i==NUM_FORCE_POWERS);
+	Q_assert(i==NUM_FORCE_POWERS);
 
 	var = va( "sessionweapons%i", client - level.clients );
 	gi.Cvar_VariableStringBuffer( var, s, sizeof(s) );
@@ -177,7 +177,7 @@ void G_ReadSessionData( gclient_t *client ) {
       /* Get next token: */
       var = strtok( NULL, " " );
 	}
-	assert (i==WP_NUM_WEAPONS);
+	Q_assert(i==WP_NUM_WEAPONS);
 }
 
 

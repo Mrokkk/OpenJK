@@ -105,7 +105,7 @@ static void IN_UseGivenForce(void)
 		genCmdNum = GENCMD_FORCE_HEAL;
 		break;
 	default:
-		assert(0);
+		Q_assert(0);
 		break;
 	}
 

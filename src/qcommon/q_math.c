@@ -26,6 +26,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #include <float.h>
 #include <math.h>
 #include <stdlib.h>
+#include "q_assert.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -371,7 +372,7 @@ float Q_rsqrt( float number )
 	y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
 												//	y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
 
-	assert( !Q_isnan(y) );
+	Q_assert( !Q_isnan(y) );
 	return y;
 }
 
@@ -675,7 +676,7 @@ void ProjectPointOnPlane( vec3_t dst, const vec3_t p, const vec3_t normal )
 	float inv_denom;
 
 	inv_denom =  DotProduct( normal, normal );
-	assert( Q_fabs(inv_denom) != 0.0f );
+	Q_assert( Q_fabs(inv_denom) != 0.0f );
 	inv_denom = 1.0f / inv_denom;
 
 	d = DotProduct( normal, p ) * inv_denom;

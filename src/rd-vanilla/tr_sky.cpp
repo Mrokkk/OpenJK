@@ -611,7 +611,7 @@ void R_BuildCloudData( shaderCommands_t *input )
 {
 	int			i;
 
-	assert( input->shader->sky );
+	Q_assert( input->shader->sky );
 
 	sky_min = 1.0 / 256.0f;		// FIXME: not correct?
 	sky_max = 255.0 / 256.0f;

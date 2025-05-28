@@ -691,7 +691,7 @@ void Player_RestoreFromPrevLevel(gentity_t *ent)
 	gclient_t	*client = ent->client;
 	int			i;
 
-	assert(client);
+	Q_assert(client);
 	if (client)	// though I can't see it not being true...
 	{
 		char	s[MAX_STRING_CHARS];
@@ -741,7 +741,7 @@ void Player_RestoreFromPrevLevel(gentity_t *ent)
 			  /* Get next token: */
 			  var = strtok( NULL, " " );
 			}
-			assert (i==AMMO_MAX);
+			Q_assert(i==AMMO_MAX);
 
 			//inventory
 			gi.Cvar_VariableStringBuffer( "playerinv", s, sizeof(s) );
@@ -754,7 +754,7 @@ void Player_RestoreFromPrevLevel(gentity_t *ent)
 			  /* Get next token: */
 			  var = strtok( NULL, " " );
 			}
-			assert (i==INV_MAX);
+			Q_assert(i==INV_MAX);
 
 
 			// the new JK2 stuff - force powers, etc...
@@ -769,7 +769,7 @@ void Player_RestoreFromPrevLevel(gentity_t *ent)
 			  /* Get next token: */
 			  var = strtok( NULL, " " );
 			}
-			assert (i==NUM_FORCE_POWERS);
+			Q_assert(i==NUM_FORCE_POWERS);
 
 			client->ps.forcePowerMax = FORCE_POWER_MAX;
 			client->ps.forceGripEntityNum = ENTITYNUM_NONE;

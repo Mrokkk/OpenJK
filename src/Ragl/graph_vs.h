@@ -319,7 +319,7 @@ public:
 
 				cell.mNodes.push_back(it.index());
 				full = cell.mNodes.full();
-				assert(!full || "Cell Filled On Inital Containment"==0);
+				Q_assert(!full || "Cell Filled On Inital Containment"==0);
 			}
 
 			mCells.scale_by_largest_axis(range);
@@ -421,7 +421,7 @@ public:
 
 				cell.mEdges.push_back(eit.index());
 				full = cell.mEdges.full();
-				assert(!full || "Cell Filled On Inital Containment"==0);
+				Q_assert(!full || "Cell Filled On Inital Containment"==0);
 			}
 
 
@@ -736,19 +736,19 @@ public:
 	{
 		if (nodeA==nodeB || !nodeA || !nodeB || !mNodes.is_used(nodeA) || !mNodes.is_used(nodeB))
 		{
-			assert("ERROR: Cannot Connect A and B!"==0);
+			Q_assert("ERROR: Cannot Connect A and B!"==0);
 			return 0;
 		}
 
 		if (mLinks[nodeA].full() || (reflexive && mLinks[nodeB].full()))
 		{
-			assert("ERROR: Max edges per node exceeded!"==0);
+			Q_assert("ERROR: Max edges per node exceeded!"==0);
 			return 0;
 		}
 
 		if (mEdges.full())
 		{
-			assert("ERROR: Max edges exceeded!"==0);
+			Q_assert("ERROR: Max edges exceeded!"==0);
 			return 0;
 		}
 
@@ -776,13 +776,13 @@ public:
 	{
 		if (nodeA==nodeB || !nodeA || !nodeB || !mNodes.is_used(nodeA) || !mNodes.is_used(nodeB))
 		{
-			assert("ERROR: Cannot Connect A and B!"==0);
+			Q_assert("ERROR: Cannot Connect A and B!"==0);
 			return;
 		}
 
 		if (mLinks[nodeA].full() || (reflexive && mLinks[nodeB].full()))
 		{
-			assert("ERROR: Max edges per node exceeded!"==0);
+			Q_assert("ERROR: Max edges per node exceeded!"==0);
 			return;
 		}
 
@@ -810,7 +810,7 @@ public:
 	{
 		if (!mNodes.is_used(nodeA) || (!mNodes.is_used(nodeB) && nodeA==nodeB))
 		{
-			assert("Unable To Remove Edge"==0);
+			Q_assert("Unable To Remove Edge"==0);
 			return;
 		}
 
@@ -927,7 +927,7 @@ private:
 		////////////////////////////////////////////////////////////////////////////////////
 		T&				top()
 		{
-			assert(mPush>0);		// Don't Try To Look At This If There Is Nothing In Here
+			Q_assert(mPush>0);		// Don't Try To Look At This If There Is Nothing In Here
 			return (mData[0]);
 		}
 
@@ -938,7 +938,7 @@ private:
 		{
 			// If You Hit This Assert, Then You Are Asking For Unallocated Data
 			//------------------------------------------------------------------
-			assert(used(handle));
+			Q_assert(used(handle));
 			return mData[mHandleToPos[handle]];
 		}
 
@@ -948,11 +948,11 @@ private:
 		////////////////////////////////////////////////////////////////////////////////////
 		void			push(const T& nValue)
 		{
-			assert(size()<MAXNODES);
+			Q_assert(size()<MAXNODES);
 
 			// Get The Handle From The Value And Make Sure We Don't Already Have One Stored There
 			//------------------------------------------------------------------------------------
-			assert(mHandleToPos[nValue.handle()] == -1);
+			Q_assert(mHandleToPos[nValue.handle()] == -1);
 
 			// Add It
 			//--------
@@ -973,11 +973,11 @@ private:
 		////////////////////////////////////////////////////////////////////////////////////
 		void			pop()
 		{
-			assert(size()>0);
+			Q_assert(size()>0);
 
 			mPush--;
 
-			assert(mHandleToPos[mData[0].handle()]==0);
+			Q_assert(mHandleToPos[mData[0].handle()]==0);
 
 
 			// Swap The Lowest Element Up To The Spot We Just "Erased"
@@ -997,7 +997,7 @@ private:
 		////////////////////////////////////////////////////////////////////////////////////
 		void			reheapify(int handle)
 		{
-			assert(used(handle));
+			Q_assert(used(handle));
 
 			int Pos = mHandleToPos[handle];
 			reheapify_upward(Pos);
@@ -1056,9 +1056,9 @@ private:
 				return;
 			}
 
-			assert(a>=0 && b>=0 && a<MAXNODES && b<MAXNODES);
-			assert(mHandleToPos[mData[a].handle()]==a);
-			assert(mHandleToPos[mData[b].handle()]==b);
+			Q_assert(a>=0 && b>=0 && a<MAXNODES && b<MAXNODES);
+			Q_assert(mHandleToPos[mData[a].handle()]==a);
+			Q_assert(mHandleToPos[mData[b].handle()]==b);
 
 			// Swap Handles
 			//--------------
@@ -1071,8 +1071,8 @@ private:
 			mData[a]		= mData[b];		// b->a
 			mData[b]		= mData[MAXNODES];	// TEMP->B
 
-			assert(mHandleToPos[mData[a].handle()]==a);
-			assert(mHandleToPos[mData[b].handle()]==b);
+			Q_assert(mHandleToPos[mData[a].handle()]==a);
+			Q_assert(mHandleToPos[mData[b].handle()]==b);
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////
@@ -1109,7 +1109,7 @@ private:
 		{
 			for (int i=1; i<mPush; i++)
 			{
-				assert(mData[i]<mData[0]);
+				Q_assert(mData[i]<mData[0]);
 			}
 		}
 	#endif
@@ -1341,7 +1341,7 @@ public:
 		////////////////////////////////////////////////////////////////////////////////
 		void			path_inc()
 		{
-			assert(mPathVisit!=NULL_VISIT_INDEX);
+			Q_assert(mPathVisit!=NULL_VISIT_INDEX);
 			mPathVisit = mVisited[mPathVisit].mParentVisit;
 		}
 
@@ -1350,7 +1350,7 @@ public:
 		////////////////////////////////////////////////////////////////////////////////
 		int				path_at()
 		{
-			assert(mPathVisit!=NULL_VISIT_INDEX);
+			Q_assert(mPathVisit!=NULL_VISIT_INDEX);
 			return mVisited[mPathVisit].mNode;
 		}
 
@@ -1412,7 +1412,7 @@ public:
 		////////////////////////////////////////////////////////////////////////////////
 		void			reopen_next_index()
 		{
-			assert(mNextIndex!=NULL_NODE_INDEX);
+			Q_assert(mNextIndex!=NULL_NODE_INDEX);
 
 			mNodeIndexToVisited[mNextIndex] = NULL_VISIT_INDEX;
 			mClosed.clear_bit(mNextIndex);
@@ -1438,7 +1438,7 @@ public:
 		////////////////////////////////////////////////////////////////////////////////
 		void			visit(search_node& t)
 		{
-			assert(mNodesPtr!=0);
+			Q_assert(mNodesPtr!=0);
 			mPrevIndex						= t.mNode;
 
 			// Add It To The Visited List, And Mark The Location In The Node Index Array
@@ -1457,7 +1457,7 @@ public:
 		////////////////////////////////////////////////////////////////////////////////
 		bool			next_index_closed()
 		{
-			assert(mNextIndex!=NULL_NODE_INDEX);
+			Q_assert(mNextIndex!=NULL_NODE_INDEX);
 
 			return (mClosed.get_bit(mNextIndex));
 		}
@@ -1467,8 +1467,8 @@ public:
 		////////////////////////////////////////////////////////////////////////////////
 		search_node&	get_next()
 		{
-			assert(mNodesPtr);
-			assert(mNextIndex!=NULL_NODE_INDEX);
+			Q_assert(mNodesPtr);
+			Q_assert(mNextIndex!=NULL_NODE_INDEX);
 
 			mClosed.set_bit(mNextIndex);
 
@@ -1484,8 +1484,8 @@ public:
 		////////////////////////////////////////////////////////////////////////////////
 		search_node&	get_next(const user& suser, TEDGE& edge_parent_to_next)
 		{
-			assert(mNodesPtr);
-			assert(mNextIndex!=NULL_NODE_INDEX);
+			Q_assert(mNodesPtr);
+			Q_assert(mNextIndex!=NULL_NODE_INDEX);
 
 			//NOTE: we do not do a "mClosed.set_bit(mNextIndex);" here because A* only closes nodes that are visited
 
@@ -1547,7 +1547,7 @@ public:
 	{
 		// Make Sure The Nodes We Are Searching For Exist
 		//------------------------------------------------
-		assert(MAXEDGES>1);
+		Q_assert(MAXEDGES>1);
 		sdata.setup(&mNodes);
 
 		// Allocate Our Data Structures

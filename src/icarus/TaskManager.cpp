@@ -55,7 +55,7 @@ CTask *CTask::Create( int GUID, CBlock *block )
 	CTask *task = new CTask;
 
 	//TODO: Emit warning
-	assert( task );
+	Q_assert( task );
 	if ( task == NULL )
 		return NULL;
 
@@ -277,7 +277,7 @@ CTaskGroup *CTaskManager::AddTaskGroup( const char *name )
 	group = new CTaskGroup;;
 
 	//TODO: Emit warning
-	assert( group );
+	Q_assert( group );
 	if ( group == NULL )
 	{
 		(m_owner->GetInterface())->I_DPrintf( WL_ERROR, "Unable to allocate task group \"%s\"\n", name );
@@ -442,7 +442,7 @@ int CTaskManager::GetFloat( int entID, CBlock *block, int &memberNum, float &val
 	}
 	else
 	{
-		assert(0);
+		Q_assert(0);
 		(m_owner->GetInterface())->I_DPrintf( WL_WARNING, "Unexpected value; expected type FLOAT\n" );
 		return false;
 	}
@@ -511,7 +511,7 @@ int CTaskManager::GetVector( int entID, CBlock *block, int &memberNum, vector_t 
 		if ( (m_owner->GetInterface())->I_GetTag( entID, tagName, (int) tagLookup, value ) == false)
 		{
 			(m_owner->GetInterface())->I_DPrintf( WL_ERROR, "Unable to find tag \"%s\"!\n", tagName );
-			assert(0);
+			Q_assert(0);
 			return TASK_FAILED;
 		}
 
@@ -646,7 +646,7 @@ int CTaskManager::Get( int entID, CBlock *block, int &memberNum, char **value )
 		if ( ( m_owner->GetInterface())->I_GetTag( entID, tagName, (int) tagLookup, vector ) == false)
 		{
 			(m_owner->GetInterface())->I_DPrintf( WL_ERROR, "Unable to find tag \"%s\"!\n", tagName );
-			assert(0 && "Unable to find tag");
+			Q_assert(0 && "Unable to find tag");
 			return false;
 		}
 
@@ -701,7 +701,7 @@ int CTaskManager::Get( int entID, CBlock *block, int &memberNum, char **value )
 	}
 
 	//TODO: Emit warning
-	assert( 0 );
+	Q_assert( 0 );
 	(m_owner->GetInterface())->I_DPrintf( WL_WARNING, "Unexpected value; expected type STRING\n" );
 
 	return false;
@@ -721,7 +721,7 @@ int	CTaskManager::Go( void )
 	//Check for run away scripts
 	if ( m_count++ > RUNAWAY_LIMIT )
 	{
-		assert(0);
+		Q_assert(0);
 		(m_owner->GetInterface())->I_DPrintf( WL_ERROR, "Runaway loop detected!\n" );
 		return TASK_FAILED;
 	}
@@ -732,7 +732,7 @@ int	CTaskManager::Go( void )
 		//Get the next task
 		task = PopTask( POP_BACK );
 
-		assert( task );
+		Q_assert( task );
 		if ( task == NULL )
 		{
 			(m_owner->GetInterface())->I_DPrintf( WL_ERROR, "Invalid task found in Go()!\n" );
@@ -829,7 +829,7 @@ int	CTaskManager::Go( void )
 			break;
 
 		default:
-			assert(0);
+			Q_assert(0);
 			task->Free();
 			(m_owner->GetInterface())->I_DPrintf( WL_ERROR, "Found unknown task type!\n" );
 			return TASK_FAILED;
@@ -865,7 +865,7 @@ int	CTaskManager::SetCommand( CBlock *command, int type )
 	}
 
 	//TODO: Emit warning
-	assert( task );
+	Q_assert( task );
 	if ( task == NULL )
 	{
 		(m_owner->GetInterface())->I_DPrintf( WL_ERROR, "Unable to allocate new task!\n" );
@@ -887,7 +887,7 @@ int CTaskManager::MarkTask( int id, int operation )
 {
 	CTaskGroup *group	= GetTaskGroup( id );
 
-	assert( group );
+	Q_assert( group );
 
 	if ( group == NULL )
 		return TASK_FAILED;
@@ -902,7 +902,7 @@ int CTaskManager::MarkTask( int id, int operation )
 	}
 	else if ( operation == TASK_END )
 	{
-		assert( m_curGroup );
+		Q_assert( m_curGroup );
 		if ( m_curGroup == NULL )
 			return TASK_FAILED;
 
@@ -912,7 +912,7 @@ int CTaskManager::MarkTask( int id, int operation )
 #ifdef _DEBUG
 	else
 	{
-		assert(0);
+		Q_assert(0);
 	}
 #endif
 
@@ -951,7 +951,7 @@ int	CTaskManager::CallbackCommand( CTask *task, int returnCode )
 	if ( m_owner->Callback( this, task->GetBlock(), returnCode ) == SEQ_OK )
 		return Go( );
 
-	assert(0);
+	Q_assert(0);
 
 	(m_owner->GetInterface())->I_DPrintf( WL_ERROR, "Command callback failure!\n" );
 	return TASK_FAILED;
@@ -990,7 +990,7 @@ PushTask
 
 int	CTaskManager::PushTask( CTask *task, int flag )
 {
-	assert( (flag == PUSH_FRONT) || (flag == PUSH_BACK) );
+	Q_assert( (flag == PUSH_FRONT) || (flag == PUSH_BACK) );
 
 	switch ( flag )
 	{
@@ -1021,7 +1021,7 @@ CTask *CTaskManager::PopTask( int flag )
 {
 	CTask	*task;
 
-	assert( (flag == POP_FRONT) || (flag == POP_BACK) );
+	Q_assert( (flag == POP_FRONT) || (flag == POP_BACK) );
 
 	if ( m_tasks.empty() )
 		return NULL;
@@ -1257,7 +1257,7 @@ int CTaskManager::Rotate( CTask *task )
 		{
 			//TODO: Emit warning
 			(m_owner->GetInterface())->I_DPrintf( WL_ERROR, "Unable to find tag \"%s\"!\n", tagName );
-			assert(0);
+			Q_assert(0);
 			return TASK_FAILED;
 		}
 	}
@@ -1768,7 +1768,7 @@ void CTaskManager::Save( void )
 
 		numWritten++;
 	}
-	assert (numWritten == numTaskGroups);
+	Q_assert(numWritten == numTaskGroups);
 
 	//Save out the task groups
 	numWritten = 0;
@@ -1817,7 +1817,7 @@ void CTaskManager::Save( void )
 
 		numWritten++;
 	}
-	assert (numWritten == numTaskGroups);
+	Q_assert(numWritten == numTaskGroups);
 
 	//Only bother if we've got tasks present
 	if ( m_taskGroups.size() )
@@ -1838,7 +1838,7 @@ void CTaskManager::Save( void )
 		name = ((*tmi).first).c_str();
 
 		//Make sure this is a valid string
-		assert( ( name != NULL ) && ( name[0] != '\0' ) );
+		Q_assert( ( name != NULL ) && ( name[0] != '\0' ) );
 
 		int length = strlen( name ) + 1;
 
@@ -1864,7 +1864,7 @@ void CTaskManager::Save( void )
 
 		numWritten++;
 	}
-	assert (numWritten == numTaskGroups);
+	Q_assert(numWritten == numTaskGroups);
 }
 
 /*
@@ -1904,7 +1904,7 @@ void CTaskManager::Load( void )
 	{
 		task = new CTask;
 
-		assert( task );
+		Q_assert( task );
 
 		//Get the GUID
 		saved_game.read_chunk<int32_t>(
@@ -1960,7 +1960,7 @@ void CTaskManager::Load( void )
 			//Get the member's data
 			if ( ( bData = ICARUS_Malloc( bSize ) ) == NULL )
 			{
-				assert( 0 );
+				Q_assert( 0 );
 				return;
 			}
 
@@ -2003,7 +2003,7 @@ void CTaskManager::Load( void )
 
 			default:
 				(m_owner->GetInterface())->I_DPrintf( WL_ERROR, "Invalid Block id %d\n", bID);
-				assert( 0 );
+				Q_assert( 0 );
 				break;
 			}
 
@@ -2033,7 +2033,7 @@ void CTaskManager::Load( void )
 	{
 		//Creat a new task group
 		taskGroup = new CTaskGroup;
-		assert( taskGroup );
+		Q_assert( taskGroup );
 
 		//Get this task group's ID
 		saved_game.read_chunk<int32_t>(
@@ -2051,7 +2051,7 @@ void CTaskManager::Load( void )
 	for ( i = 0; i < numTaskGroups; i++ )
 	{
 		taskGroup = GetTaskGroup( taskIDs[i] );
-		assert( taskGroup );
+		Q_assert( taskGroup );
 
 		//Load the parent ID
 		saved_game.read_chunk<int32_t>(
@@ -2119,7 +2119,7 @@ void CTaskManager::Load( void )
 			id);
 
 		taskGroup = GetTaskGroup( id );
-		assert( taskGroup );
+		Q_assert( taskGroup );
 
 		m_taskGroupNameMap[ name ] = taskGroup;
 		m_taskGroupIDMap[ taskGroup->GetGUID() ] = taskGroup;

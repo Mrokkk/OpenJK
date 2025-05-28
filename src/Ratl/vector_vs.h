@@ -96,7 +96,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	int				capacity() const
 	{
-		assert(mSize>=0&&mSize<=CAPACITY);
+		Q_assert(mSize>=0&&mSize<=CAPACITY);
 		return (CAPACITY);
 	}
 
@@ -105,7 +105,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	int				size() const
 	{
-		assert(mSize>=0&&mSize<=CAPACITY);
+		Q_assert(mSize>=0&&mSize<=CAPACITY);
 		return (mSize);
 	}
 
@@ -114,7 +114,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	bool			empty() const
 	{
-		assert(mSize>=0&&mSize<=CAPACITY);
+		Q_assert(mSize>=0&&mSize<=CAPACITY);
 		return (!mSize);
 	}
 
@@ -123,7 +123,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	bool			full() const
 	{
-		assert(mSize>=0&&mSize<=CAPACITY);
+		Q_assert(mSize>=0&&mSize<=CAPACITY);
 		return (mSize==CAPACITY);
 	}
 
@@ -139,7 +139,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////
 	const TTValue&		operator[](int index) const
 	{
-		assert(index>=0&&index<mSize);
+		Q_assert(index>=0&&index<mSize);
 		return mArray[index];
 	}
 
@@ -148,7 +148,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////
 	TTValue&				operator[](int index)
 	{
-		assert(index>=0&&index<mSize);
+		Q_assert(index>=0&&index<mSize);
 		return mArray[index];
 	}
 
@@ -191,7 +191,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////
 	TTValue &				push_back()
 	{
-		assert(mSize>=0&&mSize<CAPACITY);
+		Q_assert(mSize>=0&&mSize<CAPACITY);
 		mArray.construct(mSize);
 		mSize++;
 		return (mArray[mSize-1]);
@@ -202,7 +202,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////
 	void			push_back(const TTValue& value)
 	{
-		assert(mSize>=0&&mSize<CAPACITY);
+		Q_assert(mSize>=0&&mSize<CAPACITY);
 		mArray.construct(mSize,value);
 		mSize++;
 	}
@@ -212,7 +212,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////
 	TRatlNew *			push_back_raw()
 	{
-		assert(mSize>=0&&mSize<CAPACITY);
+		Q_assert(mSize>=0&&mSize<CAPACITY);
 		mSize++;
 		return mArray.alloc_raw(mSize-1);
 	}
@@ -222,7 +222,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////
 	void			pop_back()
 	{
-		assert(mSize>0);
+		Q_assert(mSize>0);
 		mSize--;
 		mArray.destruct(mSize);
 	}
@@ -268,7 +268,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////
 	void swap(int i,int j)
 	{
-		assert(i<mSize && j<mSize);
+		Q_assert(i<mSize && j<mSize);
 		mArray.swap(i, j);
 	}
 
@@ -279,7 +279,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////
 	void erase_swap(int Index)
 	{
-		assert(Index>=0 && Index<mSize);
+		Q_assert(Index>=0 && Index<mSize);
 		if (Index != mSize - 1)
 		{
 			mArray.swap(Index, mSize - 1);
@@ -405,7 +405,7 @@ public:
 	{
 		for (int a=0; a<(mSize-1); a++)
 		{
-			assert(mArray[a] < mArray[a+1]);
+			Q_assert(mArray[a] < mArray[a+1]);
 		}
 	}
 #endif
@@ -504,14 +504,14 @@ public:
 		//----------------------
 		TTValue&			operator* ()	const
 		{
-			assert(mLoc>=0 && mLoc<mOwner->mSize);
+			Q_assert(mLoc>=0 && mLoc<mOwner->mSize);
 			return (mOwner->mArray[mLoc]);
 		}
 		// DeReference Operator
 		//----------------------
 		TTValue&			value()	const
 		{
-			assert(mLoc>=0 && mLoc<mOwner->mSize);
+			Q_assert(mLoc>=0 && mLoc<mOwner->mSize);
 			return (mOwner->mArray[mLoc]);
 		}
 
@@ -519,7 +519,7 @@ public:
 		//----------------------
 		TTValue*			operator-> ()	const
 		{
-			assert(mLoc>=0 && mLoc<mOwner->mSize);
+			Q_assert(mLoc>=0 && mLoc<mOwner->mSize);
 			return (&mOwner->mArray[mLoc]);
 		}
 
@@ -527,7 +527,7 @@ public:
 		//--------------
 		iterator	operator++(int) //postfix
 		{
-			assert(mLoc>=0 && mLoc<mOwner->mSize);
+			Q_assert(mLoc>=0 && mLoc<mOwner->mSize);
 			iterator old(*this);
 			mLoc ++;
 			return old;
@@ -537,7 +537,7 @@ public:
 		//--------------
 		iterator	operator++()
 		{
-			assert(mLoc>=0 && mLoc<mOwner->mSize);
+			Q_assert(mLoc>=0 && mLoc<mOwner->mSize);
 			mLoc ++;
 			return *this;
 		}
@@ -609,7 +609,7 @@ public:
 		//----------------------
 		const TTValue&			operator* ()		const
 		{
-			assert(mLoc>=0 && mLoc<mOwner->mSize);
+			Q_assert(mLoc>=0 && mLoc<mOwner->mSize);
 			return (mOwner->mArray[mLoc]);
 		}
 
@@ -617,7 +617,7 @@ public:
 		//----------------------
 		const TTValue&			value()		const
 		{
-			assert(mLoc>=0 && mLoc<mOwner->mSize);
+			Q_assert(mLoc>=0 && mLoc<mOwner->mSize);
 			return (mOwner->mArray[mLoc]);
 		}
 
@@ -625,7 +625,7 @@ public:
 		//----------------------
 		const TTValue*			operator-> ()		const
 		{
-			assert(mLoc>=0 && mLoc<mOwner->mSize);
+			Q_assert(mLoc>=0 && mLoc<mOwner->mSize);
 			return (&mOwner->mArray[mLoc]);
 		}
 
@@ -633,7 +633,7 @@ public:
 		//--------------
 		const_iterator operator++(int)
 		{
-			assert(mLoc>=0 && mLoc<mOwner->mSize);
+			Q_assert(mLoc>=0 && mLoc<mOwner->mSize);
 			const_iterator old(*this);
 			mLoc ++;
 			return old;
@@ -643,7 +643,7 @@ public:
 		//--------------
 		const_iterator operator++()
 		{
-			assert(mLoc>=0 && mLoc<mOwner->mSize);
+			Q_assert(mLoc>=0 && mLoc<mOwner->mSize);
 			mLoc ++;
 			return *this;
 		}
@@ -717,7 +717,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////
 	iterator erase_swap(const iterator &it)
 	{
-		assert(it.mLoc>=0 && it.mLoc<it.mOwner->mSize);
+		Q_assert(it.mLoc>=0 && it.mLoc<it.mOwner->mSize);
 		if (it.mLoc != mSize - 1)
 		{
 			mArray.swap(it.mLoc, mSize - 1);

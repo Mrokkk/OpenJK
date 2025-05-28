@@ -49,12 +49,12 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #define DEFAULT_CIN_WIDTH	512
 #define DEFAULT_CIN_HEIGHT	512
 
-#define ROQ_QUAD			0x1000
-#define ROQ_QUAD_INFO		0x1001
+#define ROQUAD			0x1000
+#define ROQUAD_INFO		0x1001
 #define ROQ_CODEBOOK		0x1002
-#define ROQ_QUAD_VQ			0x1011
-#define ROQ_QUAD_JPEG		0x1012
-#define ROQ_QUAD_HANG		0x1013
+#define ROQUAD_VQ			0x1011
+#define ROQUAD_JPEG		0x1012
+#define ROQUAD_HANG		0x1013
 #define ROQ_PACKET			0x1030
 #define ZA_SOUND_MONO		0x1020
 #define ZA_SOUND_STEREO		0x1021
@@ -1157,7 +1157,7 @@ static void RoQInterrupt(void)
 redump:
 	switch(cinTable[currentHandle].roq_id)
 	{
-		case	ROQ_QUAD_VQ:
+		case	ROQUAD_VQ:
 			if ((cinTable[currentHandle].numQuads&1)) {
 				cinTable[currentHandle].normalBuffer0 = cinTable[currentHandle].t[1];
 				RoQPrepMcomp( cinTable[currentHandle].roqF0, cinTable[currentHandle].roqF1 );
@@ -1194,7 +1194,7 @@ redump:
                 S_RawSamples( ssize, 22050, 2, 2, (byte *)sbuf, s_volume->value, qtrue );
 			}
 			break;
-		case	ROQ_QUAD_INFO:
+		case	ROQUAD_INFO:
 			if (cinTable[currentHandle].numQuads == -1) {
 				readQuadInfo( framedata );
 				setupQuad( 0, 0 );
@@ -1206,10 +1206,10 @@ redump:
 			cinTable[currentHandle].inMemory = (qboolean)cinTable[currentHandle].roq_flags;
 			cinTable[currentHandle].RoQFrameSize = 0;           // for header
 			break;
-		case	ROQ_QUAD_HANG:
+		case	ROQUAD_HANG:
 			cinTable[currentHandle].RoQFrameSize = 0;
 			break;
-		case	ROQ_QUAD_JPEG:
+		case	ROQUAD_JPEG:
 			break;
 		default:
 			cinTable[currentHandle].status = FMV_EOF;
@@ -1255,7 +1255,7 @@ redump:
 //
 // one more frame hits the dust
 //
-//	assert(cinTable[currentHandle].RoQFrameSize <= 65536);
+//	Q_assert(cinTable[currentHandle].RoQFrameSize <= 65536);
 //	r = FS_Read( cin.file, cinTable[currentHandle].RoQFrameSize+8, cinTable[currentHandle].iFile );
 	cinTable[currentHandle].RoQPlayed	+= cinTable[currentHandle].RoQFrameSize+8;
 }
@@ -1310,7 +1310,7 @@ static void RoQShutdown( void ) {
 
 	if (!cinTable[currentHandle].buf) {
 		if (cinTable[currentHandle].iFile) {
-//			assert( 0 && "ROQ handle leak-prevention WAS needed!");
+//			Q_assert( 0 && "ROQ handle leak-prevention WAS needed!");
 			FS_FCloseFile( cinTable[currentHandle].iFile );
 			cinTable[currentHandle].iFile = 0;
 			if (cinTable[currentHandle].hSFX) {
@@ -1367,7 +1367,7 @@ e_status CIN_StopCinematic(int handle) {
 
 	if (!cinTable[currentHandle].buf) {
 		if (cinTable[currentHandle].iFile) {
-//			assert( 0 && "ROQ handle leak-prevention WAS needed!");
+//			Q_assert( 0 && "ROQ handle leak-prevention WAS needed!");
 			FS_FCloseFile( cinTable[currentHandle].iFile );
 			cinTable[currentHandle].iFile = 0;
 			cinTable[currentHandle].fileName[0] = 0;

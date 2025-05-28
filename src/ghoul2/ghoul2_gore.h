@@ -116,25 +116,25 @@ public:
 
 	virtual void EffectorCollision(const SRagDollEffectorCollision &data)
 	{
-		assert(0); // you probably meant to override this
+		Q_assert(0); // you probably meant to override this
 	}
 	virtual void RagDollBegin()
 	{
-		assert(0); // you probably meant to override this
+		Q_assert(0); // you probably meant to override this
 	}
 	virtual void RagDollSettled()
 	{
-		assert(0); // you probably meant to override this
+		Q_assert(0); // you probably meant to override this
 	}
 
 	virtual void Collision()
 	{
-		assert(0); // you probably meant to override this
+		Q_assert(0); // you probably meant to override this
 		// we had a collision, uhh I guess call SetRagDoll RP_DEATH_COLLISION
 	}
 
 #ifdef _DEBUG
-	virtual void DebugLine(vec3_t p1,vec3_t p2,int color,bool bbox) {assert(0);}
+	virtual void DebugLine(vec3_t p1,vec3_t p2,int color,bool bbox) {Q_assert(0);}
 #endif
 };
 

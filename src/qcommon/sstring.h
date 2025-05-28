@@ -46,7 +46,7 @@ public:
 	template<int oMaxSize>
 	sstring(const sstring<oMaxSize> &o)
 	{
-		assert(strlen(o.mStorage.data)<MaxSize);
+		Q_assert(strlen(o.mStorage.data)<MaxSize);
 		strcpy(mStorage.data,o.mStorage.data);
 	}
 */
@@ -57,7 +57,7 @@ public:
 	}
 	sstring(const char *s)
 	{
-		//assert(strlen(s)<MaxSize);
+		//Q_assert(strlen(s)<MaxSize);
 		//strcpy(mStorage.data,s);
 		Q_strncpyz(mStorage.data,s,sizeof(mStorage.data));
 	}
@@ -78,7 +78,7 @@ public:
 	template<int oMaxSize>
 	sstring<oMaxSize> & operator =(const sstring<oMaxSize> &o)
 	{
-		assert(strlen(o.mStorage.data)<MaxSize);
+		Q_assert(strlen(o.mStorage.data)<MaxSize);
 		strcpy(mStorage.data,o.mStorage.data);
 		return *this;
 	}
@@ -91,7 +91,7 @@ public:
 	}
 	sstring<MaxSize> & operator=(const char *s)
 	{
-		assert(strlen(s)<MaxSize);
+		Q_assert(strlen(s)<MaxSize);
 		//strcpy(mStorage.data,s);
 		Q_strncpyz(mStorage.data,s,sizeof(mStorage.data));
 		return *this;

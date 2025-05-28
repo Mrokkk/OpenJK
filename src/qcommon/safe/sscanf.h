@@ -10,6 +10,7 @@
 #include <type_traits>
 
 #include "gsl.h"
+#include "qcommon/q_assert.h"
 
 namespace Q
 {
@@ -173,7 +174,7 @@ namespace Q
 				// tellg() fails on eof, returning -1
 				if( pos == std::istream::pos_type{ -1 } )
 				{
-					assert( stream.eof() );
+					Q_assert( stream.eof() );
 					pos = input.size();
 				}
 				gsl::cstring_span::const_iterator end = input.begin() + static_cast< int >( pos );

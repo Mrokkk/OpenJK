@@ -22,6 +22,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #include "con_local.h"
 #include <cassert>
 #include <cstdio>
+#include "qcommon/q_assert.h"
 
 
 /*
@@ -66,7 +67,7 @@ void ConsoleLogAppend( const char *string )
 
 void ConsoleLogWriteOut( FILE *fp )
 {
-	assert( fp );
+	Q_assert( fp );
 
 	if ( consoleLog.length == MAX_CONSOLE_LOG_SIZE &&
 			consoleLog.writeHead != MAX_CONSOLE_LOG_SIZE )

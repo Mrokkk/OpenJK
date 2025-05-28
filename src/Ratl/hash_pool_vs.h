@@ -99,7 +99,7 @@ class	hash_pool
 			mCurrentCollisions ++;
 			mTotalCollisions ++;
 
-			//assert(mCurrentCollisions < 16);		// If We Had 16+ Collisions, Hash May Be Inefficient.
+			//Q_assert(mCurrentCollisions < 16);		// If We Had 16+ Collisions, Hash May Be Inefficient.
 													// Evaluate SIZE and SIZEHANDLES
 			#endif
 		}
@@ -184,7 +184,7 @@ public:
 		int	handle = hash(data, datasize);				// Initialize Our Handle By Hash Fcn
 		if (!find_existing(handle, data, datasize))
 		{
-			assert(mDataAlloc+datasize < SIZE);			// Is There Enough Memory?
+			Q_assert(mDataAlloc+datasize < SIZE);			// Is There Enough Memory?
 
 			#ifdef _DEBUG
 			mTotalAllocs++;
@@ -202,7 +202,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////
 	const void*	operator[](int handle) const
 	{
-		assert(handle>=0 && handle<SIZE_HANDLES);
+		Q_assert(handle>=0 && handle<SIZE_HANDLES);
 
 		return &(mData[mHandles[handle]]);
 	}

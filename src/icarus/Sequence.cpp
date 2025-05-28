@@ -57,7 +57,7 @@ CSequence *CSequence::Create( void )
 	CSequence *seq = new CSequence;
 
 	//TODO: Emit warning
-	assert(seq);
+	Q_assert(seq);
 	if ( seq == NULL )
 		return NULL;
 
@@ -111,7 +111,7 @@ AddChild
 
 void CSequence::AddChild( CSequence *child )
 {
-	assert( child );
+	Q_assert( child );
 	if ( child == NULL )
 		return;
 
@@ -128,7 +128,7 @@ RemoveChild
 
 void CSequence::RemoveChild( CSequence *child )
 {
-	assert( child );
+	Q_assert( child );
 	if ( child == NULL )
 		return;
 
@@ -191,7 +191,7 @@ CBlock *CSequence::PopCommand( int type )
 	CBlock	*command = NULL;
 
 	//Make sure everything is ok
-	assert( (type == POP_FRONT) || (type == POP_BACK) );
+	Q_assert( (type == POP_FRONT) || (type == POP_BACK) );
 
 	if ( m_commands.empty() )
 		return NULL;
@@ -230,8 +230,8 @@ PushCommand
 int CSequence::PushCommand( CBlock *block, int type )
 {
 	//Make sure everything is ok
-	assert( (type == PUSH_FRONT) || (type == PUSH_BACK) );
-	assert( block );
+	Q_assert( (type == PUSH_FRONT) || (type == PUSH_BACK) );
+	Q_assert( block );
 
 	switch ( type )
 	{
@@ -307,7 +307,7 @@ SetReturn
 
 void CSequence::SetReturn ( CSequence *sequence )
 {
-	assert( sequence != this );
+	Q_assert( sequence != this );
 	m_return = sequence;
 }
 
@@ -598,7 +598,7 @@ int CSequence::Load( void )
 			{
 			case TK_INT:
 				{
-					assert(0);
+					Q_assert(0);
 					int data = *(int *) bData;
 					block->Write( TK_FLOAT, (float) data );
 				}
@@ -639,7 +639,7 @@ int CSequence::Load( void )
 				break;
 
 			default:
-				assert(0);
+				Q_assert(0);
 				return false;
 				break;
 			}

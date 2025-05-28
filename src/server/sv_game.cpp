@@ -33,6 +33,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 #include "qcommon/ojk_saved_game.h"
 /*#include "..\renderer\tr_local.h"
 #include "..\renderer\tr_WorldEffects.h"*/
+#include "sys/sys_public.h"
 /*
 Ghoul2 Insert Start
 */
@@ -66,7 +67,7 @@ int	SV_NumForGentity( gentity_t *ent ) {
 gentity_t	*SV_GentityNum( int num ) {
 	gentity_t	*ent;
 
-	assert (num >=0);
+	Q_assert(num >=0);
 	ent = (gentity_t *)((byte *)ge->gentities + ge->gentitySize*(num));
 
 	return ent;
@@ -1040,6 +1041,8 @@ void SV_InitGameProgs (void) {
 	import.WE_AddWeatherZone = SV_WE_AddWeatherZone;
 	import.WE_SetTempGlobalFogColor = SV_WE_SetTempGlobalFogColor;
 
+	import.StacktraceDump = Sys_StacktraceDump;
+
 	const char *gamename = "jospgame";
 
 	GetGameAPIProc *GetGameAPI;
@@ -1098,3 +1101,4 @@ qboolean SV_GameCommand( void ) {
 	return ge->ConsoleCommand();
 }
 
+// vim: set noexpandtab tabstop=4 shiftwidth=4 :

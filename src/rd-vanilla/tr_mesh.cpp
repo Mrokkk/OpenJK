@@ -167,14 +167,14 @@ void RE_GetModelBounds(refEntity_t *refEnt, vec3_t bounds1, vec3_t bounds2)
 	md3Header_t		*header;
 	model_t			*model;
 
-	assert(refEnt);
+	Q_assert(refEnt);
 
 	model = R_GetModelByHandle( refEnt->hModel );
-	assert(model);
+	Q_assert(model);
 	header = model->md3[0];
-	assert(header);
+	Q_assert(header);
 	frame = ( md3Frame_t * ) ( ( byte * ) header + header->ofsFrames ) + refEnt->frame;
-	assert(frame);
+	Q_assert(frame);
 
 	VectorCopy(frame->bounds[0], bounds1);
 	VectorCopy(frame->bounds[1], bounds2);

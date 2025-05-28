@@ -256,7 +256,7 @@ void LoadTGA ( const char *name, byte **pic, int *width, int *height)
 						break;
 
 					default:
-						assert(0);	// if we ever hit this, someone deleted a header check higher up
+						Q_assert(0);	// if we ever hit this, someone deleted a header check higher up
 						TGA_FORMAT_ERROR("LoadTGA: Image can only have 8, 24 or 32 planes for RGB/greyscale\n");
 						break;
 				}
@@ -299,7 +299,7 @@ void LoadTGA ( const char *name, byte **pic, int *width, int *height)
 							break;
 
 						default:
-							assert(0);	// if we ever hit this, someone deleted a header check higher up
+							Q_assert(0);	// if we ever hit this, someone deleted a header check higher up
 							TGA_FORMAT_ERROR("LoadTGA: RLE-RGB can only have 24 or 32 planes\n");
 							break;
 					}
@@ -352,7 +352,7 @@ void LoadTGA ( const char *name, byte **pic, int *width, int *height)
 								break;
 
 							default:
-								assert(0);	// if we ever hit this, someone deleted a header check higher up
+								Q_assert(0);	// if we ever hit this, someone deleted a header check higher up
 								TGA_FORMAT_ERROR("LoadTGA: RLE-RGB can only have 24 or 32 planes\n");
 								break;
 						}

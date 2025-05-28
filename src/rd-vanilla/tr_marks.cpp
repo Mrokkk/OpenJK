@@ -312,8 +312,8 @@ int R_MarkFragments( int numPoints, const vec3_t *points, const vec3_t projectio
 
 	numsurfaces = 0;
 	R_BoxSurfaces_r(tr.world->nodes, mins, maxs, surfaces, 64, &numsurfaces, projectionDir);
-	//assert(numsurfaces <= 64);
-	//assert(numsurfaces != 64);
+	//Q_assert(numsurfaces <= 64);
+	//Q_assert(numsurfaces != 64);
 
 	returnedPoints = 0;
 	returnedFragments = 0;

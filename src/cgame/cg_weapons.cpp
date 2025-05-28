@@ -724,7 +724,7 @@ int CG_MapTorsoToWeaponFrame( const clientInfo_t *ci, int frame, int animNum, in
 		}
 		else
 		{
-//			assert(0);
+//			Q_assert(0);
 		}
 		break;
 
@@ -735,7 +735,7 @@ int CG_MapTorsoToWeaponFrame( const clientInfo_t *ci, int frame, int animNum, in
 		}
 		else
 		{
-//			assert(0);
+//			Q_assert(0);
 		}
 		break;
 
@@ -749,7 +749,7 @@ int CG_MapTorsoToWeaponFrame( const clientInfo_t *ci, int frame, int animNum, in
 		}
 		else
 		{
-//			assert(0);
+//			Q_assert(0);
 		}
 		break;
 	default:
@@ -1104,7 +1104,7 @@ void CG_AddViewWeapon( playerState_t *ps )
 		}
 		else
 		{
-//			assert(0); // no idea what to do here
+//			Q_assert(0); // no idea what to do here
 			hand.oldframe=0;
 			hand.frame=0;
 			hand.backlerp=0.0f;

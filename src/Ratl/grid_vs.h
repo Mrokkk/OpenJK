@@ -168,7 +168,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	T&			get(const int x, const int y)
 	{
-		assert(x>=0 && y>=0 && x<mSize[0] && y<mSize[1]);
+		Q_assert(x>=0 && y>=0 && x<mSize[0] && y<mSize[1]);
 		return mData[(x + y*XSIZE_MAX)];
 	}
 
@@ -177,13 +177,13 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	T&			get(float x, float y)
 	{
-		assert(mScale[0]!=0.0f && mScale[1]!=0.0f);
+		Q_assert(mScale[0]!=0.0f && mScale[1]!=0.0f);
 		truncate_position_to_bounds(x, y);
 
 		int xint = (int)( (x-mMins[0]) / mScale[0] );
 		int yint = (int)( (y-mMins[1]) / mScale[1] );
 
-		assert(xint>=0 && yint>=0 && xint<mSize[0] && yint<mSize[1]);
+		Q_assert(xint>=0 && yint>=0 && xint<mSize[0] && yint<mSize[1]);
 		return mData[(xint + yint*XSIZE_MAX)];
 	}
 
@@ -192,13 +192,13 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	void		get_cell_coords(float x, float y, int& xint, int& yint)
 	{
-		assert(mScale[0]!=0.0f && mScale[1]!=0.0f);
+		Q_assert(mScale[0]!=0.0f && mScale[1]!=0.0f);
 		truncate_position_to_bounds(x, y);
 
 		xint = (int)( (x-mMins[0]) / mScale[0] );
 		yint = (int)( (y-mMins[1]) / mScale[1] );
 
-		assert(xint>=0 && yint>=0 && xint<mSize[0] && yint<mSize[1]);
+		Q_assert(xint>=0 && yint>=0 && xint<mSize[0] && yint<mSize[1]);
 	}
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -220,7 +220,7 @@ public:
 				mMaxs[i] = point[i];
 			}
 		}
-		assert(mSize[0]>0 && mSize[1]>0);
+		Q_assert(mSize[0]>0 && mSize[1]>0);
 
 		mScale[0] = ((mMaxs[0] - mMins[0])/mSize[0]);
 		mScale[1] = ((mMaxs[1] - mMins[1])/mSize[1]);
@@ -254,25 +254,25 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	void		get_cell_position(int x, int y, float& xReal, float& yReal)
 	{
-	//	assert(mScale[0]!=0.0f && mScale[1]!=0.0f);
+	//	Q_assert(mScale[0]!=0.0f && mScale[1]!=0.0f);
 		xReal = (x * mScale[0]) + mMins[0] + (mScale[0] * 0.5f);
 		yReal = (y * mScale[1]) + mMins[1] + (mScale[1] * 0.5f);
 	}
 	void		get_cell_upperleft(int x, int y, float& xReal, float& yReal)
 	{
-	//	assert(mScale[0]!=0.0f && mScale[1]!=0.0f);
+	//	Q_assert(mScale[0]!=0.0f && mScale[1]!=0.0f);
 		xReal = (x * mScale[0]) + mMins[0];
 		yReal = (y * mScale[1]) + mMins[1];
 	}
 	void		get_cell_lowerright(int x, int y, float& xReal, float& yReal)
 	{
-	//	assert(mScale[0]!=0.0f && mScale[1]!=0.0f);
+	//	Q_assert(mScale[0]!=0.0f && mScale[1]!=0.0f);
 		xReal = (x * mScale[0]) + mMins[0] + (mScale[0]);
 		yReal = (y * mScale[1]) + mMins[1] + (mScale[1]);
 	}
 	void		scale_by_largest_axis(float& dist)
 	{
-		assert(mScale[0]!=0.0f && mScale[1]!=0.0f);
+		Q_assert(mScale[0]!=0.0f && mScale[1]!=0.0f);
 		if (mScale[0]>mScale[1])
 		{
 			dist /= mScale[0];
@@ -306,7 +306,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	T&			rawGet(int Loc)
 	{
-		assert(Loc>=0 && Loc<XSIZE_MAX*YSIZE_MAX);
+		Q_assert(Loc>=0 && Loc<XSIZE_MAX*YSIZE_MAX);
 		return mData[Loc];
 	}
 
@@ -373,7 +373,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	iterator	begin(int x=0, int y=0)
 	{
-		assert(x>=0 && y>=0 && x<mSize[0] && y<mSize[1]);
+		Q_assert(x>=0 && y>=0 && x<mSize[0] && y<mSize[1]);
 
 		return iterator(this, (x + y*XSIZE_MAX));
 	}
@@ -383,7 +383,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	iterator	begin(float xReal, float yReal)
 	{
-		assert(mScale[0]!=0.0f && mScale[1]!=0.0f);
+		Q_assert(mScale[0]!=0.0f && mScale[1]!=0.0f);
 		truncate_position_to_bounds(xReal, yReal);
 
 		int x = (int)( (xReal-mMins[0]) / mScale[0] );
@@ -521,7 +521,7 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////
 	riterator	rangeBegin(int range, int x, int y)
 	{
-		assert(x>=0 && y>=0 && x<XSIZE_MAX && y<YSIZE_MAX);
+		Q_assert(x>=0 && y>=0 && x<XSIZE_MAX && y<YSIZE_MAX);
 		return riterator(this, range, x, y);
 	}
 
@@ -531,12 +531,12 @@ public:
 	riterator	rangeBegin(int range, float xReal, float yReal)
 	{
 		float	position[2] = {xReal, yReal};
-		assert(mScale[0]!=0.0f && mScale[1]!=0.0f);
+		Q_assert(mScale[0]!=0.0f && mScale[1]!=0.0f);
 		truncate_position_to_bounds(xReal, yReal);
 		int x = ( (position[0]-mMins[0]) / mScale[0] );
 		int y = ( (position[1]-mMins[1]) / mScale[1] );
 
-		assert(x>=0 && y>=0 && x<XSIZE_MAX && y<YSIZE_MAX);
+		Q_assert(x>=0 && y>=0 && x<XSIZE_MAX && y<YSIZE_MAX);
 		return riterator(this, range, x, y);
 	}
 };

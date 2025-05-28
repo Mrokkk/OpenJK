@@ -699,7 +699,7 @@ static void CM_LoadMap_Actual( const char *name, qboolean clientload, int *check
 		//
 		if (&cm == &cmg)
 		{
-			assert(!clientload);	// logic check. I'm assuming that a client load doesn't get this far?
+			Q_assert(!clientload);	// logic check. I'm assuming that a client load doesn't get this far?
 
 			// free old stuff
 			memset( &cm, 0, sizeof( cm ) );

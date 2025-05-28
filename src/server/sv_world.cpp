@@ -811,8 +811,8 @@ Ghoul2 Insert Start
 							break;
 						}
 					}
-					assert(z<MAX_G2_COLLISIONS); // hmm well ah, weird
-					assert(VectorLength(clip->trace.plane.normal)>0.1f);
+					Q_assert(z<MAX_G2_COLLISIONS); // hmm well ah, weird
+					Q_assert(VectorLength(clip->trace.plane.normal)>0.1f);
 				}
 			}
 		}
@@ -840,7 +840,7 @@ void SV_Trace( trace_t *results, const vec3_t start, const vec3_t mins, const ve
 Ghoul2 Insert End
 */
 #ifdef _DEBUG
-	assert( !Q_isnan(start[0])&&!Q_isnan(start[1])&&!Q_isnan(start[2])&&!Q_isnan(end[0])&&!Q_isnan(end[1])&&!Q_isnan(end[2]));
+	Q_assert( !Q_isnan(start[0])&&!Q_isnan(start[1])&&!Q_isnan(start[2])&&!Q_isnan(end[0])&&!Q_isnan(end[1])&&!Q_isnan(end[2]));
 #endif// _DEBUG
 
 	moveclip_t	clip;

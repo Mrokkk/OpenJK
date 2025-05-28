@@ -750,7 +750,7 @@ void CG_ParseAnimationSndFile( const char *as_filename, int animFileIndex )
 	fileHandle_t	f;
 	int			i, j, upper_i, lower_i;
 
-	assert(animFileIndex < MAX_ANIM_FILES);
+	Q_assert(animFileIndex < MAX_ANIM_FILES);
 	animsounds_t	*legsAnimSnds = level.knownAnimFileSets[animFileIndex].legsAnimSnds;
 	animsounds_t	*torsoAnimSnds = level.knownAnimFileSets[animFileIndex].torsoAnimSnds;
 	animation_t		*animations = level.knownAnimFileSets[animFileIndex].animations;
@@ -1261,7 +1261,7 @@ void CGG2_AnimSounds( centity_t *cent )
 	{
 		return;
 	}
-	assert(cent->gent->playerModel>=0&&cent->gent->playerModel<cent->gent->ghoul2.size());
+	Q_assert(cent->gent->playerModel>=0&&cent->gent->playerModel<cent->gent->ghoul2.size());
 	if ( ValidAnimFileIndex( cent->gent->client->clientInfo.animFileIndex ) )
 	{
 		int		junk, curFrame=0;

@@ -4931,7 +4931,7 @@ ItemParse_cvarsubstring
 */
 qboolean ItemParse_cvarsubstring( itemDef_t *item )
 {
-	assert(item->cvarFlags);	//need something set first, then we or in our flag.
+	Q_assert(item->cvarFlags);	//need something set first, then we or in our flag.
 	item->cvarFlags |= CVAR_SUBSTRING;
 	return qtrue;
 }

@@ -134,7 +134,7 @@ void NPC_SetMoveGoal( gentity_t *ent, vec3_t point, int radius, qboolean isNavGo
 
 	if ( isNavGoal )
 	{
-		assert(ent->NPC->tempGoal->owner);
+		Q_assert(ent->NPC->tempGoal->owner);
 		ent->NPC->tempGoal->svFlags |= SVF_NAVGOAL;
 	}
 
@@ -225,7 +225,7 @@ qboolean NAV_ClearPathToPoint( gentity_t *self, vec3_t pmins, vec3_t pmaxs, vec3
 		if ( !self->owner )
 		{
 			//SHOULD NEVER HAPPEN!!!
-			assert(self->owner);
+			Q_assert(self->owner);
 			return qfalse;
 		}
 		VectorCopy( self->owner->mins, mins );
@@ -1269,7 +1269,7 @@ void SP_waypoint ( gentity_t *ent )
 			if(G_CheckInSolid (ent, qtrue))
 			{
 				gi.Printf(S_COLOR_RED"ERROR: Waypoint %s at %s in solid!\n", ent->targetname, vtos(ent->currentOrigin));
-				assert(0 && "Waypoint in solid!");
+				Q_assert(0 && "Waypoint in solid!");
 #ifndef FINAL_BUILD
 				if (!g_entities[ENTITYNUM_WORLD].s.radius){	//not a region
 					G_Error("Waypoint %s at %s in solid!", ent->targetname, vtos(ent->currentOrigin));
@@ -1315,7 +1315,7 @@ void SP_waypoint_small (gentity_t *ent)
 			if ( G_CheckInSolid( ent, qtrue ) )
 			{
 				gi.Printf(S_COLOR_RED"ERROR: Waypoint_small %s at %s in solid!\n", ent->targetname, vtos(ent->currentOrigin));
-				assert(0);
+				Q_assert(0);
 #ifndef FINAL_BUILD
 				if (!g_entities[ENTITYNUM_WORLD].s.radius){	//not a region
 					G_Error("Waypoint_small %s at %s in solid!", ent->targetname, vtos(ent->currentOrigin));
@@ -1361,7 +1361,7 @@ void SP_waypoint_navgoal( gentity_t *ent )
 	if ( !(ent->spawnflags&1) && G_CheckInSolid( ent, qfalse ) )
 	{
 		gi.Printf(S_COLOR_RED"ERROR: Waypoint_navgoal %s at %s in solid!\n", ent->targetname, vtos(ent->currentOrigin));
-		assert(0);
+		Q_assert(0);
 #ifndef FINAL_BUILD
 		if (!g_entities[ENTITYNUM_WORLD].s.radius){	//not a region
 			G_Error("Waypoint_navgoal %s at %s in solid!", ent->targetname, vtos(ent->currentOrigin));
@@ -1401,7 +1401,7 @@ void SP_waypoint_navgoal_8( gentity_t *ent )
 			G_Error("Waypoint_navgoal_8 %s at %s in solid!", ent->targetname, vtos(ent->currentOrigin));
 		}
 #endif
-		assert(0);
+		Q_assert(0);
 	}
 
 	TAG_Add( ent->targetname, NULL, ent->s.origin, ent->s.angles, 8, RTF_NAVGOAL );
@@ -1437,7 +1437,7 @@ void SP_waypoint_navgoal_4( gentity_t *ent )
 			G_Error("Waypoint_navgoal_4 %s at %s in solid!", ent->targetname, vtos(ent->currentOrigin));
 		}
 #endif
-		assert(0);
+		Q_assert(0);
 	}
 
 	TAG_Add( ent->targetname, NULL, ent->s.origin, ent->s.angles, 4, RTF_NAVGOAL );
@@ -1473,7 +1473,7 @@ void SP_waypoint_navgoal_2( gentity_t *ent )
 			G_Error("Waypoint_navgoal_2 %s at %s in solid!", ent->targetname, vtos(ent->currentOrigin));
 		}
 #endif
-		assert(0);
+		Q_assert(0);
 	}
 
 	TAG_Add( ent->targetname, NULL, ent->s.origin, ent->s.angles, 2, RTF_NAVGOAL );
@@ -1509,7 +1509,7 @@ void SP_waypoint_navgoal_1( gentity_t *ent )
 			G_Error("Waypoint_navgoal_1 %s at %s in solid!", ent->targetname, vtos(ent->currentOrigin));
 		}
 #endif
-		assert(0);
+		Q_assert(0);
 	}
 
 	TAG_Add( ent->targetname, NULL, ent->s.origin, ent->s.angles, 1, RTF_NAVGOAL );

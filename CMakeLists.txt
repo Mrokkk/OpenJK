@@ -31,9 +31,12 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 # Customizable options
 #
 #=============================================================================
+include(CMakeDependentOption)
 option(BUILD_PORTABLE "Build portable version (does not read or write files from your user/home directory" OFF)
 option(BUILD_TESTS "Whether to build automatic unit tests (requires Boost)" OFF)
 option(DECODE_STACKTRACE "Add ability to print decoded stacktrace when crash is encountered" ON)
+option(NONFATAL_ASSERT "Assertion failures do not crash the game" ON)
+cmake_dependent_option(NONFATAL_ASSERT_STACKTRACE "Nonfatal assertion failures will print stacktrace" ON "DECODE_STACKTRACE" OFF)
 
 # Configure the use of bundled libraries.  By default, we assume the user is on
 # a platform that does not require any bundling.
@@ -215,8 +218,8 @@ elseif (("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU") OR ("${CMAKE_C_COMPILER_ID}" M
     set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O3")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 
-    # enable somewhat modern C++
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+    # enable somewhat modern C++ and disable warnings about memsetting and memcpying non-POD types
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wno-class-memaccess")
 
     set(WARNING_FLAGS "-Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -Wno-comment")
 
@@ -256,6 +259,14 @@ set(SHARED_DEFINES ${SHARED_DEFINES} "$<$<NOT:$<CONFIG:Debug>>:FINAL_BUILD>")
 
 if(DECODE_STACKTRACE)
     set(SHARED_DEFINES ${SHARED_DEFINES} "OPENJO_STACKTRACE")
+endif()
+
+if(NONFATAL_ASSERT)
+    set(SHARED_DEFINES ${SHARED_DEFINES} "OPENJO_NONFATAL_ASSERT")
+endif()
+
+if(NONFATAL_ASSERT_STACKTRACE)
+    set(SHARED_DEFINES ${SHARED_DEFINES} "OPENJO_NONFATAL_ASSERT_STACKTRACE")
 endif()
 
 #=============================================================================

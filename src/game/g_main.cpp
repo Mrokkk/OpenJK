@@ -60,30 +60,30 @@ void ClearAllInUse(void)
 
 void SetInUse(gentity_t *ent)
 {
-	assert(((uintptr_t)ent)>=(uintptr_t)g_entities);
-	assert(((uintptr_t)ent)<=(uintptr_t)(g_entities+MAX_GENTITIES-1));
+	Q_assert(((uintptr_t)ent)>=(uintptr_t)g_entities);
+	Q_assert(((uintptr_t)ent)<=(uintptr_t)(g_entities+MAX_GENTITIES-1));
 	unsigned int entNum=ent-g_entities;
 	g_entityInUseBits[entNum/32]|=((unsigned int)1)<<(entNum&0x1f);
 }
 
 void ClearInUse(gentity_t *ent)
 {
-	assert(((uintptr_t)ent)>=(uintptr_t)g_entities);
-	assert(((uintptr_t)ent)<=(uintptr_t)(g_entities+MAX_GENTITIES-1));
+	Q_assert(((uintptr_t)ent)>=(uintptr_t)g_entities);
+	Q_assert(((uintptr_t)ent)<=(uintptr_t)(g_entities+MAX_GENTITIES-1));
 	unsigned int entNum=ent-g_entities;
 	g_entityInUseBits[entNum/32]&=~(((unsigned int)1)<<(entNum&0x1f));
 }
 
 qboolean PInUse(unsigned int entNum)
 {
-	assert(entNum<MAX_GENTITIES);
+	Q_assert(entNum<MAX_GENTITIES);
 	return (qboolean)((g_entityInUseBits[entNum / 32] & (1u << (entNum & 0x1f))) != 0);
 }
 
 qboolean PInUse2(gentity_t *ent)
 {
-	assert(((uintptr_t)ent)>=(uintptr_t)g_entities);
-	assert(((uintptr_t)ent)<=(uintptr_t)(g_entities+MAX_GENTITIES-1));
+	Q_assert(((uintptr_t)ent)>=(uintptr_t)g_entities);
+	Q_assert(((uintptr_t)ent)<=(uintptr_t)(g_entities+MAX_GENTITIES-1));
 	unsigned int entNum=ent-g_entities;
 	return (qboolean)((g_entityInUseBits[entNum / 32] & (1u << (entNum & 0x1f))) != 0);
 }
@@ -119,7 +119,7 @@ void ValidateInUseBits(void)
 {
 	for(int i=0;i<MAX_GENTITIES;i++)
 	{
-		assert(g_entities[i].inuse==PInUse(i));
+		Q_assert(g_entities[i].inuse==PInUse(i));
 	}
 }
 
@@ -866,6 +866,17 @@ void Com_Printf( const char *msg, ... ) {
 	va_end (argptr);
 
 	gi.Printf ("%s", text);
+}
+
+/*
+-------------------------
+Sys_StacktraceDump
+-------------------------
+*/
+
+extern "C" void Sys_StacktraceDump( void )
+{
+	gi.StacktraceDump();
 }
 
 /*

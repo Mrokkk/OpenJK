@@ -2093,7 +2093,7 @@ static void PM_NoclipMove( void ) {
 		pm->ps->viewheight = pm->gent->client->standheight + STANDARD_VIEWHEIGHT_OFFSET;
 //		if ( !pm->gent->mins[0] || !pm->gent->mins[1] || !pm->gent->mins[2] || !pm->gent->maxs[0] || !pm->gent->maxs[1] || !pm->gent->maxs[2] )
 //		{
-//			assert(0);
+//			Q_assert(0);
 //		}
 
 		VectorCopy( pm->gent->mins, pm->mins );
@@ -2105,7 +2105,7 @@ static void PM_NoclipMove( void ) {
 
 		if ( !DEFAULT_MINS_0 || !DEFAULT_MINS_1 || !DEFAULT_MAXS_0 || !DEFAULT_MAXS_1 || !DEFAULT_MINS_2 || !DEFAULT_MAXS_2 )
 		{
-			assert(0);
+			Q_assert(0);
 		}
 
 		pm->mins[0] = DEFAULT_MINS_0;
@@ -3423,7 +3423,7 @@ static void PM_SetBounds (void)
 	{
 		if ( !pm->gent->mins[0] || !pm->gent->mins[1] || !pm->gent->mins[2] || !pm->gent->maxs[0] || !pm->gent->maxs[1] || !pm->gent->maxs[2] )
 		{
-			//assert(0);
+			//Q_assert(0);
 		}
 
 		VectorCopy( pm->gent->mins, pm->mins );
@@ -3433,7 +3433,7 @@ static void PM_SetBounds (void)
 	{
 		if ( !DEFAULT_MINS_0 || !DEFAULT_MINS_1 || !DEFAULT_MAXS_0 || !DEFAULT_MAXS_1 || !DEFAULT_MINS_2 || !DEFAULT_MAXS_2 )
 		{
-			assert(0);
+			Q_assert(0);
 		}
 
 		pm->mins[0] = DEFAULT_MINS_0;
@@ -3465,7 +3465,7 @@ static void PM_CheckDuck (void)
 	{
 		if ( !pm->gent->mins[0] || !pm->gent->mins[1] || !pm->gent->mins[2] || !pm->gent->maxs[0] || !pm->gent->maxs[1] || !pm->gent->maxs[2] )
 		{
-			//assert(0);
+			//Q_assert(0);
 		}
 
 		if ( !pm->ps->clientNum && pm->gent->client->NPC_class == CLASS_ATST && !cg.renderingThirdPerson )
@@ -3482,7 +3482,7 @@ static void PM_CheckDuck (void)
 	{
 		if ( !DEFAULT_MINS_0 || !DEFAULT_MINS_1 || !DEFAULT_MAXS_0 || !DEFAULT_MAXS_1 || !DEFAULT_MINS_2 || !DEFAULT_MAXS_2 )
 		{
-			assert(0);
+			Q_assert(0);
 		}
 
 		standheight = DEFAULT_MAXS_2;
@@ -6514,7 +6514,7 @@ qboolean PM_SaberLocked( void )
 #endif // _DEBUG
 						gi.G2API_GetBoneAnimIndex( &gent->ghoul2[gent->playerModel], gent->lowerLumbarBone, (cg.time?cg.time:level.time), &currentFrame, &junk, &junk, &junk, &junk2, NULL );
 #ifdef _DEBUG
-					assert(ret); // this would be pretty bad, the below code seems to assume the call succeeds. -gil
+					Q_assert(ret); // this would be pretty bad, the below code seems to assume the call succeeds. -gil
 #endif
 					strength = G_SaberLockStrength( gent );
 					if ( pm->ps->torsoAnim == BOTH_CCWCIRCLELOCK ||

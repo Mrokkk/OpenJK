@@ -22,6 +22,8 @@ if(NOT IN_OPENJO)
 endif(NOT IN_OPENJO)
 
 set(SHARED_COMMON_FILES
+    ${SRC_DIR}/qcommon/q_assert.h
+    ${SRC_DIR}/qcommon/q_assert.cpp
     ${SRC_DIR}/qcommon/q_color.h
     ${SRC_DIR}/qcommon/q_color.c
     ${SRC_DIR}/qcommon/q_math.h

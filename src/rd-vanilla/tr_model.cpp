@@ -97,7 +97,7 @@ void RE_RegisterModels_StoreShaderRequest(const char *psModelFileName, const cha
 
 	if (ModelBin.pModelDiskImage == NULL)
 	{
-		assert(0);	// should never happen, means that we're being called on a model that wasn't loaded
+		Q_assert(0);	// should never happen, means that we're being called on a model that wasn't loaded
 	}
 	else
 	{
@@ -823,7 +823,7 @@ static qboolean R_LoadMD3 (model_t *mod, int lod, void *buffer, const char *mod_
 	qboolean bAlreadyFound = qfalse;
 	mod->md3[lod] = (md3Header_t *) RE_RegisterModels_Malloc(size, buffer, mod_name, &bAlreadyFound, TAG_MODEL_MD3);
 
-	assert(bAlreadyCached == bAlreadyFound);
+	Q_assert(bAlreadyCached == bAlreadyFound);
 
 	if (!bAlreadyFound)
 	{
@@ -834,7 +834,7 @@ static qboolean R_LoadMD3 (model_t *mod, int lod, void *buffer, const char *mod_
 		// Aaaargh. Kill me now...
 		//
 		bAlreadyCached = qtrue;
-		assert( mod->md3[lod] == buffer );
+		Q_assert( mod->md3[lod] == buffer );
 //		memcpy( mod->md3[lod], buffer, size );	// and don't do this now, since it's the same thing
 
 		LL(mod->md3[lod]->ident);
@@ -1043,7 +1043,7 @@ void R_Modellist_f( void ) {
 		switch (mod->type)
 		{
 			default:
-				assert(0);
+				Q_assert(0);
 				ri.Printf( PRINT_ALL, "UNKNOWN  :      %s\n", mod->name );
 				break;
 

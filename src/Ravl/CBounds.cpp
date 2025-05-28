@@ -353,7 +353,7 @@ bool CBBox::HitTest(CBTrace& Tr) const
 ////////////////////////////////////////////////////////////////////////////////////////
 void CBBox::FromStr(const char *s)
 {
-	assert(s && s[0]);
+	Q_assert(s && s[0]);
 
 	char	MinS[256];
 	char	MaxS[266];
@@ -368,7 +368,7 @@ void CBBox::FromStr(const char *s)
 ////////////////////////////////////////////////////////////////////////////////////////
 void CBBox::ToStr(char* s)
 {
-	assert(s && s[0]);
+	Q_assert(s && s[0]);
 
 	char	MinS[256];
 	char	MaxS[266];
@@ -383,6 +383,6 @@ void CBBox::ToStr(char* s)
 ////////////////////////////////////////////////////////////////////////////////////////
 void CBBox::Validate()
 {
-	assert(mMax>=mMin);
+	Q_assert(mMax>=mMin);
 }
 

@@ -81,7 +81,7 @@ void TAG_Init( void )
 	{
 		if ( (*rtoi).second == NULL )
 		{
-			assert( 0 );	//FIXME: This is not good
+			Q_assert( 0 );	//FIXME: This is not good
 			continue;
 		}
 
@@ -92,7 +92,7 @@ void TAG_Init( void )
 		{
 			if ( (*rti) == NULL )
 			{
-				assert( 0 );	//FIXME: Bad bad
+				Q_assert( 0 );	//FIXME: Bad bad
 				continue;
 			}
 
