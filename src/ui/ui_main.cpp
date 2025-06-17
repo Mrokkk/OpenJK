@@ -3466,30 +3466,42 @@ static void UI_DrawGLInfo(rectDef_t *rect, float scale, vec4_t color, int textSt
 	y += 15;
 	Text_Paint(rect->x, y, scale, color, va ("Color(%d-bits) Z(%d-bits) stencil(%d-bits)",uiInfo.uiDC.glconfig.colorBits, uiInfo.uiDC.glconfig.depthBits, uiInfo.uiDC.glconfig.stencilBits), rect->w, textStyle, iFontIndex);
 	y += 15;
+
 	// build null terminated extension strings
 	Q_strncpyz(buff, uiInfo.uiDC.glconfig.extensions_string, sizeof(buff));
-	int testy=y-15;
-	while ( testy <= rect->y + rect->h && *eptr && (numLines < MAX_LINES) )
+
+	while ( *eptr && (numLines < MAX_LINES) )
 	{
 		while ( *eptr && *eptr == ' ' )
+		{
 			*eptr++ = '\0';
+		}
 
 		// track start of valid string
 		if (*eptr && *eptr != ' ')
 		{
 			lines[numLines++] = eptr;
-			testy+=15;
 		}
 
 		while ( *eptr && *eptr != ' ' )
+		{
 			eptr++;
+		}
 	}
 
 	numLines--;
 	while (i < numLines)
 	{
 		Text_Paint(rect->x, y, scale, color, lines[i++], rect->w, textStyle, iFontIndex);
-		y += 15;
+		if (i < numLines)
+		{
+			Text_Paint(rect->x + rect->w / 2, y, scale, color, lines[i++], rect->w, textStyle, iFontIndex);
+		}
+		y += 13;
+		if (y > rect->y + rect->h - 13)
+		{
+			break;
+		}
 	}
 }
 
