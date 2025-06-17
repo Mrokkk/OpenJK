@@ -536,7 +536,7 @@ void camera_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 	gentity_t *sparks = G_Spawn();
 	if ( sparks )
 	{
-		sparks->fxFile = "spark";
+		sparks->fxFile = (char*)(cg_improvedWeapons.integer ? "spark_new" : "spark");
 		sparks->delay = 100;
 		sparks->random = 500;
 		sparks->s.angles[0] = 180;//point down
@@ -705,7 +705,7 @@ void SP_misc_camera( gentity_t *self )
 	self->contents = CONTENTS_SOLID;
 	gi.linkentity( self );
 
-	self->fxID = G_EffectIndex( "spark" );
+	self->fxID = G_EffectIndex( cg_improvedWeapons.integer ? "spark_new" : "spark" );
 
 	if ( self->spawnflags & 1 ) // VULNERABLE
 	{

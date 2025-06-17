@@ -226,7 +226,14 @@ void CG_RegisterWeapon( int weaponNum ) {
 	{
 	case WP_SABER:
 		//saber/force FX
-		theFxScheduler.RegisterEffect( "spark" );
+		if (cg_improvedWeapons.integer)
+		{
+			cgs.effects.saberSparkEffect	= theFxScheduler.RegisterEffect( "spark_new" );
+		}
+		else
+		{
+			cgs.effects.saberSparkEffect	= theFxScheduler.RegisterEffect( "spark" );
+		}
 		theFxScheduler.RegisterEffect( "blood_sparks" );
 		theFxScheduler.RegisterEffect( "force_touch" );
 		theFxScheduler.RegisterEffect( "saber_block" );
@@ -418,8 +425,6 @@ void CG_RegisterWeapon( int weaponNum ) {
 			cgs.effects.bowcasterImpactEffect	= theFxScheduler.RegisterEffect( "bowcaster_new/explosion" );
 			cgs.effects.bowcasterBounceEffect	= theFxScheduler.RegisterEffect( "bowcaster_new/bounce" );
 			cgs.effects.bowcasterDeflectEffect	= theFxScheduler.RegisterEffect( "bowcaster_new/deflect" );
-			theFxScheduler.RegisterEffect( "bowcaster_new/sparks" );
-			theFxScheduler.RegisterEffect( "bowcaster_new/sparks2" );
 		}
 		else
 		{

@@ -4557,7 +4557,7 @@ Ghoul2 Insert End
 				}
 				else
 				{
-					theFxScheduler.PlayEffect( "spark", trace.endpos, trace.plane.normal );
+					theFxScheduler.PlayEffect( cgs.effects.saberSparkEffect, trace.endpos, trace.plane.normal );
 					// All I need is a bool to mark whether I have a previous point to work with.
 					//....come up with something better..
 					if ( client->saberTrail.haveOldPos[i] )

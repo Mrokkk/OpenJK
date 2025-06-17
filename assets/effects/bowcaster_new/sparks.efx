@@ -22,7 +22,7 @@ Tail
     count               15 30
     life                400 600
     bounce              0.25 0.4
-    velocity            220 -180 -180 150 180 180
+    velocity            120 -180 -180 -80 180 180
     gravity             -350 -450
 
     size

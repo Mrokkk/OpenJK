@@ -322,6 +322,9 @@ typedef struct
 	fxHandle_t	forceInvincibility;
 	fxHandle_t	forceHeal;
 
+	//SABER
+	fxHandle_t	saberSparkEffect;
+
 } cgEffects_t;
 
 

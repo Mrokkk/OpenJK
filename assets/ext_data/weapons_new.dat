@@ -61,6 +61,10 @@
     altVelocity         4000
     missileSize         2
     altMissileSize      3
+    missileLight        90
+    missileLightColor   1.0 1.0 0.0
+    altmissileLight     100
+    altmissileLightColor 1.0 1.0 0.0
     muzzleEffect        bryar/muzzle_flash
     altmuzzleEffect     bryar/altmuzzle_flash
     altchargesound      sound/weapons/bryar/altcharge.wav
@@ -87,6 +91,10 @@
     altrange            8192
     velocity            4400
     altVelocity         4400
+    missileLight        100
+    missileLightColor   1.0 0.0 0.0
+    altmissileLight     100
+    altmissileLightColor 1.0 0.0 0.0
     spread              0.5
     altSpread           1.5
     missileSize         3
@@ -147,6 +155,10 @@
     altSpread           5.0
     missileSize         3
     altMissileSize      3
+    missileLight        100
+    missileLightColor   0.0 1.0 0.0
+    altmissileLight     100
+    altmissileLightColor 0.0 1.0 0.0
     missileFuncName     bowcaster_func
     altmissileFuncName  bowcaster_func
     muzzleEffect        bowcaster/muzzle_flash

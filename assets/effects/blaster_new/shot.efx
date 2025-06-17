@@ -67,19 +67,3 @@ particle
         gfx/effects/whiteGlow
     ]
 }
-
-Light
-{
-    life        10 20
-    origin      30 0 0
-
-    size
-    {
-        start   60 120
-    }
-
-    rgb
-    {
-        start   1 0 0
-    }
-}
